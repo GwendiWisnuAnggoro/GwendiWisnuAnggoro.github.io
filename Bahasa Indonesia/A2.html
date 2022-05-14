@@ -9,8 +9,9 @@
 	
 	</head>
 	<body>
+		<section class="jumbotron">
 		<!-- navbar -->
-		<nav class="navbar navbar-expand-lg navbar-light  shadow fixed-top" style="background-color: aqua;">
+		<nav class="navbar navbar-expand-lg navbar-light shadow fixed-top" style="background-color: aqua;">
 			<div class="container-sm">
 			  <span class="navbar-brand">Profil Pengembang</span>
 			  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,23 +19,23 @@
 			  </button>
 			  <div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ms-auto">
-				  <li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdownMenuLink"
-				role="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Bahasa
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				<li><a class="dropdown-item disabled" href="../Bahasa Indonesia/A2.html" style="color: red;"><b>INDONESIA</b></a></li>
-				<div class="dropdown-divider"></div>
-				<li><a class="dropdown-item" href="../Bahasa inggris/A1.html" style="color: black;"><b>INGGRIS</b></a></li>
-				</ul>
-				</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdownMenuLink"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Bahasa
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<li><a class="dropdown-item  disabled" href="../Bahasa Indonesia/A2.html" style="color: red;"><b>INDONESIA</b></a></li>
+						<div class="dropdown-divider"></div>
+						<li><a class="dropdown-item" href="../Bahasa inggris/A1.html" style="color: black;"><b>INGGRIS</b></a></li>
+						</ul>
+						</li>
 				  <li class="nav-item">
 					<a class="nav-link active" href="../contact me/ContactMe.html">Hubungi Saya</a>
 				  </li>
-				  <li class="nav-item">
-					<a class="nav-link active" href="#">Tentang</a>
-				  </li>
+				  <!-- <li class="nav-item">
+					<a class="nav-link active" href="#">About</a>
+				  </li> -->
 				</ul>
 			  </div>
 			</div>
@@ -42,64 +43,61 @@
 		  <br>
 		  <br>
 		  <br>
-		   <!-- akhir -->
-
-		  <!-- awal toogle music -->
-		  <button id="play"></button>
-		  <!-- akhir toogle music -->
-			
-			<h1 class="text-center" style="color: black;" >
-				SELAMAT DATANG !!
+		  	<!-- akhir -->
+			  <!-- awal toogle music -->
+		  	<button id="play"></button>
+			  <!-- akhir toogle music -->
+			<div class="text-center text-dark" id="welcome">
+			<h1>
+				Selamat Datang !!
 			</h1>
+			</div>
 			
-	<center>
-	<img src="img/logo.jpg" width="200" height="200">
-	</center>
+	<div class="text-center">
+	<img src="img/logo.jpg" width="200" height="200" alt="Gwendi">
+	</div>
 
-	<h1 class="container-sm">
-	<p style="color: black" align="left">
+	<div class="text-dark profil">
+	<h1>
 		Nama Lengkap: Gwendi Wisnu Anggoro
-		<p style="color: black" align="left">
-	<p style="color: black" align="left">
-		Tanggal Lahir: 8 Mei
-		</p>
-		<p style="color: black" align="left">
+	</h1>
+	<h1>
+		Tanggal Lahir: 8 May
+		</h1>
+		<h1>
 		Tahun: 2007
-	</p>
-		<p style="color: black" align="left">
+	</h1>
+		<h1>
 		Umur: 14
-		</p>
-	</p>
+		</h1>
 	</h1>
 	</div>
 
-	<h1>
+
 	<p>
-	<div class="pitik container-sm" align="left">
-		<a href="#" id="YOUTUBE" href="https://www.youtube.com/channel/UCMvSCwht6n-fDw1uIHRYZuQ"target="_blank">YOUTUBE
+
+		<div style="font-size: 30px;">
+
+	<div class="pitik">
+		<a id="YOUTUBE" href="https://www.youtube.com/channel/UCMvSCwht6n-fDw1uIHRYZuQ"target="_blank">YOUTUBE
 			</a>
 		</p>
 
 	</div>
 
-
-		<audio autoplay loop="true">
-			<source src="../Bahasa Indonesia/mp3/audio.mp3" type="audio/mp3">
-			
-		</audio>
 	<p>
-		<div class="container text-center container-sm">
-			<a href="B3.html" href="#" id="Page2">
+		<div class="permainan text-center game">
+			<a href="B3.html" id="Page2">
 				Permainan
 
 		</a>
 
 	</p>
-		</h1>
 		</div>
+	</div>
 	
 
-
+</section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	// musik program
@@ -126,11 +124,9 @@
 
 	window.addEventListener('load', mulaiAudio)
 	// alert program
-	var mn = prompt("Masukkan Nama Mu!!");
-	alert("Selamat Datang "+ mn +" , Terimakasih Sudah Berkunjung !!")
-	</script>
-
-				
+	var nm = prompt("Masukkan Nama Mu!!");
+	alert("Selamat Datang "+ nm + " , Trimakasih Sudah Berkunjung !!");
+</script>
 
 	</body>
 	</html>

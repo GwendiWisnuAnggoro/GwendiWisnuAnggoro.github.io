@@ -8,21 +8,21 @@
 
 
 
-.container{
-	margin-top: 25%
+.permainan{
+	margin-top: 300px;
 }
-.container a{
+.permainan a{
 	text-decoration: none;
 	text-transform: uppercase;
 	border: 1px solid yellow;
 
 }
 
-.container #Page2{
+.permainan #Page2{
 	color: yellow;
 }
 
-.container #Page2:hover{
+.permainan #Page2:hover{
 	color: black;
 	stroke: 2px;
 	background:yellow;
@@ -37,17 +37,19 @@
 }
 
 
-body{
-	width: 100%;
-	height: 100%;
+.jumbotron{
+	height: 1000px;
 	color: #fff;
-	background: linear-gradient(#00FF00, #FFFF00, #0000FF) no-repeat;
+	background: linear-gradient(#00FF00, #FFFF00, #0000FF);
+	background-repeat: no-repeat;
+	background-size: cover;
+
 }
 
 
 /* awal lebar */
 .pitik{
-	margin-top: 5%
+	margin-top: 5%;
 }
 .pitik a{
 	text-decoration: none;
@@ -107,7 +109,7 @@ button {
 		margin-left: 40px;
 	}
 	.pitik{
-		margin-left: 3px;	
+		margin-left: 30px;	
 	}
 }
 
@@ -117,7 +119,10 @@ button {
 		margin-left: 80px;
 	}
 	.pitik{
-		margin-left: 5px;	
+		margin-left: 30px;	
+	}
+	.permainan{
+		margin-top: 250px;
 	}
 }
 /* akhir lebar */
