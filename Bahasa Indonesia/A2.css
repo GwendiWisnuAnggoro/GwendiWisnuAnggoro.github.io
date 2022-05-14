@@ -1,0 +1,118 @@
+
+*{
+	padding: 0;
+	margin-top: 0;
+	margin: 0;
+
+}
+
+.container{
+	margin-top: 25%
+}
+.container a{
+	text-decoration: none;
+	text-transform: uppercase;
+	border: 1px solid yellow;
+
+}
+
+.container #Page2{
+	color: yellow;
+}
+
+.container #Page2:hover{
+	color: black;
+	stroke: 2px;
+	background:yellow;
+	box-shadow: 0 0 3px yellow,
+	            0 0 6px yellow,
+	            0 0 12px yellow,
+	            0 0 24px yellow,
+	            0 0 48px yellow,
+	            0 0 56px yellow,
+	            0 0 62px yellow,
+	            0 0 124px yellow
+}
+
+
+body{
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	background: linear-gradient(#00FF00, #FFFF00, #0000FF);
+}
+
+
+
+.pitik{
+	margin-top: 5%
+}
+.pitik a{
+	text-decoration: none;
+	text-transform: uppercase;
+	border: 1px solid red;
+
+}
+
+.pitik #YOUTUBE{
+	color: red;
+}
+
+.pitik #YOUTUBE:hover{
+	color: black;
+	stroke: 2px;
+	background:red;
+	box-shadow: 0 0 3px red,
+	            0 0 6px red,
+	            0 0 12px red,
+	            0 0 24px red,
+	            0 0 48px red,
+	            0 0 56px red,
+	            0 0 62px red,
+	            0 0 124px red
+}
+
+button {
+	border: none;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+	background-color: #00FF00; 
+	outline: none;
+	
+}
+
+
+#play{
+	background-image: url("img/StopSong.png");
+}
+
+/* ukuran hp */
+@media screen and (min-width: 576px){
+	.profil{
+		margin-left: 0px;
+	}
+	.pitik{
+		margin-left: 2px;	
+	}
+}
+/* tablet */
+@media screen and (min-width: 768px){
+	.profil{
+		margin-left: 40px;
+	}
+	.pitik{
+		margin-left: 3px;	
+	}
+}
+
+/* destop */
+@media screen and (min-width: 992px){
+	.profil{
+		margin-left: 80px;
+	}
+	.pitik{
+		margin-left: 5px;	
+	}
+}
+/* akhir lebar */
