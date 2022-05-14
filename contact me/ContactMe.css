@@ -14,5 +14,20 @@ body{
 
 body ul{
 	color: black;
-
+	margin-top: 100px;
 }
+
+/* tablet */
+/* @media screen and (min-width: 768px){
+	body ul{
+		margin-top: 100px;
+	}
+} */
+
+/* destop */
+/* @media screen and (min-width: 992px){
+	body ul{
+		position: 0px -100px;
+	}
+} */
+/* akhir lebar */
