@@ -1,0 +1,16 @@
+.jumbotron{
+    background-size: cover;
+    height: 750px;
+    background-repeat: no-repeat;
+    background-color: rgb(43, 226, 98);
+}
+.jumbotron h4,h3{
+    margin-left: 10px;
+}
+.jumbotron img{
+    width: 300px;
+}
+
+body{
+    background-color: lightblue;
+}

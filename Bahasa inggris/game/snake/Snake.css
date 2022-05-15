@@ -5,7 +5,9 @@
 }
 
 body{
-	background: linear-gradient(-90deg, rgb(43, 235, 26), rgb(255, 255, 0), rgb(0, 174, 255));
+	/* width: 400px;
+	background-size: cover; */
+	background: linear-gradient(90deg, rgb(0, 174, 255), rgb(255, 255, 0), rgb(0, 174, 255));
 }
 
 table {
@@ -29,4 +31,19 @@ button {
 
 #play{
 	background-image: url("../../img/StopSong.png");
+}
+
+/* ukuran hp */
+@media screen and (min-width: 576px){
+
+}
+/* tablet */
+@media screen and (min-width: 768px){
+
+	
+}
+
+/* destop */
+@media screen and (min-width: 800px){
+	
 }
