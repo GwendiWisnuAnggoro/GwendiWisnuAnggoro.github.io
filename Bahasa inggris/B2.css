@@ -54,6 +54,30 @@
 	background: rgb(19, 212, 19);
 }
 
+.WakeAMole{
+	margin-top: 20px;
+	margin-right: 0%;
+	margin-left: 10px;
+}
+.WakeAMole a {
+	text-decoration: none;
+	text-transform: uppercase;
+	border: 5px solid #010500;
+	background: #ffbb00;
+}
+
+
+.WakeAMole #WakeAMole {
+	color: #c0710a;
+}
+
+.WakeAMole #WakeAMole:hover {
+	border: 5px solid rgb(2, 2, 2);
+	color: black;
+	stroke: 2px;
+	background: rgb(172, 112, 2);
+}
+
 
 body{
 	width: 100%;
@@ -91,6 +115,11 @@ button {
 		margin-left: 200px;
 		/* margin-bottom: -100px; */
 	}	
+	.WakeAMole{
+		margin-top: -52px;
+		margin-right: 0%;
+		margin-left: 200px;
+	}
 	
 }
 
@@ -99,9 +128,14 @@ button {
 	.Tetris {
 		margin-top: -52px;
 		margin-right: 0%;
-		margin-left: 210px;
+		margin-left: 230px;
 		/* margin-bottom: -100px; */
 	}	
+	.WakeAMole{
+		margin-top: -52px;
+		margin-right: 0%;
+		margin-left: 450px;
+	}
 	
 }
 

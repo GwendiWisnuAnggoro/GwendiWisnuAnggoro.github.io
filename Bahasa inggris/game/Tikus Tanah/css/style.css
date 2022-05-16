@@ -1,0 +1,73 @@
+
+
+h1, h2 {
+  font-size: 60px;
+  text-align: center;
+  font-family: arial;
+  margin: 10px;
+}
+
+.tombol {
+  display: block;
+  margin: auto;
+}
+
+.pembungkus {
+  width: 600px;
+  margin: auto;
+  cursor: url(../img/palu1.png), auto;
+}
+
+.pembungkus:active {
+  cursor: url(../img/palu2.png), auto;
+}
+
+.tanah {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  float: left;
+}
+
+.tanah::after {
+  content: '';
+  display: block;
+  width: 200px;
+  height: 100px;
+  background: url(../img/tanah.png) bottom center no-repeat;
+  background-size: 80%;
+  position: absolute;
+  bottom: -25px;
+}
+
+.tikus {
+  width: 100%;
+  height: 100%;
+  background: url(../img/tikus.png) bottom center no-repeat;
+  background-size: 60%;
+  position: absolute;
+  top: 100px;
+  transition: top 0.3s;
+}
+
+.tanah.muncul .tikus {
+  top: -15px;
+}
+
+.jumbotron{
+  background-color: yellow;
+}
+/* musik */
+#play{
+	background-image: url("../img/StopSong.png");
+}
+
+button.lgu {
+	border: none;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+	background-color: #fff; 
+	outline: none;
+}
