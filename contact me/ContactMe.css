@@ -12,6 +12,18 @@ body{
 	
 }
 
+.pesan{
+	margin-top: 15px;
+}
+.jumbotron{
+	background-color: white;
+	width: 500px;
+	border-radius: 10px;
+	margin: auto;
+	border: 5px solid black;
+
+}
+
 body ul{
 	color: black;
 	margin-top: 100px;
