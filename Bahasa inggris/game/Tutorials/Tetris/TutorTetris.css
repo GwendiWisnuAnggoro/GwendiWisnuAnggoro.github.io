@@ -1,0 +1,8 @@
+.jumbotron{
+    background-color: gray;
+    color: white;
+    height: 1000px;
+}
+.jumbotron img{
+    width: 300px;
+}
