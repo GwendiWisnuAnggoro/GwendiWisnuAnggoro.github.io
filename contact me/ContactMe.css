@@ -9,37 +9,41 @@ body{
 	height: 100%;
 	color: #fff;
 	background: linear-gradient(90deg, cyan, #00BFFF, #1E90FF);
-	
+	background-size: 1500px;
+}
+
+.jumbotron{
+	background-color: white;
+	border-radius: 10px;
+	border: 5px solid black;
+	margin: 230px 10px 230px;
+	margin-left: -20px;
 }
 
 .pesan{
 	margin-top: 15px;
-}
-.jumbotron{
-	background-color: white;
-	width: 500px;
-	border-radius: 10px;
-	margin: auto;
-	border: 5px solid black;
-
 }
 
 body ul{
 	color: black;
 	margin-top: 100px;
 }
+/* tblt */
+@media screen and (min-width: 768px){
+	.jumbotron{
+		width: 500px;
+		margin: auto;
+		margin: 290px 100px 100px;
+	
+	}	
+}
+/* pc */
+@media screen and (min-width: 992px){
+	.jumbotron{
+		width: 500px;
+		margin: auto;
 
-/* tablet */
-/* @media screen and (min-width: 768px){
-	body ul{
-		margin-top: 100px;
-	}
-} */
+	
+	}		
 
-/* destop */
-/* @media screen and (min-width: 992px){
-	body ul{
-		position: 0px -100px;
-	}
-} */
-/* akhir lebar */
+}  
