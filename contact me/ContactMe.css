@@ -39,6 +39,10 @@ body ul{
 		margin: 290px 100px 100px;
 	
 	}	
+	.send{
+		margin-top: 5px;
+		margin-bottom: 10px;
+	}
 }
 /* pc */
 @media screen and (min-width: 800px){
@@ -48,5 +52,9 @@ body ul{
 
 	
 	}		
+	.send{
+		margin-top: 5px;
+		margin-bottom: 10px;
+	}
 
 }  
