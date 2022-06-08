@@ -19,7 +19,10 @@ body{
 	margin: 230px 10px 230px;
 	margin-left: -20px;
 }
-
+.send{
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
 .pesan{
 	margin-top: 15px;
 }
@@ -38,7 +41,7 @@ body ul{
 	}	
 }
 /* pc */
-@media screen and (min-width: 992px){
+@media screen and (min-width: 800px){
 	.jumbotron{
 		width: 500px;
 		margin: auto;
