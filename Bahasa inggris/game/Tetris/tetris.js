@@ -1,5 +1,9 @@
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
+var tombolAtas = document.getElementById("tmblAtas");
+var tombolBawah = document.getElementById("tmblBawah");
+var tombolKiri = document.getElementById("tmblKiri");
+var tombolKanan = document.getElementById("tmblKanan");
 
 let Muter = new Audio();
 Muter.src="Backsound Muter.mp3";
@@ -239,6 +243,40 @@ const player = {
     matrix: null,
     score: 0,
 }
+tombolKanan.addEventListener("click", fKanan);
+tombolKiri.addEventListener("click", fKiri);
+tombolAtas.addEventListener("click", fAtas);
+tombolBawah.addEventListener("click", fBawah);
+
+function fKanan(){
+    if(event) {
+        playerMove(1); 
+        KiriKananBawah.play();
+     
+
+    }
+}
+function fKiri(){
+    if(event) {
+        playerMove(-1); 
+        KiriKananBawah.play();
+    }
+}
+function fAtas(){
+
+    if(event) {
+        playerRotate(-1); 
+        Muter.play();
+    }
+
+}
+function fBawah(){
+    if(event) {
+        playerDrop(); KiriKananBawah.play();
+       
+
+    }
+}
 
 document.addEventListener('keydown', event => {
     if (event.keyCode === 37 || event.keyCode === 65) {
@@ -249,8 +287,6 @@ document.addEventListener('keydown', event => {
         playerDrop(); KiriKananBawah.play();
     } else if (event.keyCode === 81) {
         playerRotate(-1); Muter.play();
-    } else if (event.keyCode === 32) {
-        playerRotate(1); Muter.play();
     }
 });
 

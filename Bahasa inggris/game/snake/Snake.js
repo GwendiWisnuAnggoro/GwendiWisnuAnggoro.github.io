@@ -1,4 +1,8 @@
-
+// variable tombol hp
+var tombolAtas = document.getElementById("tmblAtas");
+var tombolBawah = document.getElementById("tmblBawah");
+var tombolKiri = document.getElementById("tmblKiri");
+var tombolKanan = document.getElementById("tmblKanan");
 // draw ular
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -74,6 +78,10 @@ function drawGame(){
     let result = isGameOver();
     if (result) {
         document.body.removeEventListener('keydown', keyDown);
+        tombolKanan.addEventListener("click", fKanan);
+        tombolKiri.addEventListener("click", fKiri);
+        tombolAtas.addEventListener("click", fAtas);
+        tombolBawah.addEventListener("click", fBawah);
         return;
     }
 
@@ -216,9 +224,60 @@ function checkAppleCollision(){
 
     }
 }
-
+tombolKanan.addEventListener("click", fKanan);
+tombolKiri.addEventListener("click", fKiri);
+tombolAtas.addEventListener("click", fAtas);
+tombolBawah.addEventListener("click", fBawah);
 document.body.addEventListener('keydown', keyDown);
+// TombolHp
+function fKanan(){
+    console.log(inputsXVelocity, inputsYVelocity);
+    if(event) {
+        inputsYVelocity = 0;
+        inputsXVelocity = 1;
 
+        Click.play();
+     
+
+    }
+}
+
+function fKiri(){
+    console.log(inputsXVelocity, inputsYVelocity);
+    if(event) {
+        inputsYVelocity = 0;
+        inputsXVelocity = -1;
+
+       Click.play();
+    }
+}
+
+function fAtas(){
+    console.log(inputsXVelocity, inputsYVelocity);
+    if(event) {
+        inputsYVelocity = -1;
+        inputsXVelocity = 0;
+
+        Click.play();
+    }
+
+}
+
+function fBawah(){
+    console.log(inputsXVelocity, inputsYVelocity);
+    if(event) {
+        inputsYVelocity = 1;
+        inputsXVelocity = 0;
+
+
+         Click.play();
+       
+
+    }
+}
+
+
+// ControlPc
 function keyDown(event){
     console.log(inputsXVelocity, inputsYVelocity);
     // up atau W

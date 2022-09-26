@@ -32,3 +32,16 @@ button {
     font-size: 2em;
     align-items: center;
 }
+
+/* tablet */
+@media screen and (min-width: 768px){
+
+	
+}
+
+/* destop */
+@media screen and (min-width: 800px){
+	.bungkus{
+		display: none;
+	}
+}
