@@ -236,7 +236,6 @@ function fKanan(){
     if(event) {
         inputsYVelocity = 0;
         inputsXVelocity = 1;
-
         Click.play();
      
 
