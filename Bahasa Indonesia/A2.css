@@ -6,7 +6,12 @@
 
 }
 
-
+li{
+	list-style-type: none;
+}
+#atasUmur{
+	display: flex;
+}
 
 .permainan{
 	margin-top: 300px;
