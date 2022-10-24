@@ -134,8 +134,18 @@
 
 	window.addEventListener('load', mulaiAudio)
 	// alert program
-	var nm = prompt("Masukkan Nama Mu!!");
-	alert("Selamat Datang "+ nm + " , Trimakasih Sudah Berkunjung !!");
+	function cekLogin(){
+		let login = localStorage.getItem("login");
+		if(!login){
+			// alert program
+			login = prompt("Enter Your Name!!");
+			localStorage.setItem("login", login);
+			
+			alert(`Welcome ${login} , ThankYou For Visiting !!`);
+		}
+	}
+	cekLogin();
+
 </script>
 
 	</body>

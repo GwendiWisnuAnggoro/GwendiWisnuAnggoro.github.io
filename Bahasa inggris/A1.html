@@ -78,30 +78,32 @@
 	<p>
 
 		<div style="font-size: 30px;">
-
-	<div class="pitik">
+			
+			<div class="pitik">
 		<a id="YOUTUBE" href="https://www.youtube.com/channel/UCMvSCwht6n-fDw1uIHRYZuQ"target="_blank">YOUTUBE
 			</a>
 		</p>
 
 	</div>
-
+	
 	<p>
 		<div class="permainan text-center game">
 			<a href="B2.html" id="Page2">
 				Game
-
-		</a>
-
-	</p>
-		</div>
+				
+			</a>
+			
+		</p>
+	</div>
 	</div>
 	
-
+	
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
+	
+	
 	// deteksi umur
 	function deteksi_umur(){
 		let tahunLahir = 2007;
@@ -135,9 +137,19 @@
 		}
 
 	window.addEventListener('load', mulaiAudio)
-	// alert program
-	var nm = prompt("Enter Your Name!!");
-	alert("Welcome "+ nm + " , ThankYou For Visiting !!");
+	// Deteksi udah pernah login apa belum
+
+	function cekLogin(){
+		let login = localStorage.getItem("login");
+		if(!login){
+			// alert program
+			login = prompt("Enter Your Name!!");
+			localStorage.setItem("login", login);
+			
+			alert(`Welcome ${login} , ThankYou For Visiting !!`);
+		}
+	}
+	cekLogin();
 </script>
 
 	</body>

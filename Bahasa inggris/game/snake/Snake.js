@@ -3,7 +3,7 @@ var tombolAtas = document.getElementById("tmblAtas");
 var tombolBawah = document.getElementById("tmblBawah");
 var tombolKiri = document.getElementById("tmblKiri");
 var tombolKanan = document.getElementById("tmblKanan");
-// draw ular
+// 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 class SnakePart{
@@ -77,11 +77,11 @@ function drawGame(){
     changeSnakePosition();
     let result = isGameOver();
     if (result) {
-        document.body.removeEventListener('keydown', keyDown);
         tombolKanan.addEventListener("click", fKanan);
         tombolKiri.addEventListener("click", fKiri);
         tombolAtas.addEventListener("click", fAtas);
         tombolBawah.addEventListener("click", fBawah);
+        document.body.removeEventListener('keydown', keyDown);
         return;
     }
 
@@ -90,7 +90,7 @@ function drawGame(){
     checkAppleCollision();
     drawApple();
     drawSnake();
-
+    HitungBestScore();
     drawScore();
 
     if(score > 4) {
@@ -172,6 +172,8 @@ function isGameOver(){
 
         ctx.fillText("Game Over!", canvas.width / 5.5, canvas.height / 2);
         Kalah.play();
+        HitungBestScore();
+
     }
     return gameOver;
 }
@@ -180,6 +182,28 @@ function drawScore() {
     ctx.fillStyle ='#a9a9a9';
     ctx.font = "15px Impact"
     ctx.fillText('Score: ' + score, canvas.width-100, 15);
+}
+
+// Cek Score akhir
+function HitungBestScore(){
+    let BestScore = 0;
+    ctx.fillStyle ='#a9a9a9';
+    ctx.font = "15px Impact";
+    if(!localStorage.key("Best")){
+        ctx.fillText('Best Score: ' + "0", canvas.width-350, 15);
+        
+    } else{
+        ctx.fillText('Best Score: ' + localStorage.getItem("Best"), canvas.width-350, 15);
+
+    }
+    if(BestScore !== null){
+        if(score > localStorage.getItem("Best")){
+            ctx.fillText('Best Score: ' + localStorage.setItem("Best", score), canvas.width-350, 15);
+        }
+    }else{
+        ctx.fillText('Best Score: ' + localStorage.setItem("Best", score), canvas.width-350, 15);
+    }
+
 }
 
 function clearScreen(){
@@ -229,13 +253,13 @@ tombolKiri.addEventListener("click", fKiri);
 tombolAtas.addEventListener("click", fAtas);
 tombolBawah.addEventListener("click", fBawah);
 document.body.addEventListener('keydown', keyDown);
+
 // TombolHp
 function fKanan(){
     console.log(inputsXVelocity, inputsYVelocity);
     if(event) {
         inputsYVelocity = 0;
         inputsXVelocity = 1;
-
         Click.play();
      
 
@@ -277,7 +301,6 @@ function fBawah(){
 }
 
 
-// ControlPc
 function keyDown(event){
     console.log(inputsXVelocity, inputsYVelocity);
     // up atau W

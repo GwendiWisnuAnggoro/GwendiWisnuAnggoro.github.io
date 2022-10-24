@@ -90,7 +90,7 @@ function drawGame(){
     checkAppleCollision();
     drawApple();
     drawSnake();
-
+    HitungBestScore();
     drawScore();
 
     if(score > 4) {
@@ -172,6 +172,8 @@ function isGameOver(){
 
         ctx.fillText("Game Over!", canvas.width / 5.5, canvas.height / 2);
         Kalah.play();
+        HitungBestScore();
+
     }
     return gameOver;
 }
@@ -180,6 +182,28 @@ function drawScore() {
     ctx.fillStyle ='#a9a9a9';
     ctx.font = "15px Impact"
     ctx.fillText('Score: ' + score, canvas.width-100, 15);
+}
+
+// Cek Score akhir
+function HitungBestScore(){
+    let BestScore = 0;
+    ctx.fillStyle ='#a9a9a9';
+    ctx.font = "15px Impact";
+    if(!localStorage.key("Best")){
+        ctx.fillText('Score Tertinggi: ' + "0", canvas.width-350, 15);
+        
+    } else{
+        ctx.fillText('Score Tertinggi: ' + localStorage.getItem("Best"), canvas.width-350, 15);
+
+    }
+    if(BestScore !== null){
+        if(score > localStorage.getItem("Best")){
+            ctx.fillText('Score Tertinggi: ' + localStorage.setItem("Best", score), canvas.width-350, 15);
+        }
+    }else{
+        ctx.fillText('Score Tertinggi: ' + localStorage.setItem("Best", score), canvas.width-350, 15);
+    }
+
 }
 
 function clearScreen(){
