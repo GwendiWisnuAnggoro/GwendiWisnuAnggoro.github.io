@@ -184,6 +184,10 @@ function drawScore() {
     ctx.fillText('Score: ' + score, canvas.width-100, 15);
 }
 
+function c(){
+    localStorage.setItem("Best", "0");
+}
+c();
 // Cek Score akhir
 function HitungBestScore(){
     let BestScore = 0;
@@ -196,6 +200,10 @@ function HitungBestScore(){
         ctx.fillText('Score Tertinggi: ' + localStorage.getItem("Best"), canvas.width-350, 15);
 
     }
+
+
+
+
     if(BestScore !== null){
         if(score > localStorage.getItem("Best")){
             ctx.fillText('Score Tertinggi: ' + localStorage.setItem("Best", score), canvas.width-350, 15);

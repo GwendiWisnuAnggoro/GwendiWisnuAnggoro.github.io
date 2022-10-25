@@ -184,6 +184,10 @@ function drawScore() {
     ctx.fillText('Score: ' + score, canvas.width-100, 15);
 }
 
+function c(){
+    localStorage.setItem("Best", "0");
+}
+c();
 // Cek Score akhir
 function HitungBestScore(){
     let BestScore = 0;
