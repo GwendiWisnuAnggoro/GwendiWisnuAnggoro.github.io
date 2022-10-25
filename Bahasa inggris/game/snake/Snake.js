@@ -190,7 +190,7 @@ function HitungBestScore(){
     ctx.fillStyle ='#a9a9a9';
     ctx.font = "15px Impact";
     if(!localStorage.key("Best")){
-        ctx.fillText('Best Score: ' + "0", canvas.width-350, 15);
+        ctx.fillText('Best Score: ' + localStorage.setItem("Best", "0"), canvas.width-350, 15);
         
     } else{
         ctx.fillText('Best Score: ' + localStorage.getItem("Best"), canvas.width-350, 15);
