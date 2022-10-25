@@ -167,7 +167,9 @@ function playerReset() {
         player.score = 0;
         updateScore();
     }
+
 }
+
 
 function playerRotate(dir) {
     const pos = player.pos.x;

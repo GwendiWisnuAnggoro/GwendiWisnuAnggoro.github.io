@@ -132,7 +132,7 @@ function drawGame(){
 
 function isGameOver(){
     let gameOver = false;
-    if(yVelocity ===0 && xVelocity ===0){
+    if(yVelocity === 0 && xVelocity === 0){
          return false;
     }
 
@@ -150,7 +150,7 @@ function isGameOver(){
         gameOver = true;
     }
 
-    for(let i =0; i < snakeParts.length; i++){
+    for(let i = 0; i < snakeParts.length; i++){
         let part = snakeParts[i];
         if(part.x === headX && part.y === headY){
             gameOver = true;
