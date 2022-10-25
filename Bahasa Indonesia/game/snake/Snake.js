@@ -184,17 +184,14 @@ function drawScore() {
     ctx.fillText('Score: ' + score, canvas.width-100, 15);
 }
 
-function c(){
-    localStorage.setItem("Best", "0");
-}
 
 // Cek Score akhir
 function HitungBestScore(){
     let BestScore = 0;
     ctx.fillStyle ='#a9a9a9';
     ctx.font = "15px Impact";
-    if(!localStorage.key("Best")){
-        c();
+    if(!localStorage.getItem("Best")){
+        ctx.fillText('Score Tertinggi: ' + localStorage.setItem("Best", "0"), canvas.width-350, 15);
         
     } else{
         ctx.fillText('Score Tertinggi: ' + localStorage.getItem("Best"), canvas.width-350, 15);
