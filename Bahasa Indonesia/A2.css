@@ -5,14 +5,18 @@
 	margin: 0;
 
 }
-
+.gelap{
+	background-color: rgb(39, 38, 38);
+}
+.gelap h1{
+	color:aliceblue;
+}
 li{
 	list-style-type: none;
 }
 #atasUmur{
 	display: flex;
 }
-
 .permainan{
 	margin-top: 300px;
 }
@@ -43,8 +47,8 @@ li{
 
 
 .jumbotron{
+	color: black;
 	height: 1000px;
-	color: #fff;
 	background: linear-gradient(#00FF00, #FFFF00, #0000FF);
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -86,7 +90,7 @@ button {
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
-	background-color: #00FF00; 
+	background-color: rgba(0, 0, 0, 0); 
 	outline: none;
 	
 }

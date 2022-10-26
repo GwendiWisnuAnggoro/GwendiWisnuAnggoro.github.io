@@ -111,6 +111,7 @@ function draw() {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     drawMatrix(arena, {x: 0,y: 0});
+    console.log(drawMatrix(arena, {x: 0,y: 0}))
     drawMatrix(player.matrix, player.pos);
 }
 
@@ -150,6 +151,7 @@ function playerDrop() {
 }
 
 function playerMove(dir) {
+    console.log(dir);
     player.pos.x += dir;
     if (collide(arena, player)) {
         player.pos.x -= dir;
@@ -157,8 +159,9 @@ function playerMove(dir) {
 }
 
 function playerReset() {
+    let random = Math.random();
     const pieces = 'TOLJISZ';
-    player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+    player.matrix = createPiece(pieces[pieces.length * random | 0]);
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) -
                    (player.matrix[0].length / 2 | 0);
@@ -167,6 +170,7 @@ function playerReset() {
         player.score = 0;
         updateScore();
     }
+    console.log(random)
 
 }
 
@@ -274,7 +278,8 @@ function fAtas(){
 }
 function fBawah(){
     if(event) {
-        playerDrop(); KiriKananBawah.play();
+        playerDrop(); 
+        KiriKananBawah.play();
        
 
     }
@@ -317,5 +322,5 @@ musik.pause();
             }
         }
     }
-
+console.log(updateScore());
 window.addEventListener('load', mulaiAudio)

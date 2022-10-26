@@ -10,7 +10,7 @@
 	
 	</head>
 	<body>
-		<section class="jumbotron">
+		<section class="" id="jumbotron">
 		<!-- navbar -->
 		<nav class="navbar navbar-expand-lg navbar-light shadow fixed-top" style="background-color: aqua;">
 			<div class="container-sm">
@@ -42,9 +42,12 @@
 					<li><a class="dropdown-item" href="" onClick="ubah()" id="ubahNm"><b>Rename</b></a></li>
 				</ul>
 				  </li>
-				  <!-- <li class="nav-item">
-					<a class="nav-link active" href="#">About</a>
-				  </li> -->
+				  <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdownMenuLink"role="button" data-bs-toggle="dropdown" aria-expanded="false">LATAR BELAKANG</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="" onClick="darkOrDefault()"><b><span id="DarkModeatauLightMode">DARK MODE</span></b></span></a>
+					</ul>
+				  </li>
 				</ul>
 			  </div>
 			</div>
@@ -121,11 +124,24 @@
 	}
 	deteksi_umur();
 
-	// musik program
+// musik program
 	var musik = new Audio();
 	musik.src="mp3/audio.mp3"
 	musik.loop=true;
 	musik.pause();
+	let music = localStorage.getItem("music");
+
+	if(!music){
+		localStorage.setItem("music", "OFF");
+	}
+
+	if(localStorage.getItem("music") == "ON"){
+		musik.play();
+		play.style.background="url(img/PlaySong.png)";
+	} else if (localStorage.getItem("music") == "OFF"){
+		musik.pause();
+		play.style.background="url(img/StopSong.png)";
+	}
 
 		function mulaiAudio(){
 			var play=document.getElementById('play');
@@ -135,9 +151,11 @@
 			function fplay(){
 				if(musik.paused){
 					musik.play();
+					localStorage.setItem("music", "ON");
 					play.style.background="url(img/PlaySong.png)";
 				}else{
 					musik.pause();
+					localStorage.setItem("music", "OFF");
 					play.style.background="url(img/StopSong.png)";
 				}
 			}
@@ -146,7 +164,8 @@
 	window.addEventListener('load', mulaiAudio)
 	// Deteksi udah pernah login apa belum
 
-	function cekLogin(){
+	function cekLogin(e){
+		
 		let nm = document.getElementById("nama");
 		let login = localStorage.getItem("login");
 		if(!login){
@@ -166,6 +185,46 @@
 		let nama = prompt("Enter Your Name!!");
 		localStorage.removeItem("login", nama);
 		localStorage.setItem("login", nama);
+		e.preventDefault();
+
+	}
+
+	// Ubah dark or light
+	
+	let mode = document.getElementById("DarkModeatauLightMode");
+	let background = document.getElementById("jumbotron");
+	let cekMode = localStorage.getItem("bg");
+
+	// Mode default
+	if(!cekMode){
+		localStorage.setItem("bg", "default");
+	}
+
+	function gelap(){
+		background.classList.add("gelap");
+		background.classList.remove("default");
+		mode.innerHTML = "DEFAULT MODE";
+		localStorage.setItem("bg", "gelap");
+	}
+	if(cekMode == "gelap"){
+		gelap();
+	} else if (cekMode == "default"){
+		Default();
+	}
+	function Default(){
+		background.classList.add("jumbotron");
+		background.classList.remove("gelap");
+		mode.innerHTML = "DARK MODE";
+		localStorage.setItem("bg", "default");
+	}
+
+	function darkOrDefault(e){
+		cekMode = localStorage.getItem("bg");
+		if(cekMode == "default"){
+			gelap();
+		} else{
+			Default()
+		}
 		e.preventDefault();
 	}
 </script>
