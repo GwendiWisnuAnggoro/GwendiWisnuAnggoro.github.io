@@ -206,9 +206,9 @@
 		mode.innerHTML = "DEFAULT MODE";
 		localStorage.setItem("bg", "gelap");
 	}
-	if(cekMode == "gelap"){
+	if(localStorage.getItem("bg") == "gelap"){
 		gelap();
-	} else if (cekMode == "default"){
+	} else if (localStorage.getItem("bg") == "default"){
 		Default();
 	}
 	function Default(){
