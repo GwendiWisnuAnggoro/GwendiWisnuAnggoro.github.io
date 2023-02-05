@@ -41,6 +41,18 @@
 	border: 5px solid #125f07;
 	background: #15ff00;
 }
+.PJ {
+	margin-top: 20px;
+	margin-right: 0%;
+	margin-left: 10px;
+}
+
+.PJ a {
+	text-decoration: none;
+	text-transform: uppercase;
+	border: 5px solid #072c5f;
+	background: #00ffcc;
+}
 
 
 .Snake #Ular {
