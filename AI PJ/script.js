@@ -82,7 +82,7 @@ function KirimDataKeServer(){
 
 
 const OpenAI = (cari)=>{
-  fetch('http://admin11.pythonanywhere.com//gpt3', {
+  fetch('http://admin11.pythonanywhere.com/gpt3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
