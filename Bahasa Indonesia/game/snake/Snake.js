@@ -1,3 +1,4 @@
+
 // variable tombol hp
 var tombolAtas = document.getElementById("tmblAtas");
 var tombolBawah = document.getElementById("tmblBawah");
@@ -6,6 +7,7 @@ var tombolKanan = document.getElementById("tmblKanan");
 // 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
+const custom = canvas.getContext('2d');
 class SnakePart{
     constructor(x, y) {
         this.x = x;
@@ -48,7 +50,6 @@ Makan.src="Makan.mp3";
 
 let previousXVelocity = 0;
 let previousYVelocity = 0;
-
 // game loop
 function drawGame(){
     xVelocity = inputsXVelocity;
@@ -93,6 +94,14 @@ function drawGame(){
     HitungBestScore();
     drawScore();
 
+    // for(let i = speed; i < score*10+1; i++){
+    //     if(score == i){
+
+    //     }
+    //     console.log("Speed :" + i)
+    // }
+    let kecepatan = document.getElementById("speed");
+
     if(score > 4) {
          speed = 5;
     }
@@ -124,7 +133,7 @@ function drawGame(){
     }
 
     
-
+    kecepatan.innerHTML = speed;
 
     setTimeout(drawGame, 1000/ speed);
 }
@@ -217,7 +226,7 @@ function clearScreen(){
 }
 
 function drawSnake(){
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = "blue";
     ctx.fillRect(headX * tileCount, headY* tileCount, tileSize,tileSize);
 
     ctx.fillStyle = 'lime';
