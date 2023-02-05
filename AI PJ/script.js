@@ -81,26 +81,6 @@ function KirimDataKeServer(){
 }
 
 
-
-const Google = (p)=>{
-        const question = p;
-        const apiKey = "AIzaSyD1tYpvyLnsDfKhv155dgTdRYJqd_WtGfI";
-        const cx = "72ab04d00784c461d";
-  
-        fetch(`https://www.googleapis.com/customsearch/v1?q=${question}&key=${apiKey}&cx=${cx}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.items.length > 0) {
-              Bicara("Hasil yang saya temukkan adalah, "+data.items[0].snippet);
-              console.log(data.items[0].snippet)
-            } 
-          })
-          .catch(error => {
-            console.log(error);
-            console.log("Maaf, terjadi kesalahan saat mencari jawaban.");
-          });
-}
-
 const OpenAI = (cari)=>{
   fetch('http://admin11.pythonanywhere.com//gpt3', {
         method: 'POST',
