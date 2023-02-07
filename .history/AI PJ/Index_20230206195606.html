@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style type="text/css">
+        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+        @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Bungee+Shade&family=Press+Start+2P&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: whitesmoke;
+        }
+        .kepala{
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            border-radius: 50%;
+            position: relative;
+        }
+        .mata{
+            position: absolute;
+            width: 50px;
+            height:50px;
+            border-radius: 50%;
+            background-color: yellow;
+            margin: auto;
+            margin-left: 40%;
+            margin-top: 25%;
+            box-shadow: 0 0 10px white, 0 0 30px white, 0 0 50px white;
+        }
+        /* lightskyblue */
+        .tubuh{
+            margin: auto;
+            /* margin-top: -17px; */
+            width: 90px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: red;
+            position: relative;
+
+        }
+        .leher{
+            width: 25px;
+            height: 25px;
+            margin: auto;
+            border-radius: 50%;
+            background-color: blue;
+            box-shadow: 0 0 10px blue;
+        }
+        .kedep{
+            animation: kedep 1s infinite;
+            
+        }
+
+        .nama{
+            text-align: center;
+            color: yellow;
+            margin-top: 5%;
+            font-size: 30px;
+            position: absolute;
+            margin-left: 25%;
+            font-family: Bungee Shade;
+            text-shadow:5px -6px 22px white, 5px -6px 22px white;
+        }
+        .tanganKiri{
+            width: 30px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(90deg,red, gray);
+            margin-left: -20px;
+            /* margin-top: 20px; */
+            position: absolute;
+            transform: rotate(30deg);
+        }
+        .tanganKanan{
+            width: 30px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(-90deg,red, gray);
+            margin-left: 80px;
+            /* margin-top: 20px; */
+            position: absolute;
+            transform: rotate(-30deg);
+        }
+        .tanganKanan, .tanganKiri{
+            z-index: -1;
+            margin-top: 2px;
+        }
+        /* .rodakanan, .rodakiri{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: red;
+            margin-left: 50%;
+        }
+        .rodakanan{
+
+        } */
+        .lingkaranPembatas{
+            width: 25px;
+            height: 25px;
+            margin: auto;
+            border-radius: 50%;
+            background-color: blue;
+            box-shadow: 0 0 10px blue;
+        }
+        .kotak{
+            margin: auto;
+            width: 100px;
+            border-radius: 15%;
+            height: 10px;
+            background-color: black;
+        }
+        .midun{
+            margin: auto;
+            margin-top: 5px;
+            width: 100px;
+            border-radius: 15%;
+            height: 10px;
+            background-color: black;
+        }
+        .jawaban{
+            width: auto;
+            height: 30px;
+            background-color: #232323;
+            position: absolute;
+            margin-left: 26%;
+            text-align: center;
+            margin-top: 80%;
+            border-radius: 15%;
+            border: 2px solid gray;
+            box-shadow: 0px -5px 29px 0px white;
+            display: none;
+
+
+        }
+        .hasilJam{
+            margin-left: 3px;
+            margin-bottom: 3px;
+            margin-right: 3px;
+            color: #FFFFFF;
+            text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;;
+        }
+
+
+        /* Naimasi */
+        /* Melambai */
+        .lambaiKiri{
+            animation: LambaiKiri 2s linear infinite;
+        }
+        .lambaiKanan{
+            animation: LambaiKanan 2s linear infinite;
+        }
+        @keyframes LambaiKanan {
+            0%{
+                transform: rotate(-30deg);
+            } 50%{
+                transform: rotate(-150deg);
+                margin-top: -50px
+                /* transform: translateY(10px); */
+            } 100%{
+                
+                transform: rotate(-30deg);
+            }
+        }
+        @keyframes LambaiKiri {
+            0%{
+                transform: rotate(30deg);
+            } 50%{
+                transform: rotate(150deg);
+                margin-top: -50px
+                /* transform: translateY(10px); */
+            } 100%{
+                
+                transform: rotate(30deg);
+            }
+            
+        }
+
+        /* Idle */
+        .idle .mata{
+            animation: idleMata 5s linear infinite;
+        }
+        .idle .tanganKiri{
+            animation: idleMata 5s linear infinite;
+        }
+        .idle .tanganKanan{
+            animation: idleTanganKanan 5s linear infinite;
+        }
+        
+        
+        @keyframes idleMata {
+            0%{
+                transform: translateX(0px);
+            }
+            14%{
+                
+                transform: translateX(42px);
+            } 28%{
+                transform: translateX(0px);
+                
+            } 
+            42%{
+                transform: translateX(0px);
+                
+            } 56%{
+                transform: translateX(0px);
+                
+            } 70%{
+                transform: translateX(-55px);
+                
+            } 100%{
+                
+                transform: translateX(0px);
+            }
+            
+        }
+
+        @keyframes idleTanganKanan {
+            0%{
+
+                transform: rotate(-30deg);
+            } 50%{
+                transform: rotate(-10deg);
+                transform: translateX(-10px);
+                transform: translateY(5px);
+                
+            }100%{
+                transform: rotate(-30deg);
+
+            }
+        }
+        .idle .tanganKiri{
+            animation: idleTanganKiri 5s linear infinite;
+        }
+        @keyframes idleTanganKiri {
+            0%{
+
+            transform: rotate(30deg);
+            } 50%{
+            transform: rotate(0deg);
+            transform: translateX(-10px);
+            transform: translateY(5px);
+
+            }100%{
+            transform: rotate(30deg);
+
+            }
+        }
+
+        .mic{
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            margin-left: 33%;
+            text-align: center;
+            margin-top: 80%;
+            border-radius: 15%;
+            display: none;
+        }
+        .mic i{
+            color: white;
+            margin: auto;
+            cursor: pointer;
+        }
+        .mic i:hover{
+            color: cyan;
+        }
+
+        .DownloadYT{
+            width: 100%;
+            height: 100vh;
+            position: relative;         
+        }
+        .downloaderr{
+            width: 30%;
+            height: 30%;
+            position: absolute;
+            margin-left: 35%;
+            margin-top: 5%;
+            z-index: 10;
+            justify-content: center;
+            border-radius: 5px;
+            color: red;         
+            
+        }
+        .downloaderr input{
+            border: 2px solid black;          
+        }
+        .downloaderr h1, p{
+            text-shadow: red;
+        }
+        .link-loading, .link-pesan, #DownloadYT{
+            display: none;
+        }
+        .link-loading, .link-pesan{
+            background-color: rgba(255, 165, .5);
+        }
+        textarea{
+            color: blue;
+        }
+        .ok{
+            color: rgb(0, 84, 210);
+        }
+
+
+        @keyframes kedep {
+            0%{
+                opacity: .5;
+                width: 25px;
+                height: 25px;
+            } 
+            100%{
+                opacity: 1;
+                width: 30px;
+                height: 30px;
+            }
+        }
+        .bi{
+            margin-left: 4px;
+            position: absolute;
+            color: white;
+        }
+        .bi:hover{
+            cursor: pointer;
+        }
+        .layar{
+            width: 120px;
+            height: 100px;
+            background-color: #232323;
+            position: absolute;
+            margin-left: 26%;
+            text-align: center;
+            margin-top: 1%;
+            border-radius: 15%;
+            border: 2px solid gray;
+            box-shadow: 0px -5px 29px 0px white;
+            opacity: .7;
+        }
+        .segitiga{
+            width: 0;
+            height: 0;
+            position: absolute;
+            margin-top: -140%;
+            margin-left: 30%;
+            border-left: 50px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 130px solid rgb(8, 0, 255);
+            opacity: .7;
+        }
+
+        #video {
+            width: 120px;
+            height: 100px;
+            margin
+        }
+        #canvas {
+            width: 120px;
+            height: 100px;
+            top: 0;
+
+        }
+      </style>
+</head>
+<body>
+
+        
+
+    <section id="DownloadYT">
+        <div class="downloaderr">
+            <div class="link-tombol">
+                <div class="downloader-link">
+                    <div class="mb-3">
+                        <label for="basic-url" class="form-label">Masukkan URL Youtube:</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control link" id="basic-url" aria-describedby="basic-addon3" placeholder="Contoh: www.youtube.com/">
+                        </div>
+                      </div>
+                </div>
+                <p>Pilih Format:</p>
+                <div class="downloader-format">
+                    <div class="input-group">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" value="mp3" aria-label="Radio button for following text input" name="format">
+                        </div>
+                        <h1 class="form-control" aria-label="Text input with radio button">MP3 {Musik, Audio}</h1>
+                      </div>
+                    <div class="input-group">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" value="mp4" aria-label="Radio button for following text input" name="format">
+                        </div>
+                        <h1 class="form-control" aria-label="Text input with radio button">MP4 {Video}</h1>
+                      </div>
+                </div>
+                <button type="button" class="btn btn-danger download-yt">Download</button>
+            </div>
+            <div class="link-loading">
+                <h1 id="ok">LOADING...</h1>
+            </div>
+            <div class="link-pesan">
+                <div class="form-floating">
+                    <textarea class="form-control" id="Pesan"></textarea>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bicara -->
+    <!--  -->
+    <!--  -->
+
+    <div class="robot">
+        <div class="kepala">
+            <div class="mata"></div>
+        </div>
+        <div class="leher">
+            <i class="bi bi-mic-mute-fill"></i>
+        </div>
+        <div class="tubuh">
+            <div class="tanganKiri"></div>
+            <p class="nama">PJ</p>
+            <div class="segitiga"></div>
+            <div class="layar">
+                <video id="video"></video>
+                <canvas id="canvas"></canvas>
+            </div>
+            <div class="jawaban">
+                <p class="hasilJam">00:00</p>
+            </div>
+            <div class="mic">
+                <i class="bi bi-mic-fill"></i>
+            </div>
+            <div class="tanganKanan"></div>
+            
+        </div>
+        <div class="kaki">
+            <div class="lingkaranPembatas"></div>
+            <div class="kotak"></div>
+            <div class="kakikanan"></div>
+            <div class="kakikiri"></div>
+        </div>
+
+    </div>
+    <script src='https://unpkg.com/tesseract.js@v2.0.2/dist/tesseract.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <script src="AnimasiFade.js"></script>
+</body>
+</html>

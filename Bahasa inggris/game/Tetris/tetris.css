@@ -12,7 +12,7 @@ h2 {
 	margin-left: 250px;
 }
 .btn13{
-	margin-top: 110px;
+	margin-top: 95px;
 	margin-left: 50px;
 }
 .btn14{
@@ -45,8 +45,6 @@ body {
     background: #202028;
     color: white;
     font-family: sans-serif;
-    
-    
 }
 
 
@@ -71,10 +69,44 @@ button {
     font-size: 2em;
     align-items: center;
 }
+.Kalah h3{
+	text-align: center;
+	color: red;
+}
+.Kalah{
+	display: none;
+}
 
+#Mulai_HP{
+	color: white;
+}
+#Mulai_PC{
+	color: white;
+}
+.bi-play-fill{
+	color: white;
+	font-size: 50px;
+	opacity: 1;
+}
+
+.tombolMulaiPC{
+		color: white;
+	font-size: 50px;
+	opacity: 1;
+	margin-top: -50%;
+}
+.PC{
+	display: none;
+}
+.bestscore p{
+	font-size: 15px;
+}
 /* tablet */
 @media screen and (min-width: 768px){
 
+	.PC{
+		display: none;
+	}
 	
 }
 
@@ -83,4 +115,8 @@ button {
 	.bungkus{
 		display: none;
 	}
+	.PC{
+		display: block;
+	}
+
 }

@@ -1,0 +1,87 @@
+h2 {
+    font-family: arial;
+    text-align: center;
+    color: rgb(25, 0, 255);
+}
+.simbol{
+	width: 100%;
+	height: 100%;
+}
+.btn12{
+	margin-top: -100px;
+	margin-left: 250px;
+}
+.btn13{
+	margin-top: 110px;
+	margin-left: 50px;
+}
+.btn14{
+	margin-left: -150px;
+
+}
+
+.btn{
+
+	width: 85px;
+	height: 85px;
+
+}
+.bungkus{
+	position: fixed;
+	margin-top: -250px;
+	margin-left: 10%;
+	opacity: 0.5;
+}
+
+.btn2,.btn4{
+	background: rgba(0, 0, 0, 0);
+	width: 85px;
+	height: 85px;
+
+
+	
+}
+body {
+    background: #202028;
+    color: white;
+    font-family: sans-serif;
+}
+
+
+button {
+	border: none;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+	background-color: #202028; 
+	outline: none;
+}
+
+
+
+
+#play{
+	background-image: url("../../img/StopSong.png");
+}
+
+
+.pembungkus{
+    font-size: 2em;
+    align-items: center;
+}
+.Kalah{
+	position: absolute;
+	margin-left: 43%;
+}
+/* tablet */
+@media screen and (min-width: 768px){
+
+	
+}
+
+/* destop */
+@media screen and (min-width: 800px){
+	.bungkus{
+		display: none;
+	}
+}

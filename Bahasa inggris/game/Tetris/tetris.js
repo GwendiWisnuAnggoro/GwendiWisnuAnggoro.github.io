@@ -5,6 +5,7 @@ var tombolBawah = document.getElementById("tmblBawah");
 var tombolKiri = document.getElementById("tmblKiri");
 var tombolKanan = document.getElementById("tmblKanan");
 
+
 let Muter = new Audio();
 Muter.src="Backsound Muter.mp3";
 
@@ -13,6 +14,10 @@ KiriKananBawah.src="Kiri Kanan Backsound.mp3"
 
 let LarikHilang = new Audio();
 LarikHilang.src="1 Larik Hilang.mp3"
+
+let Kalah = new Audio();
+Kalah.src = "Kalah.mp3"
+
 
 context.scale(20, 20);
 
@@ -111,7 +116,6 @@ function draw() {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     drawMatrix(arena, {x: 0,y: 0});
-    console.log(drawMatrix(arena, {x: 0,y: 0}))
     drawMatrix(player.matrix, player.pos);
 }
 
@@ -146,12 +150,20 @@ function playerDrop() {
         playerReset();
         arenaSweep();
         updateScore();
+        
     }
     dropCounter = 0;
 }
 
+function GameOver(){
+    console.log("Kalah")
+    Kalah.play()
+    document.querySelector(".Kalah").style.display = "block"
+    return playerDrop = function(){}
+    
+}
+
 function playerMove(dir) {
-    console.log(dir);
     player.pos.x += dir;
     if (collide(arena, player)) {
         player.pos.x -= dir;
@@ -159,19 +171,19 @@ function playerMove(dir) {
 }
 
 function playerReset() {
-    let random = Math.random();
+    
     const pieces = 'TOLJISZ';
-    player.matrix = createPiece(pieces[pieces.length * random | 0]);
+    player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) -
                    (player.matrix[0].length / 2 | 0);
     if (collide(arena, player)) {
-        arena.forEach(row => row.fill(0)); 
-        player.score = 0;
-        updateScore();
+        // arena.forEach(row => row.fill(0)); 
+        // player.score = 0;
+        // updateScore();
+        GameOver();
+        
     }
-    console.log(random)
-
 }
 
 
@@ -229,6 +241,20 @@ function update(time = 0) {
 
 function updateScore() {
     document.getElementById('score').innerText = player.score;
+    if(!localStorage.getItem("Best2")){
+        localStorage.setItem("Best2", "0");
+         
+     } else{
+         document.getElementById("Best_Score").innerText = localStorage.getItem("Best2");
+ 
+     }
+     if(player.score !== null){
+         if(player.score > localStorage.getItem("Best2")){
+             localStorage.setItem("Best2", player.score)
+         }
+     }else{
+         localStorage.setItem("Best2", player.score)
+     }
 }
 
 const colors = [
@@ -258,7 +284,7 @@ function fKanan(){
     if(event) {
         playerMove(1); 
         KiriKananBawah.play();
-     
+        
 
     }
 }
@@ -269,22 +295,23 @@ function fKiri(){
     }
 }
 function fAtas(){
-
+    
     if(event) {
         playerRotate(-1); 
         Muter.play();
     }
-
+    
 }
 function fBawah(){
     if(event) {
-        playerDrop(); 
-        KiriKananBawah.play();
-       
-
+        playerDrop(); KiriKananBawah.play();
+        
+        
     }
 }
 
+
+let timer;
 document.addEventListener('keydown', event => {
     if (event.keyCode === 37 || event.keyCode === 65) {
         playerMove(-1); KiriKananBawah.play();
@@ -292,14 +319,34 @@ document.addEventListener('keydown', event => {
         playerMove(1); KiriKananBawah.play();
     } else if (event.keyCode === 40 || event.keyCode == 83) {
         playerDrop(); KiriKananBawah.play();
-    } else if (event.keyCode === 81) {
-        playerRotate(-1); Muter.play();
+    } else if (event.keyCode === 81 || event.keyCode === 32) {
+    if (timer) {
+    return;
     }
+        timer = setTimeout(() => {
+        timer = null;
+    }, 1000);
+        event.keyCode === 81 ? playerRotate(-1) : playerRotate(1);
+        Muter.play();
+    }
+    });
+
+    document.addEventListener('keyup', () => {
+    clearTimeout(timer);
+    timer = null;
 });
 
+setInterval(function(){
+    updateScore();
+
+}, 10)
 playerReset();
 updateScore();
 update();
+
+
+
+
 
 // musik program
 var musik = new Audio();
@@ -307,11 +354,11 @@ musik.src="Tetris Backsound.mp3"
 musik.loop=true;
 musik.pause();
 
-    function mulaiAudio(){
-        var play=document.getElementById('play');
+function mulaiAudio(){
+    var play=document.getElementById('play');
 
         play.addEventListener('click',fplay);
-
+        
         function fplay(){
             if(musik.paused){
                 musik.play();
@@ -322,5 +369,9 @@ musik.pause();
             }
         }
     }
-console.log(updateScore());
-window.addEventListener('load', mulaiAudio)
+    
+
+
+    
+    window.addEventListener('load', mulaiAudio)
+    
