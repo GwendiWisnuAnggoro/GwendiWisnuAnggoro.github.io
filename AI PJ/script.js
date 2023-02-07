@@ -82,6 +82,7 @@ Download(link, format);
 
 
 const OpenAI = (cari)=>{
+<<<<<<< HEAD
 fetch('https://admin11.pythonanywhere.com/gpt3', {
       method: 'POST',
       headers: {
@@ -93,6 +94,14 @@ fetch('https://admin11.pythonanywhere.com/gpt3', {
       .then(data => {
         console.log(data)
         Bicara(data);
+=======
+  fetch('https://admin11.pythonanywhere.com/gpt3', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: cari.toLowerCase() })
+>>>>>>> 80bf372beecab3222edb618efa381648bf75c785
       })
       .catch(error => {
         console.error(error);
