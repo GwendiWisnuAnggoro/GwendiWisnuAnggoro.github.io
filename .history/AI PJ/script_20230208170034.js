@@ -93,7 +93,7 @@ fetch('https://admin11.pythonanywhere.com/gpt3', {
       .then(data => {
         console.log(data)
         Bicara(data);
-      fetch('https://admin11.pythonanywhere.com/gpt3', {
+  fetch('https://admin11.pythonanywhere.com/gpt3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
