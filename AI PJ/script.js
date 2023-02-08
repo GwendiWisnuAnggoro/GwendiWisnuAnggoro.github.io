@@ -82,7 +82,6 @@ Download(link, format);
 
 
 const OpenAI = (cari)=>{
-<<<<<<< HEAD
 fetch('https://admin11.pythonanywhere.com/gpt3', {
       method: 'POST',
       headers: {
@@ -94,31 +93,36 @@ fetch('https://admin11.pythonanywhere.com/gpt3', {
       .then(data => {
         console.log(data)
         Bicara(data);
-=======
   fetch('https://admin11.pythonanywhere.com/gpt3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ prompt: cari.toLowerCase() })
->>>>>>> 80bf372beecab3222edb618efa381648bf75c785
       })
       .catch(error => {
         console.error(error);
       });
+    })
+
 }
+
 Bicara("Halo, Perkenalkan nama saya PJ. Ada yang bisa saya bantu?.");
-let mic = document.querySelector(".bi");
 let leher = document.querySelector(".leher")
-recognition.addEventListener('end', ()=>{
-leher.innerHTML = `<i class="bi bi-mic-mute-fill"></i>`
+
+recognition.addEventListener("end", ()=>{
+  recognition.stop();
+  leher.innerHTML = `<i class="bi bi-mic-mute-fill"></i>`;
+  
 
 })
-
-mic.addEventListener("click", ()=> {
+leher.addEventListener("click", ()=>{
   recognition.start();
-  leher.innerHTML = `<i class="bi bi-mic-fill"></i>`
+  leher.innerHTML = `<i class="bi bi-mic-fill"></i>`;
+
 })
+
+
 
 const TanyaJawab = (text)=>{
 
