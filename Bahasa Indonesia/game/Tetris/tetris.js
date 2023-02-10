@@ -1,9 +1,9 @@
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
-var tombolAtas = document.getElementById("tmblAtas");
-var tombolBawah = document.getElementById("tmblBawah");
-var tombolKiri = document.getElementById("tmblKiri");
-var tombolKanan = document.getElementById("tmblKanan");
+var Rotasi = document.querySelector(".bi-arrow-counterclockwise");
+var tombolBawah = document.querySelector(".bi-arrow-down-circle-fill");
+var tombolKiri = document.querySelector(".bi-arrow-left-circle-fill");
+var tombolKanan = document.querySelector(".bi-arrow-right-circle-fill");
 
 
 let Muter = new Audio();
@@ -64,43 +64,57 @@ function creatMatrix(w, h) {
 }
 
 function createPiece(type) {
+    console.log(type)
+    // red
     if (type === 'T') {
         return [
             [0, 0, 0],
             [1, 1, 1],
             [0, 1, 0],
         ];
-    } else if (type === 'O') {
+    }
+    // blue 
+    else if (type === 'O') {
         return [
             [2, 2],
             [2, 2],
         ];
-    } else if (type === 'L') {
+    } 
+    // violet
+    else if (type === 'L') {
         return [
             [0, 3, 0],
             [0, 3, 0],
             [0, 3, 3],
         ];
-    } else if (type === 'J') {
+    } 
+    // lime
+    else if (type === 'J') {
         return [
             [0, 4, 0],
             [0, 4, 0],
             [4, 4, 0],
         ];
-    } else if (type === 'I') {
+    } 
+    //yellow // ffff00
+    else if (type === 'I') {
         return [
             [0, 5, 0, 0],
             [0, 5, 0, 0],
             [0, 5, 0, 0],
             [0, 5, 0, 0],
         ];
-    } else if (type === 'S') {
+    } 
+    // orange
+    else if (type === 'S') {
         return [
             [0, 6, 6],
             [6, 6, 0],
             [0, 0, 0],
         ];
-    } else if (type === 'Z') {
+    } 
+    // pink
+    else if (type === 'Z') {
         return [
             [7, 7, 0],
             [0, 7, 7],
@@ -155,13 +169,6 @@ function playerDrop() {
     dropCounter = 0;
 }
 
-function GameOver(){
-    console.log("Kalah")
-    Kalah.play()
-    document.querySelector(".Kalah").style.display = "block"
-    return playerDrop = function(){}
-    
-}
 
 function playerMove(dir) {
     player.pos.x += dir;
@@ -170,21 +177,87 @@ function playerMove(dir) {
     }
 }
 
-function playerReset() {
+function GameOver(){
+    console.log("Kalah")
+    Kalah.play()
+    document.querySelector(".Kalah").style.display = "block"
+    return playerDrop = function(){}
     
-    const pieces = 'TOLJISZ';
-    player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+}
+
+
+
+let pieces = 'TOLJISZ';
+let nextPieces = [];
+
+function playerReset() {
+    if (nextPieces.length === 0) {
+        for (let i = 0; i < 7; i++) {
+            nextPieces.push(pieces[pieces.length * Math.random() | 0]);
+        }
+    }
+    
+    let currentPiece = nextPieces.shift();
+    Nextpieces(nextPieces[0] || pieces[pieces.length * Math.random() | 0])
+    
+    
+    player.matrix = createPiece(currentPiece);
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) -
                    (player.matrix[0].length / 2 | 0);
     if (collide(arena, player)) {
-        // arena.forEach(row => row.fill(0)); 
-        // player.score = 0;
-        // updateScore();
         GameOver();
+    }
+    
+    nextPieces.push(pieces[pieces.length * Math.random() | 0]);
+}
+
+
+const Nextpieces = bentuk => {
+    console.log('Next piece:', bentuk);
+    const canvas = document.getElementById('Next');
+    canvas.width = 60;
+    canvas.height = 60;
+    const context = canvas.getContext('2d');
+
+    const piece = createPiece(bentuk);
+    const colors = ['red', 'blue', 'violet', 'lime', '#ffff00', 'orange', 'pink'];
+
+    if(bentuk == "T"){
+        DrawPieces(piece, context, colors[0]);
+    } else if(bentuk == "O"){
+        DrawPieces(piece, context, colors[1]);
         
+    } else if (bentuk == "L"){
+        DrawPieces(piece, context, colors[2]);
+        
+    } else if(bentuk == "J"){
+        DrawPieces(piece, context, colors[3]);
+        
+    } else if(bentuk == "I"){
+        
+        DrawPieces(piece, context, colors[4]);
+    } else if(bentuk == "S"){
+        DrawPieces(piece, context, colors[5]);
+        
+    } else if(bentuk == "Z"){
+        DrawPieces(piece, context, colors[6]);
+
+    }
+    
+}
+
+function DrawPieces(matrix, context, color) {
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            if (matrix[row][col] !== 0) {
+                context.fillStyle = color;
+                context.fillRect(col * 15, row * 15, 15, 15);
+            }
+        }
     }
 }
+
 
 
 function playerRotate(dir) {
@@ -277,7 +350,7 @@ const player = {
 }
 tombolKanan.addEventListener("click", fKanan);
 tombolKiri.addEventListener("click", fKiri);
-tombolAtas.addEventListener("click", fAtas);
+Rotasi.addEventListener("click", fAtas);
 tombolBawah.addEventListener("click", fBawah);
 
 function fKanan(){
