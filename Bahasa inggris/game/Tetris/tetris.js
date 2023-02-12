@@ -16,11 +16,13 @@ let LarikHilang = new Audio();
 LarikHilang.src="1 Larik Hilang.mp3"
 
 let Kalah = new Audio();
-Kalah.src = "Kalah.mp3"
+Kalah.src = "Kalah.mp3";
 
 let Notok = new Audio();
-Notok.src = "notok.mp3"
+Notok.src = "notok.mp3";
 
+let Turun = new Audio();
+Turun.src = "Turun.mp3";
 
 context.scale(20, 20);
 
@@ -67,6 +69,8 @@ function arenaSweep() {
             arena.unshift(row);
         }
 
+        console.log(rowsToRemove)
+
         LarikHilang.play();
     }, flashDuration);
 }
@@ -97,7 +101,6 @@ function creatMatrix(w, h) {
 }
 
 function createPiece(type) {
-    console.log(type)
     // red
     if (type === 'T') {
         return [
@@ -161,9 +164,25 @@ function createPiece(type) {
 function draw() {
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
-
+    
     drawMatrix(arena, {x: 0,y: 0});
     drawMatrix(player.matrix, player.pos);
+
+    // Tambahkan kode ini untuk menambahkan grid lines:
+    context.strokeStyle = '#333';
+    context.lineWidth = 0.1;
+    for (let i = 0; i <= canvas.width; i++) {
+        context.beginPath();
+        context.moveTo(i, 0);
+        context.lineTo(i, canvas.height);
+        context.stroke();
+    }
+    for (let j = 0; j <= canvas.height; j++) {
+        context.beginPath();
+        context.moveTo(0, j);
+        context.lineTo(canvas.width, j);
+        context.stroke();
+    }
 }
 
 function drawMatrix(matrix, offset) {
@@ -197,6 +216,7 @@ function merge(arena, player) {
 
 function playerDrop() {
     player.pos.y++;
+
     if (collide(arena, player)) {
         Notok.play();
         player.pos.y--;
@@ -218,9 +238,9 @@ function playerMove(dir) {
 }
 
 function GameOver(){
-    console.log("Kalah")
     Kalah.play()
-    document.querySelector(".Kalah").style.display = "block"
+    document.querySelector(".Kalah").style.display = "block";
+    Turun.stop();
     return playerDrop = function(){}
     
 }
@@ -304,6 +324,7 @@ function DrawPieces(matrix, context, color) {
 
 
 function playerRotate(dir) {
+    let distance = 1;
     const pos = player.pos.x;
     let offset = 1;
     rotate(player.matrix, dir);
@@ -312,6 +333,7 @@ function playerRotate(dir) {
         offset = -(offset + (offset > 0 ? 1 : -1));
         if (offset > player.matrix[0].length) {
             player.pos.x = pos > arena[0].length / 2 ? pos - 2 : pos + 1;
+            player.pos.y -= distance;
             return;
         }
     }
@@ -351,6 +373,7 @@ function update(time = 0) {
     dropCounter += deltaTime;
     if (dropCounter > dropInterval) {
         playerDrop();
+        Turun.play();
     }
 
     draw();
