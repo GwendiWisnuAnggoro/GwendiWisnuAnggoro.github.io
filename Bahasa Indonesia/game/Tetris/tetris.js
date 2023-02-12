@@ -18,27 +18,60 @@ LarikHilang.src="1 Larik Hilang.mp3"
 let Kalah = new Audio();
 Kalah.src = "Kalah.mp3"
 
+let Notok = new Audio();
+Notok.src = "notok.mp3"
+
 
 context.scale(20, 20);
 
 function arenaSweep() {
     let rowCount = 1;
-    outer: for (let y = arena.length - 1; y > 0; -- y) {
+    let rowsToRemove = [];
+    for (let y = arena.length - 1; y > 0; --y) {
         for (let x = 0; x < arena[y].length; ++x) {
             if (arena [y][x] === 0) {
-                continue outer;
+                break;
+            }
+
+            if (x === arena[y].length - 1) {
+                rowsToRemove.push(y);
+                player.score += rowCount * 10;
+                rowCount *= 2;
+            }
+        }
+    }
+
+    if (rowsToRemove.length === 0) {
+        return;
+    }
+
+    const flashDuration = 300;
+    let flashInterval = setInterval(() => {
+        for (const row of rowsToRemove) {
+            for (let i = 0; i < arena[0].length; ++i) {
+                arena[row][i] = arena[row][i] === 2 ? 3 : 2;
+            }
+        }
+    }, 50);
+
+    setTimeout(() => {
+        clearInterval(flashInterval);
+        for (const row of rowsToRemove) {
+            for (let i = 0; i < arena[0].length; ++i) {
+                arena[row][i] = 0;
             }
         }
 
-        const row = arena.splice(y, 1)[0].fill(0);
-        arena.unshift(row);
-        ++y;
+        for (let i = rowsToRemove.length - 1; i >= 0; --i) {
+            const row = arena.splice(rowsToRemove[i], 1)[0].fill(0);
+            arena.unshift(row);
+        }
 
-        player.score += rowCount * 10;
-        rowCount *= 2;
         LarikHilang.play();
-    }
+    }, flashDuration);
 }
+
+
 
 
 function collide(arena, player) {
@@ -134,6 +167,9 @@ function draw() {
 }
 
 function drawMatrix(matrix, offset) {
+    context.strokeStyle = 'black';
+    context.lineWidth = 0.05;
+    
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
@@ -141,6 +177,9 @@ function drawMatrix(matrix, offset) {
                 context.fillRect(x + offset.x,
                                  y + offset.y, 
                                  1, 1);
+                context.strokeRect(x + offset.x,
+                                   y + offset.y, 
+                                   1, 1);
             }
         });
     });
@@ -159,9 +198,10 @@ function merge(arena, player) {
 function playerDrop() {
     player.pos.y++;
     if (collide(arena, player)) {
+        Notok.play();
         player.pos.y--;
         merge(arena, player);
-        playerReset();
+        playerReset();       
         arenaSweep();
         updateScore();
         
@@ -214,7 +254,6 @@ function playerReset() {
 
 
 const Nextpieces = bentuk => {
-    console.log('Next piece:', bentuk);
     const canvas = document.getElementById('Next');
     canvas.width = 60;
     canvas.height = 60;
@@ -244,8 +283,10 @@ const Nextpieces = bentuk => {
         DrawPieces(piece, context, colors[6]);
 
     }
+
     
 }
+
 
 function DrawPieces(matrix, context, color) {
     for (let row = 0; row < matrix.length; row++) {
@@ -253,11 +294,13 @@ function DrawPieces(matrix, context, color) {
             if (matrix[row][col] !== 0) {
                 context.fillStyle = color;
                 context.fillRect(col * 15, row * 15, 15, 15);
+                context.strokeStyle = 'black';
+                context.lineWidth = 1.24;
+                context.strokeRect(col * 15, row * 15, 15, 15);
             }
         }
     }
 }
-
 
 
 function playerRotate(dir) {
@@ -266,14 +309,16 @@ function playerRotate(dir) {
     rotate(player.matrix, dir);
     while (collide(arena, player)) {
         player.pos.x += offset;
-        offset =- (offset + (offset > 0 ? 1 : -1));
+        offset = -(offset + (offset > 0 ? 1 : -1));
         if (offset > player.matrix[0].length) {
-            rotate(player.matrix, dir);
-            player.pos.x = pos;
+            player.pos.x = pos > arena[0].length / 2 ? pos - 2 : pos + 1;
             return;
         }
     }
 }
+
+
+
 
 function rotate(matrix, dir) {
     for (let y = 0; y < matrix.length; ++y) {
@@ -312,23 +357,55 @@ function update(time = 0) {
     requestAnimationFrame(update);
 }
 
+// const CekScore = (s)=>{
+//     if (s >= 900) {
+//         dropInterval = 900;
+//     } else if(s >= 1800){
+//         dropInterval = 800;
+        
+//     } else if(s >= 2700){
+//         dropInterval = 700;
+        
+//     } else if(s >= 3600){
+//         dropInterval = 600;
+
+//     } else if(s >= 4500){
+//         dropInterval = 500;
+
+//     }else if(s >= 5400){
+//         dropInterval = 400;
+
+//     }else if(s >= 6300){
+//         dropInterval = 300;
+
+//     }else if(s >= 7200){
+//         dropInterval = 200;
+
+//     }else if(s >= 8100){
+//         dropInterval = 100;
+
+//     }
+// }
 function updateScore() {
+    // CekScore(player.score);
     document.getElementById('score').innerText = player.score;
-    if(!localStorage.getItem("Best2")){
+
+    if (!localStorage.getItem("Best2")) {
         localStorage.setItem("Best2", "0");
-         
-     } else{
-         document.getElementById("Best_Score").innerText = localStorage.getItem("Best2");
- 
-     }
-     if(player.score !== null){
-         if(player.score > localStorage.getItem("Best2")){
-             localStorage.setItem("Best2", player.score)
-         }
-     }else{
-         localStorage.setItem("Best2", player.score)
-     }
+    } else {
+        document.getElementById("Best_Score").innerText = localStorage.getItem("Best2");
+    }
+
+    let bestScore = parseInt(localStorage.getItem("Best2"));
+    if (player.score !== null) {
+        if (player.score > bestScore) {
+            localStorage.setItem("Best2", player.score.toString());
+        }
+    } else {
+        localStorage.setItem("Best2", "0");
+    }
 }
+
 
 const colors = [
     null, 
