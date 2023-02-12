@@ -170,7 +170,7 @@ function draw() {
 
     // Tambahkan kode ini untuk menambahkan grid lines:
     context.strokeStyle = 'gray';
-    context.lineWidth = 0.05;
+    context.lineWidth = 0.03;
     for (let i = 0; i <= canvas.width; i++) {
         context.beginPath();
         context.moveTo(i, 0);
