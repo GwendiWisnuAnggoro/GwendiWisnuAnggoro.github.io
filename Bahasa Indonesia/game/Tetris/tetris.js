@@ -169,8 +169,8 @@ function draw() {
     drawMatrix(player.matrix, player.pos);
 
     // Tambahkan kode ini untuk menambahkan grid lines:
-    context.strokeStyle = '#333';
-    context.lineWidth = 0.1;
+    context.strokeStyle = 'gray';
+    context.lineWidth = 0.05;
     for (let i = 0; i <= canvas.width; i++) {
         context.beginPath();
         context.moveTo(i, 0);
