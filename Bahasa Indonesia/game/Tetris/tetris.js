@@ -460,30 +460,30 @@ document.addEventListener("keydown", event => {
 
 
 const CekScore = (s)=>{
-    if (s >= 900) {
+    if (s > 900) {
         dropInterval = 900;
-    } else if(s >= 1800){
+    } else if(s > 1800){
         dropInterval = 800;
         
-    } else if(s >= 2700){
+    } else if(s > 2700){
         dropInterval = 700;
         
-    } else if(s >= 3600){
+    } else if(s > 3600){
         dropInterval = 600;
 
-    } else if(s >= 4500){
+    } else if(s > 4500){
         dropInterval = 500;
 
-    }else if(s >= 5400){
+    }else if(s > 5400){
         dropInterval = 400;
 
-    }else if(s >= 6300){
+    }else if(s > 6300){
         dropInterval = 300;
 
-    }else if(s >= 7200){
+    }else if(s > 7200){
         dropInterval = 200;
 
-    }else if(s >= 8100){
+    }else if(s > 8100){
         dropInterval = 100;
 
     }
