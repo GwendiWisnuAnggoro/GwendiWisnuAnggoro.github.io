@@ -50,6 +50,13 @@ button {
 .Kalah{
 	display: none;
 }
+.Pauses h3{
+	text-align: center;
+	color: rgb(255, 255, 255);
+}
+.Pauses{
+	display: none;
+}
 
 #Mulai_HP{
 	color: white;
@@ -95,7 +102,7 @@ button {
 	font-size: 35px;
 	color: rgba(255, 255, 255, .3);
 	position: relative;
-	opacity: .75;
+	opacity: .5;
 }
 .lingkaran .bi-arrow-down-circle-fill{
 	margin-top: 7%;
@@ -117,11 +124,27 @@ button {
 	position: fixed;
 	font-size: 40px;
 	right: 10%;
-	top: 90%;
+	top: 85%;
 	transform: translate(50%, -50%);
-	color: white;
+	color: red;
 }
-.kiri, .kanan, .bawah, .rotasi{
+.playe .bi-pause-circle-fill{
+	position: fixed;
+	font-size: 40px;
+	right: 10%;
+	top: 75%;
+	transform: translate(50%, -50%);
+	color: red;
+}
+.playe .bi-play-circle-fill{
+	position: fixed;
+	font-size: 40px;
+	right: 10%;
+	top: 75%;
+	transform: translate(50%, -50%);
+	color: red;
+}
+.kiri, .kanan, .bawah, .rotasi, .pause, .playe{
 	width:auto;
 	height: auto;
 }
@@ -130,9 +153,8 @@ button {
 	width: 100px;
 	height: 100px;
 	position: fixed;
-	right: 0;
+	left: 0;
 	top: 25%;
-	
 }
 .nextpieces p{
 	font-size: 15px;
@@ -160,7 +182,6 @@ button {
 		width: 100px;
 		height: 100px;
 		position: relative;
-		margin-bottom: 3px;
 	}
 	.nextpieces p{
 		font-size: 15px;

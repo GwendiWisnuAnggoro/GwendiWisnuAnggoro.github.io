@@ -63,14 +63,14 @@ function arenaSweep() {
                 arena[row][i] = 0;
             }
         }
-
+        
         for (let i = rowsToRemove.length - 1; i >= 0; --i) {
             const row = arena.splice(rowsToRemove[i], 1)[0].fill(0);
             arena.unshift(row);
         }
-
+        
         console.log(rowsToRemove)
-
+        
         LarikHilang.play();
     }, flashDuration);
 }
@@ -162,6 +162,7 @@ function createPiece(type) {
 }
 
 function draw() {
+    if (isPaused) return;
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
     
@@ -215,7 +216,9 @@ function merge(arena, player) {
 }
 
 function playerDrop() {
+    if (isPaused) return;
     player.pos.y++;
+
 
     if (collide(arena, player)) {
         Notok.play();
@@ -362,11 +365,72 @@ function rotate(matrix, dir) {
     }
 }
 
+tombolKanan.addEventListener("click", fKanan);
+tombolKiri.addEventListener("click", fKiri);
+Rotasi.addEventListener("click", fAtas);
+tombolBawah.addEventListener("click", fBawah);
+
+let Pausee = document.querySelector(".bi-pause-circle-fill");
+let Playy = document.querySelector(".bi-play-circle-fill");
+let buttonPausetoPlay = document.querySelector(".playe");
+
+
+
+
+let timer;
+
+document.addEventListener('keydown', (event) => {
+    if (isPaused) return;
+    if (event.keyCode === 37 || event.keyCode === 65) {
+        playerMove(-1); KiriKananBawah.play();
+    } else if (event.keyCode === 39 || event.keyCode == 68) {
+        playerMove(1); KiriKananBawah.play();
+    } else if (event.keyCode === 40 || event.keyCode == 83) {
+        playerDrop(); KiriKananBawah.play();
+    } else if (event.keyCode === 81 || event.keyCode === 32) {
+    if (timer) {
+    return;
+    }
+        timer = setTimeout(() => {
+        timer = null;
+    }, 1000);
+        event.keyCode === 81 ? playerRotate(-1) : playerRotate(1);
+        Muter.play();
+    }
+    });
+
+    document.addEventListener('keyup', () => {
+    clearTimeout(timer);
+    timer = null;
+});
+
 let dropCounter = 0;
 let dropInterval = 1000;
 
 let lastTime = 0;
+let isPaused = false;
+
+buttonPausetoPlay.addEventListener("click", ()=>{
+    if(isPaused){
+        isPaused = false;
+        buttonPausetoPlay.innerHTML = `<i class="bi bi-pause-circle-fill"></i>`
+    } else{
+        isPaused = true;
+        buttonPausetoPlay.innerHTML = `<i class="bi bi-play-circle-fill"></i>`
+
+    }
+})
+
 function update(time = 0) {
+    if (isPaused) {
+        requestAnimationFrame(update);
+        document.querySelector(".Pauses").style.display = "block";
+        return;
+    } else {
+        document.querySelector(".Pauses").style.display = "none";
+
+    }
+
     const deltaTime = time - lastTime;
     lastTime = time;
 
@@ -380,35 +444,50 @@ function update(time = 0) {
     requestAnimationFrame(update);
 }
 
-// const CekScore = (s)=>{
-//     if (s >= 900) {
-//         dropInterval = 900;
-//     } else if(s >= 1800){
-//         dropInterval = 800;
+document.addEventListener("keydown", event => {
+    
+    if (event.keyCode === 80) {
+        isPaused = !isPaused;
+
+    }
+
+});
+
+// <i class="bi bi-play-circle-fill"></i>
+
+
+
+
+
+const CekScore = (s)=>{
+    if (s >= 900) {
+        dropInterval = 900;
+    } else if(s >= 1800){
+        dropInterval = 800;
         
-//     } else if(s >= 2700){
-//         dropInterval = 700;
+    } else if(s >= 2700){
+        dropInterval = 700;
         
-//     } else if(s >= 3600){
-//         dropInterval = 600;
+    } else if(s >= 3600){
+        dropInterval = 600;
 
-//     } else if(s >= 4500){
-//         dropInterval = 500;
+    } else if(s >= 4500){
+        dropInterval = 500;
 
-//     }else if(s >= 5400){
-//         dropInterval = 400;
+    }else if(s >= 5400){
+        dropInterval = 400;
 
-//     }else if(s >= 6300){
-//         dropInterval = 300;
+    }else if(s >= 6300){
+        dropInterval = 300;
 
-//     }else if(s >= 7200){
-//         dropInterval = 200;
+    }else if(s >= 7200){
+        dropInterval = 200;
 
-//     }else if(s >= 8100){
-//         dropInterval = 100;
+    }else if(s >= 8100){
+        dropInterval = 100;
 
-//     }
-// }
+    }
+}
 function updateScore() {
     // CekScore(player.score);
     document.getElementById('score').innerText = player.score;
@@ -448,12 +527,10 @@ const player = {
     matrix: null,
     score: 0,
 }
-tombolKanan.addEventListener("click", fKanan);
-tombolKiri.addEventListener("click", fKiri);
-Rotasi.addEventListener("click", fAtas);
-tombolBawah.addEventListener("click", fBawah);
+
 
 function fKanan(){
+    if (isPaused) return;
     if(event) {
         playerMove(1); 
         KiriKananBawah.play();
@@ -462,13 +539,14 @@ function fKanan(){
     }
 }
 function fKiri(){
+    if (isPaused) return;
     if(event) {
         playerMove(-1); 
         KiriKananBawah.play();
     }
 }
 function fAtas(){
-    
+    if (isPaused) return;
     if(event) {
         playerRotate(-1); 
         Muter.play();
@@ -476,6 +554,7 @@ function fAtas(){
     
 }
 function fBawah(){
+    if (isPaused) return;
     if(event) {
         playerDrop(); KiriKananBawah.play();
         
@@ -484,30 +563,7 @@ function fBawah(){
 }
 
 
-let timer;
-document.addEventListener('keydown', event => {
-    if (event.keyCode === 37 || event.keyCode === 65) {
-        playerMove(-1); KiriKananBawah.play();
-    } else if (event.keyCode === 39 || event.keyCode == 68) {
-        playerMove(1); KiriKananBawah.play();
-    } else if (event.keyCode === 40 || event.keyCode == 83) {
-        playerDrop(); KiriKananBawah.play();
-    } else if (event.keyCode === 81 || event.keyCode === 32) {
-    if (timer) {
-    return;
-    }
-        timer = setTimeout(() => {
-        timer = null;
-    }, 1000);
-        event.keyCode === 81 ? playerRotate(-1) : playerRotate(1);
-        Muter.play();
-    }
-    });
 
-    document.addEventListener('keyup', () => {
-    clearTimeout(timer);
-    timer = null;
-});
 
 setInterval(function(){
     updateScore();
