@@ -489,7 +489,7 @@ const CekScore = (s)=>{
     }
 }
 function updateScore() {
-    // CekScore(player.score);
+    CekScore(player.score);
     document.getElementById('score').innerText = player.score;
 
     if (!localStorage.getItem("Best2")) {
