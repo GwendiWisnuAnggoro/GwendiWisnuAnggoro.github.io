@@ -453,37 +453,39 @@ document.addEventListener("keydown", event => {
 
 });
 
-// <i class="bi bi-play-circle-fill"></i>
-
-
-
-
-
 const CekScore = (s)=>{
     if (s > 900) {
         dropInterval = 900;
-    } else if(s > 1800){
+    } 
+    if(s > 1800){
         dropInterval = 800;
         
-    } else if(s > 2700){
+    } 
+    if(s > 2700){
         dropInterval = 700;
         
-    } else if(s > 3600){
+    } 
+    if(s > 3600){
         dropInterval = 600;
 
-    } else if(s > 4500){
+    } 
+    if(s > 4500){
         dropInterval = 500;
 
-    }else if(s > 5400){
+    }
+    if(s > 5400){
         dropInterval = 400;
 
-    }else if(s > 6300){
+    }
+    if(s > 6300){
         dropInterval = 300;
 
-    }else if(s > 7200){
+    }
+    if(s > 7200){
         dropInterval = 200;
 
-    }else if(s > 8100){
+    }
+    if(s > 8100){
         dropInterval = 100;
 
     }
