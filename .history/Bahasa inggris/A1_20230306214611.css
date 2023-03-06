@@ -105,7 +105,8 @@ button {
     height: 100vh;
     background-color: #3264fe;
     z-index: 1;
-	position: fixed;
+	position: ab
+	;
 }
 .container{
     background-color: #ffffff;

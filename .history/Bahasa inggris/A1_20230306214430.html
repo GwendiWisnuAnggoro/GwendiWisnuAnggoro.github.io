@@ -234,50 +234,6 @@
 		}
 		e.preventDefault();
 	}
-
-	let mySlider = document.getElementById("my-slider");
-	let sliderValue = document.getElementById("slider-value");
-	window.onload = function() {
-
-		function slider() {
-			let valPercent = (mySlider.value / mySlider.max) * 100;
-			mySlider.style.background = `linear-gradient(to right, #3264fe ${valPercent}%, #d5d5d5 ${valPercent}%)`;
-			sliderValue.textContent = mySlider.value;
-		}
-
-		slider();
-
-		// Mengatur nilai rangeInput menjadi 100 ketika proses loading halaman selesai
-		mySlider.value = 100;
-		slider();
-
-		// Atur nilai rangeInput sesuai dengan persentase loading
-		function updateProgress(e) {
-	cosole.log(e)
-			if (e.lengthComputable) {
-				let percent = Math.round((e.loaded / e.total) * 100);
-				mySlider.value = percent;
-				slider();
-			}
-		}
-
-		// Atur event listener untuk event progress
-		document.addEventListener('progress', updateProgress);
-		
-		// Atur event listener untuk event mouseup pada slider
-		mySlider.addEventListener('input', function resetSlider() {
-			mySlider.value = 100;
-			slider();
-		});
-
-
-	};
-
-	window.addEventListener("load", ()=>{
-		setTimeout(()=>{
-			document.querySelector(".bodys").style.display = "none";
-		}, 3000)
-	})
 </script>
 
 	</body>

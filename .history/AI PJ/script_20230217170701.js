@@ -319,8 +319,6 @@ if (text.toLowerCase() == "buka kalender"){
   //       document.querySelector("#DownloadYT").style.display = "block";
   // }
   else if(text.toLowerCase().includes("lihat tulisan")){
-    Bicara("Silahkan klik layar kamera atau klik tombol space untuk saya melihat gambar");
-
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");

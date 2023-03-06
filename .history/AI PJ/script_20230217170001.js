@@ -319,82 +319,43 @@ if (text.toLowerCase() == "buka kalender"){
   //       document.querySelector("#DownloadYT").style.display = "block";
   // }
   else if(text.toLowerCase().includes("lihat tulisan")){
-    Bicara("Silahkan klik layar kamera atau klik tombol space untuk saya melihat gambar");
-
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
+    video.style.display = "none";
+  // Pra-pemrosesan gambar
+  const img = new Image();
+  img.src = image;
+  img.onload = function () {
+    const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    const constraints = {
-      video: { facingMode: "environment" }
-    };
-    
-    navigator.mediaDevices.getUserMedia(constraints)
-      .then(stream => {
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          video.play();
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-        };
-        document.body.appendChild(video);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    
-    function takePicture() {
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const image = canvas.toDataURL("image/png");
-      processImage(image);
-      Bicara("Mendeteksi tulisan mohon tunggu")
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const threshold = 127;
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      const r = imageData.data[i];
+      const g = imageData.data[i + 1];
+      const b = imageData.data[i + 2];
+      const v = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      const newValue = v < threshold ? 0 : 255;
+      imageData.data[i] = newValue;
+      imageData.data[i + 1] = newValue;
+      imageData.data[i + 2] = newValue;
     }
-    
-    video.addEventListener("click", takePicture);
-    
-    document.addEventListener('keydown', function(event) {
-      if (event.code === 'Space') {
-        takePicture();
-      }
-    });
-    
-    function processImage(image) {
-      // Pra-pemrosesan gambar
-      const img = new Image();
-      img.src = image;
-      img.onload = function () {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const threshold = 127;
-        for (let i = 0; i < imageData.data.length; i += 4) {
-          const r = imageData.data[i];
-          const g = imageData.data[i + 1];
-          const b = imageData.data[i + 2];
-          const v = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-          const newValue = v < threshold ? 0 : 255;
-          imageData.data[i] = newValue;
-          imageData.data[i + 1] = newValue;
-          imageData.data[i + 2] = newValue;
+    ctx.putImageData(imageData, 0, 0);
+    const processedImage = canvas.toDataURL("image/png");
+    // Menggunakan Tesseract.js untuk mengenali tulisan
+    Tesseract.recognize(processedImage, 'ind')
+      .then(({ data: { text } }) => {
+        // Post-processing pada hasil OCR
+        const sentences = text.split(". ");
+        const filteredSentences = sentences.filter(sentence => sentence.length > 1);
+        const recognizedText = filteredSentences.join(". ");
+        if (recognizedText) {
+          console.log(recognizedText);
+          Bicara("Tulisan yang saya baca adalah "+recognizedText.toString());
         }
-        ctx.putImageData(imageData, 0, 0);
-        const processedImage = canvas.toDataURL("image/png");
-        // Menggunakan Tesseract.js untuk mengenali tulisan
-        Tesseract.recognize(processedImage, 'ind')
-          .then(({ data: { text } }) => {
-            // Post-processing pada hasil OCR
-            const sentences = text.split(". ");
-            const filteredSentences = sentences.filter(sentence => sentence.length > 1);
-            const recognizedText = filteredSentences.join(". ");
-            if (recognizedText) {
-              console.log(recognizedText);
-              Bicara("Tulisan yang saya baca adalah "+recognizedText.toString());
-            }
-          });
-      };
-    }
+      });
+  };
     
   }else{
           console.log("Bingung")
