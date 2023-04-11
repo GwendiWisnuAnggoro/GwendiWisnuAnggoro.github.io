@@ -81,31 +81,25 @@ Download(link, format);
 }
 
 
-const OpenAI = (cari)=>{
-fetch('https://admin11.pythonanywhere.com/gpt3', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt: cari.toLowerCase() })
+const OpenAI = (cari) => {
+  fetch('https://admin11.pythonanywhere.com/gpt3', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ prompt: cari.toLowerCase() })
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      Bicara(data);
     })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        Bicara(data);
-      fetch('https://admin11.pythonanywhere.com/gpt3', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ prompt: cari.toLowerCase() })
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    })
-
+    .catch(error => {
+      console.error(error);
+      Bicara("Mohon Maaf server kami sepertinya sedang mengalami eror, silahkan mencoba lagi lain hari, Trimakasih");
+    });
 }
+
 
 Bicara("Halo, Perkenalkan nama saya PJ. Ada yang bisa saya bantu?.");
 let leher = document.querySelector(".leher")
@@ -148,144 +142,121 @@ if (text.toLowerCase() == "buka kalender"){
   }
   else if (text.toLowerCase().includes("hitung") || text.toLowerCase().includes("itung")) {
     console.log("hitung")
-    // get the calculation command from the recognized text
     let command = text.toLowerCase().replace("hitung", "").trim();
 
-
-    
     if (command.includes("logaritma")) {
-      // Hapus kata "logaritma" dari string ekspresi matematika
       command = command.replace("logaritma", "").trim();
       command = command.toLowerCase().replace(",", "").trim();
-                    // Memisahkan input menjadi array kata
+      
       let arrayKata = command.split(" ");
-      let log_1 = arrayKata[0];
-      let log_2 = arrayKata[2];
-      if(log_1 && log_2){
-        let result = Math.log(log_2) / Math.log(log_1);
-        console.log("[+]" + result);
-
-        // speech.lang = "id";
-        // speech.text = "Hasil perhitungan adalah " + result;
-        
-        // // play the speech
-        // speechSynthesis.speak(speech);
-       
-        Bicara("Hasil perhitungan adalah " + result);
-        
-        document.getElementById("result").innerText = result;
+      
+      let result = 0;
+      let basis = 0;
+      let argument = 0;
+      let basisFound = false;
+      
+      for (let i = 0; i < arrayKata.length; i++) {
+        if (arrayKata[i] === "logaritma") {
+          if (i > 0 && !isNaN(parseFloat(arrayKata[i - 1]))) {
+            basis = parseFloat(arrayKata[i - 1]);
+            basisFound = true;
+          }
+          if (i < arrayKata.length - 1 && !isNaN(parseFloat(arrayKata[i + 1]))) {
+            argument = parseFloat(arrayKata[i + 1]);
+          }
+          if (basisFound && basis !== 1 && argument > 0) {
+            result += Math.log(argument) / Math.log(basis);
+            basisFound = false;
+          }
+        } else if (!isNaN(parseFloat(arrayKata[i]))) {
+          result += parseFloat(arrayKata[i]);
+        } else if (arrayKata[i] === "dikali") {
+          if (i < arrayKata.length - 1 && !isNaN(parseFloat(arrayKata[i + 1]))) {
+            result *= parseFloat(arrayKata[i + 1]);
+          }
+        } else if (arrayKata[i] === "kali") {
+          if (i < arrayKata.length - 1 && !isNaN(parseFloat(arrayKata[i + 1]))) {
+            result *= parseFloat(arrayKata[i + 1]);
+          }
+        } else if (arrayKata[i] === "*") {
+          if (i < arrayKata.length - 1 && !isNaN(parseFloat(arrayKata[i + 1]))) {
+            result *= parseFloat(arrayKata[i + 1]);
+          }
+        }
       }
-
-
-
-      // Evaluasi ekspresi matematika menggunakan fungsi eval() dan Math.log()
-      let result = Math.log(eval(command));
-
-      // console.log(result);
-      // // Tampilkan hasil perhitungan logaritma
-      // speech.lang = "id";
-      // speech.text = "Hasil perhitungan adalah " + result;
-
-     
-      Bicara("Hasil perhitungan adalah " + result);
-
       
-      // play the speech
-      // speechSynthesis.speak(speech);
-      document.getElementById("result").innerText = result;
-      
-      // display the calculation result in text
-  }
-    // try to evaluate the calculation command
-      // evaluate the calculation command
-      let result = eval(command);
-      
-      // create a SpeechSynthesis object
-      
-      // // convert the text to speech using Indonesian accent
-      // speech.lang = "id";
-      // speech.text = "Hasil perhitungan adalah " + result;
-      
-      // // play the speech
-      // speechSynthesis.speak(speech);
-     
+      console.log("[+]" + result);
       Bicara("Hasil perhitungan adalah " + result);
       
-      document.getElementById("result").innerText = result;
-      // display the calculation result in text
+    } else {
+      let result = 0;
+      
+      if (command.includes("dikali") || command.includes("kali") || command.includes("*")) {
+        result = 1;
+      }
+      
+      let arrayKata = command.split(" ");
+      
+      for (let i = 0; i < arrayKata.length; i++) {
+        if (!isNaN(parseFloat(arrayKata[i]))) {
+          if (i === 0) {
+            result = parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "ditambah") {
+            result += parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "+") {
+            result += parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "dikurang") {
+            result -= parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "-") {
+            result -= parseFloat(arrayKata[i]);
+          }  else if (arrayKata[i - 1] === "dibagi") {
+            result /= parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "/") {
+            result /= parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "dikali") {
+            result *= parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "kali") {
+            result = parseFloat(arrayKata[i]);
+          } else if (arrayKata[i - 1] === "") {
+            result *= parseFloat(arrayKata[i]);
+          }
+        }
+      }
+      console.log("[+]" + result);
+      Bicara("Hasil perhitungan adalah " + result);
     }
-  else if (text.toLowerCase() == "putar lagu dari youtube") {
-    // ask the user for the song title using speech recognition
-    let hasil = prompt ("Masukkan judul lagu yang ingin Anda putar:");
-    hasil.replace("https://youtu.be/", "").trim()
-
-    // get the song title from the user's speech
-    let songTitle = hasil;
-    
-    // create an iframe element
-    let iframeElement = document.createElement("iframe");
-    
-    // set the iframe's source to the YouTube video's URL with the song title
-    iframeElement.setAttribute("src", "https://youtu.be/" + songTitle);
-    
-    // add the iframe to the page
-    document.body.appendChild(iframeElement);
-    
-    // create a SpeechSynthesis objec
-    
-    // convert the text to speech using Indonesian accent
-    // speech.lang = "id";
-    // speech.text = "Lagu dari YouTube sedang diputar";
-    
-    // // play the speech
-    // speechSynthesis.speak(speech);
-   
-    Bicara("Lagu dari YouTube sedang diputar");
-    
-    // display a message indicating that the YouTube song is playing
-    // document.getElementById("result").innerText = "Lagu dari YouTube sedang diputar";
-  } 
+  }
   else if (text.toLowerCase() == "jam" || text.toLowerCase() == "waktu") {
-    // get the current time
-    let currentTime = new Date();
-    let hours = currentTime.getHours();
-    let minutes = currentTime.getMinutes();
-    
-    // create a SpeechSynthesis objec
-    
-    // convert the text to speech using Indonesian accent
-    // speech.lang = "id";
-    // speech.text = "Sekarang jam " + hours + ":" + minutes;
-   if(minutes == 30){
-    Bicara("Sekarang Pukul Setengah " + (hours+1));
-   } else if(minutes == 15){
-    Bicara("Sekarang Pukul " + hours + " Lebih Seper Empat");
-   } else if(minutes == 45){
-    Bicara("Sekarang Pukul " + (hours+1) + " Kurang Seper Empat");
+    let waktu = new Date();
+    let jam = waktu.getHours();
+    let menit = waktu.getMinutes();
+
+   if(menit == 30){
+    Bicara("Sekarang Pukul Setengah " + (jam+1));
+   } else if(menit == 15){
+    Bicara("Sekarang Pukul " + jam + " Lebih Seper Empat");
+   } else if(menit == 45){
+    Bicara("Sekarang Pukul " + (jam+1) + " Kurang Seper Empat");
    }
-    else if(minutes > 00){
-     Bicara("Sekarang Pukul " + hours + "lebih" + minutes + "menit, waktu Indonesia Barat.");
+    else if(menit > 00){
+     Bicara("Sekarang Pukul " + jam + "lebih" + menit + "menit, waktu Indonesia Barat.");
 
    }
-    // play the speech
-    // speechSynthesis.speak(speech);
     
-    
-    // display the current time in text
-    if(hours < 10){
-      document.querySelector(".hasilJam").innerText = "0"+hours + ":" + minutes;
+    if(jam < 10){
+      document.querySelector(".hasilJam").innerText = "0"+jam + ":" + menit;
       
     } 
-    else if(minutes < 10){
-      document.querySelector(".hasilJam").innerText = hours + ":" +"0"+ minutes;
+    else if(menit < 10){
+      document.querySelector(".hasilJam").innerText = jam + ":" +"0"+ menit;
       
-    } else if(hours < 10 && minutes < 10){
-      document.querySelector(".hasilJam").innerText = "0"+hours + ":" +"0"+ minutes;
+    } else if(jam < 10 && menit < 10){
+      document.querySelector(".hasilJam").innerText = "0"+jam + ":" +"0"+ menit;
       
     }
     else{
       
-      document.querySelector(".hasilJam").innerText = hours + ":" + minutes;
+      document.querySelector(".hasilJam").innerText = jam + ":" + menit;
     }
   
     document.querySelector(".jawaban").style.display = "block";
@@ -313,11 +284,6 @@ if (text.toLowerCase() == "buka kalender"){
   }else if (text.toLowerCase().includes("kan") && !text.toLowerCase().includes("kedipkan") || text.toLowerCase().includes("kah")){
     OpenAI(text)
   } 
-  // else if(text.toLowerCase().includes("unduh dari youtube")){
-  //       Bicara("Silahkan Masukkan Link Youtube di colom yang sudah di sediakan dan pilih formatnya.");
-  //       document.querySelector(".link-tombol").style.display = "block";
-  //       document.querySelector("#DownloadYT").style.display = "block";
-  // }
   else if(text.toLowerCase().includes("lihat tulisan")){
     Bicara("Silahkan klik layar kamera atau klik tombol space untuk saya melihat gambar");
 
@@ -390,7 +356,7 @@ if (text.toLowerCase() == "buka kalender"){
             const recognizedText = filteredSentences.join(". ");
             if (recognizedText) {
               console.log(recognizedText);
-              Bicara("Tulisan yang saya baca adalah "+recognizedText.toString());
+              Bicara("Tulisan yang saya baca adalah "+ recognizedText.toString());
             }
           });
       };
