@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="QR_Generator.css">
+    <link rel="icon" type="image/png" href="img/icon.png">
+</head>
+<body>
+    <div class="container">
+        <div id="canvas"></div>
+
+        <div class="inputs">
+            <input type="text" id="url" value="www.youtube.com">
+            
+            <div class="toogle_image">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="useImage">
+                    <label class="form-check-label" for="useImage">Menggunakan Logo</label>
+                </div>
+
+                <div class="use_image">
+                    <button type="button" onclick="document.getElementById('select_gambar').click()" id="select_images">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.5a.5.5 0 0 1 1 0V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.354 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V11h-1v3.293l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                        </svg>
+                        Pilih Logo
+                    </button>
+                    <input type="file" id="select_gambar" accept="image/*" hidden>
+                </div>
+            </div>
+    
+            <label for="size_logo">Ukuran Logo:</label>
+            <input type="range"  id="size_logo" min="5" max="40" value="40">
+
+            <br>
+            <label for="qrmode">QR Mode:</label>
+            <select id="qrmode">
+                <option value="square">Kotak</option>
+                <option value="rounded">Bulat</option>
+                <option value="extra-rounded">Sangat Bulat</option>
+                <option value="classy">Berkelas</option>
+                <option value="classy-rounded">Sangat Berkelas</option>
+            </select>
+            <br>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="custem_color_qr">
+                <label class="form-check-label" for="custem_color_qr">Custem Warna QR</label>
+            </div>
+            <div class="custem_color_qr_">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="custem_gradient_qr">
+                    <label class="form-check-label" for="custem_gradient_qr">Warna Gradient</label>
+                </div>
+                <div class="singgle">
+                    <div class="color_singgle" onclick="document.getElementById('input_color_singgle').click()"></div>
+                    <input type="color" id="input_color_singgle">
+                </div>
+                <div class="gradients">
+                    <div class="color_1" onclick="document.getElementById('input_color_1').click()"></div>
+                    <input type="color" id="input_color_1">
+                    <div class="color_2" onclick="document.getElementById('input_color_2').click()"></div>
+                    <input type="color" id="input_color_2">
+                </div>
+            </div>
+        </div>
+
+
+        <button type="button" id="download">Unduh</button>
+        <button type="button" id="buatqr">Buat QR</button>
+
+    </div>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="QR_Generator.js"></script>
+</body>
+</html>

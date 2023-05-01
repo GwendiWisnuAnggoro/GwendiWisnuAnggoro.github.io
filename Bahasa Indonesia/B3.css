@@ -54,6 +54,19 @@
 	background: #00ffcc;
 }
 
+.QR_Code {
+	margin-top: 20px;
+	margin-right: 0%;
+	margin-left: 10px;
+}
+
+.QR_Code a {
+	text-decoration: none;
+	text-transform: uppercase;
+	color: white;
+	border: 5px solid #ffffff;
+	background: #0400ff;
+}
 
 .Snake #Ular {
 	color: #125f07;
