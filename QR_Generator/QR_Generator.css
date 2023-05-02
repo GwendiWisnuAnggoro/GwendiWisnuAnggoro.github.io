@@ -19,13 +19,19 @@ body{
     position: relative;
 }
 
+.div_container_qr{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 label, input, option{
     font-size: 15px;
     font-family: 'Times New Roman', Times, serif;
 }
 
 input, option{
-    border: 1px solid #e7e7e7;
+    border: 1px solid black;
 }
 
 input{
@@ -36,9 +42,27 @@ input, option, button:hover{
     cursor: pointer;
 }
 
+.containel_url{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#url{
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
 .inputs{
     margin: auto;
     width: 200px;
+}
+
+.buttons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 button{
@@ -46,6 +70,7 @@ button{
     font-family: 'Times New Roman', Times, serif;
     padding: 10px;
     border-radius: 5px;
+    margin-top: 20px;
 }
 
 #select_images{
@@ -63,26 +88,15 @@ input[type='range']{
 #download{
     padding: 8px;
     border: 1px solid #b7b7b7;
-    background-color: #ff0000;
+    background-color: #0088ff;
     font-weight: bold;
     color: white;
 }
 
-#buatqr{
-    padding: 8px;
-    border: 1px solid #b7b7b7;
-    background-color: #00ff80;
-    font-weight: bold;
-    color: black;
-    right: 0;
-    margin-right: 5%;
-    position: absolute;
-}
-
 #canvas {
-    margin-left: 3.5rem;
-    margin-bottom: 10px;
-    max-width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #e7e7e7;
+    box-shadow: -1px 2px 15px 3px rgba(0, 0, 0, 0.75);
 }
 
 #size_logo{
@@ -114,4 +128,12 @@ select:hover{
 
 .gradients{
     display: none;
+}
+
+.resize_logo_container{
+    display: none;
+}
+
+.color_singgle, .color_1, .color_2:hover {
+    cursor: pointer;
 }

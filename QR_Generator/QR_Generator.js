@@ -1,71 +1,94 @@
-  let url = document.getElementById("url"),
-  toogle_useImage = document.getElementById("useImage"),
-  qrmode = document.getElementById("qrmode"),
-  buatqr = document.getElementById("buatqr"),
-  download = document.getElementById("download"),
-  canvas = document.getElementById("canvas"),
-  resize_logo = document.getElementById("size_logo"),
-  select_images = document.getElementById("select_images"),
-  select_gambar = document.getElementById("select_gambar"),
-  input_color_1_qr = document.getElementById("input_color_1")
-  input_color_2_qr = document.getElementById("input_color_2"),
-  custem_color_qr = document.getElementById("custem_color_qr"),
-  input_color_singgle = document.getElementById("input_color_singgle");
+let url = document.getElementById("url"),
+toogle_useImage = document.getElementById("useImage"),
+qrmode = document.getElementById("qrmode"),
+download = document.getElementById("download"),
+canvas = document.getElementById("canvas"),
+resize_logo = document.getElementById("size_logo"),
+select_images = document.getElementById("select_images"),
+select_gambar = document.getElementById("select_gambar"),
+input_color_1_qr = document.getElementById("input_color_1")
+input_color_2_qr = document.getElementById("input_color_2"),
+custem_color_qr = document.getElementById("custem_color_qr"),
+input_color_singgle = document.getElementById("input_color_singgle");
 
 // QR code Generator
 let generate = {
-    width: 300,
-    height: 300,
-    type: "svg",
-    data: "",
-    image: "",
-    dotsOptions: {
-        color: "#000000",
-        type: "square",
-        gradient:{
-          "type": "linear",
-          "colorStops": [
-            {
-              "offset": 0,
-              "color": "#000000"
-            },
-            {
-              "offset": 1,
-              "color": "#000000"              
-            }
-          ]
-        }
-      },
-    backgroundOptions: {
-        color: "rgb(255, 255, 255)",
+  width: 300,
+  height: 300,
+  type: "svg",
+  data: "",
+  image: "",
+  margin: 2,
+  qrOptions: {
+    errorCorrectionLevel: "H" // Q atau H
+  },
+  dotsOptions: {
+      color: "#000000",
+      type: "square",
+      gradient:{
+        "type": "linear",
+        "colorStops": [
+          {
+            "offset": 0,
+            "color": "#000000"
+          },
+          {
+            "offset": 1,
+            "color": "#000000"              
+          }
+        ]
+      }
     },
-    imageOptions: {
-      crossOrigin: "anonymous",
-      margin: 0,
-      imageSize : 0.4,
-    }
+  backgroundOptions: {
+      color: "rgb(255, 255, 255)",
+  },
+  imageOptions: {
+    crossOrigin: "anonymous",
+    margin: 0,
+    imageSize : 0.4,
+  },
+  cornersDotOptions: {
+    type: ""
+  },
+  cornersSquareOptions:{
+    type: ""
+  }
 };
 
+let colors_singgle = false
 generate.data = url.value
 generate.image = ""
 
 
 // Buat url
-buatqr.addEventListener("click", ()=>{
+url.addEventListener("keyup", ()=>{
   link = url.value
 
-  // ambil value qr mode 
-  let qr_mode = qrmode.value
-  generate.dotsOptions.type = qr_mode
-
-  if(link == ""){
-    alert("Input tidak boleh kosong !!")
-    generate.data = w
-  }
-  generate.data = link
   
+  if(link == "") return
+  
+  generate.data = link
   viewsQR()
 })
+
+// ambil value qr mode 
+qrmode.addEventListener("change", ()=>{
+  let qr_mode = qrmode.value
+  
+  generate.dotsOptions.type = qr_mode
+  if(qr_mode == "dots"){
+    generate.cornersDotOptions.type = "dot"
+    generate.cornersSquareOptions.type = "dot"
+    viewsQR()
+  } else {
+    generate.cornersDotOptions.type = ""
+    generate.cornersSquareOptions.type = ""
+    viewsQR()
+  }
+  viewsQR()
+})
+
+
 
 // ambil url image user
 select_gambar.addEventListener("change", ambil_img)
@@ -73,8 +96,9 @@ select_gambar.addEventListener("change", ambil_img)
 function ambil_img(){
   let imageFile = select_gambar.files[0]
   let img = new FileReader()
-  
+
   img.onload = ()=>{
+    document.querySelector(".resize_logo_container").style.display = "block"
     generate.image = img.result
     localStorage.setItem("gambar", img.result)
     select_images.innerHTML = `
@@ -85,7 +109,7 @@ function ambil_img(){
     `
     viewsQR()
   }
-  
+
   if(imageFile){
     img.readAsDataURL(imageFile)
   } else {
@@ -120,42 +144,102 @@ resize_logo.addEventListener("input", ()=>{
 // cek user keluar atau refrest halaman
 this.addEventListener("beforeunload", ()=>{
   generate.image = localStorage.removeItem("gambar")
+  localStorage.removeItem("gradient_1")
+  localStorage.removeItem("gradient_2")
+  localStorage.removeItem("warna_singgle")
 })
 
+// jika local storage kosong
+if(!localStorage.getItem("gradient_1")){
+  localStorage.setItem("gradient_1", "#000000")
+}
+if(!localStorage.getItem("gradient_2")){
+  localStorage.setItem("gradient_2", "#000000")
+}
 
 // toogle color costem 
 custem_color_qr.addEventListener("change", function() {
   if(this.checked){
     document.querySelector(".custem_color_qr_").style.display = "block"
+    if(colors_singgle){
+      warna_singgles()
+    } else{
+      toogle_warnaGradient()
+    }
   } else {
     document.querySelector(".custem_color_qr_").style.display = "none"
+    generate.dotsOptions.gradient.colorStops[0].color = "#000000"
+    generate.dotsOptions.gradient.colorStops[1].color = "#000000"
+    viewsQR()
   }
-  
+
 })
 
-// toogle color gradiend 
+// toogle color gradiend
+toogle_warnaGradient()
+
 document.getElementById("custem_gradient_qr").addEventListener("change", function (){
   if(this.checked){
     document.querySelector(".gradients").style.display = "flex"
     document.querySelector(".singgle").style.display = "none"
+    colors_singgle = false
+    toogle_warnaGradient()
   } else {
     document.querySelector(".gradients").style.display = "none"
     document.querySelector(".singgle").style.display = "block"
+    colors_singgle = true
+    warna_singgles()
   }
 })
 
+function toogle_warnaGradient() {
+  if(localStorage.getItem("gradient_1")){
+    if(localStorage.getItem("gradient_2")){
+      document.querySelector(".color_1").style.background = input_color_1_qr.value = localStorage.getItem("gradient_1")
+      document.querySelector(".color_2").style.background = input_color_2_qr.value = localStorage.getItem("gradient_2")
+      generate.dotsOptions.gradient.colorStops[0].color = localStorage.getItem("gradient_1")
+      generate.dotsOptions.gradient.colorStops[1].color = localStorage.getItem("gradient_2")
+      viewsQR()
+    }
+  } 
+  else {
+    document.querySelector(".color_1").style.background = input_color_1_qr.value = "#000000"
+    document.querySelector(".color_2").style.background = input_color_2_qr.value = "#000000"
+    generate.dotsOptions.gradient.colorStops[0].color = "#000000"
+    generate.dotsOptions.gradient.colorStops[1].color = "#000000"
+    viewsQR()
+  }
+
+}
+
+function warna_singgles(){
+  if(localStorage.getItem("warna_singgle")){
+    document.querySelector(".color_singgle").style.background = input_color_singgle.value = localStorage.getItem("warna_singgle")
+    generate.dotsOptions.gradient.colorStops[0].color = localStorage.getItem("warna_singgle")
+    generate.dotsOptions.gradient.colorStops[1].color = localStorage.getItem("warna_singgle")
+    viewsQR()
+  } else{
+    document.querySelector(".color_singgle").style.background = input_color_singgle.value = "#000000"
+    generate.dotsOptions.gradient.colorStops[0].color = "#000000"
+    generate.dotsOptions.gradient.colorStops[1].color = "#000000"
+    viewsQR()
+  }
+}
+
 // Ubah Warna QR Gradient
 document.querySelector(".color_1").style.background = input_color_1_qr.value = "#000000"
-document.querySelector(".color_2").style.background = input_color_2_qr.value = "#000000"
 input_color_1_qr.addEventListener("input", ()=>{
   document.querySelector(".color_1").style.background = input_color_1_qr.value
   generate.dotsOptions.gradient.colorStops[0].color = input_color_1_qr.value
+  localStorage.setItem("gradient_1", input_color_1_qr.value)
   viewsQR()
 })
 
+document.querySelector(".color_2").style.background = input_color_2_qr.value = "#000000"
 input_color_2_qr.addEventListener("input", ()=>{
   document.querySelector(".color_2").style.background = input_color_2_qr.value
   generate.dotsOptions.gradient.colorStops[1].color = input_color_2_qr.value
+  localStorage.setItem("gradient_2", input_color_2_qr.value)
   viewsQR()
 })
 
@@ -165,20 +249,21 @@ input_color_singgle.addEventListener("input", ()=>{
   document.querySelector(".color_singgle").style.background = input_color_singgle.value
   generate.dotsOptions.gradient.colorStops[0].color = input_color_singgle.value
   generate.dotsOptions.gradient.colorStops[1].color = input_color_singgle.value
+  localStorage.setItem("warna_singgle", input_color_singgle.value)
   viewsQR()
 })
 
 // tampilkan image
-let GenerateQR
+var GenerateQR
+
 
 viewsQR()
-
-
 function viewsQR(){
   GenerateQR = new QRCodeStyling(generate)
   canvas.innerHTML = ""
   GenerateQR.append(canvas)
 }
+
 
 // download qr
 let calender = new Date(),
@@ -186,5 +271,8 @@ tanggal = calender.getDate(),
 bulan = calender.getMonth() + 1,
 tahun = calender.getFullYear() 
 download.addEventListener("click", ()=>{
-  GenerateQR.download({ name: `${tanggal}-${bulan}-${tahun}_${Math.random(0, 100)}`, extension: "png" });
+  GenerateQR.download({ name: `${"QR_gwendiwisnuanggoro.github.io"}_${tanggal}-${bulan}-${tahun}`, extension: "png" });
 })
+
+
+
