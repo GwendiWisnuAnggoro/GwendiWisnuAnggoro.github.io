@@ -126,16 +126,92 @@
 <script type="text/javascript">
 	
 
+	// deteksi umur
+	let tanggal_ultah = 8;
+	let bulan_ultah = 5;
+	let tahun_ultah = new Date().getFullYear();
 
-		// deteksi umur
-	function deteksi_umur(){
-		let tahunLahir = 2007;
-		let umur = document.getElementById("umur");
-		let tanggal = new Date();
-		// umur.innerHTML = tanggal.getFullYear() - tahunLahir;
-		umur.innerHTML =tanggal.getFullYear() - tahunLahir;
+	function hitung_ultah() {
+	  const target = new Date(
+		tahun_ultah,
+		bulan_ultah - 1,
+		tanggal_ultah,
+		0,0,0,0
+	  );
+	  return target;
 	}
-	deteksi_umur();
+	
+	function hitung_sisa_waktu() {
+	  const target_waktu = hitung_ultah();
+	  const sekarang = new Date();
+	  const selisih_milidetik = target_waktu - sekarang;
+	  if (selisih_milidetik < 0) {
+		console.log("Hari ulang tahun Anda telah berlalu.");
+		return;
+	  }
+	
+	  const selisih_detik = Math.floor(selisih_milidetik / 1000);
+	  const selisih_menit = Math.floor(selisih_detik / 60);
+	  const selisih_jam = Math.floor(selisih_menit / 60);
+	  const selisih_hari = Math.floor(selisih_jam / 24);
+	
+	  const sisa_detik = selisih_detik % 60;
+	  const sisa_menit = selisih_menit % 60;
+	  const sisa_jam = selisih_jam % 24;
+	
+	  const sisa_waktu = `Sisa waktu menuju ${tanggal_ultah}/${bulan_ultah}/${tahun_ultah} 00:00:00: ${selisih_hari} hari ${sisa_jam
+		.toString()
+		.padStart(2, "0")}:${sisa_menit.toString().padStart(2, "0")}:${sisa_detik
+		.toString()
+		.padStart(2, "0")}`;
+		hitung_lebih_waktu(target_waktu)
+	}
+	
+	function hitung_lebih_waktu(target_waktu) {
+		const berlalu_milidetik = new Date() - target_waktu;
+		const berlalu_detik = Math.floor(berlalu_milidetik / 1000);
+		const berlalu_menit = Math.floor(berlalu_detik / 60);
+		const berlalu_jam = Math.floor(berlalu_menit / 60);
+		const berlalu_hari = Math.floor(berlalu_jam / 24);
+	
+		const sisa_detik = berlalu_detik % 60;
+		const sisa_menit = berlalu_menit % 60;
+		const sisa_jam = berlalu_jam % 24;
+	
+		const lebih_waktu = `Sudah lewat ${berlalu_hari} hari ${sisa_jam.toString().padStart(2, "0")}:${sisa_menit.toString().padStart(2, "0")}:${sisa_detik.toString().padStart(2, "0")}`;
+		deteksi_umur(sisa_detik);
+	}
+	
+
+	function deteksi_umur(sisa_detik){
+		if(sisa_detik > 0){
+			let tahunLahir = 2007;
+			let umur = document.getElementById("umur");
+			let tanggal = new Date();
+			umur.innerHTML = tanggal.getFullYear() - tahunLahir;
+			tanggal_ultah = 9
+		} else {
+			let tahunLahir = 2007;
+			let umur = document.getElementById("umur");
+			let tanggal = new Date();
+			umur.innerHTML = (tanggal.getFullYear() - tahunLahir) -1;
+
+		}
+
+		if(tanggal_ultah == 9 && sisa_detik > 0){
+			tanggal_ultah = 8
+			tahun_ultah = tahun_ultah+1
+		}
+
+	}
+	
+	setTimeout(()=>{
+		hitung_lebih_waktu()
+		hitung_sisa_waktu()
+	}, 5)
+	setInterval(hitung_lebih_waktu, 1000);
+	setInterval(hitung_sisa_waktu, 1000);
+
 	// musik program
 	var musik = new Audio();
 	musik.src="mp3/audio.mp3"
