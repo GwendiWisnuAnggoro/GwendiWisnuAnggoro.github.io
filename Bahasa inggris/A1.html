@@ -121,88 +121,82 @@
 <script type="text/javascript">
 	
 	// deteksi umur
-	let tanggal_ultah = 8;
-	let bulan_ultah = 5;
-	let tahun_ultah = new Date().getFullYear();
+	let tanggal_lahir = 8,
+	bulan_lahir = "Mei",
+	tahun_lahir = 2007
 
-	function hitung_ultah() {
-	  const target = new Date(
-		tahun_ultah,
-		bulan_ultah - 1,
-		tanggal_ultah,
-		0,0,0,0
-	  );
-	  return target;
-	}
-	
-	function hitung_sisa_waktu() {
-	  const target_waktu = hitung_ultah();
-	  const sekarang = new Date();
-	  const selisih_milidetik = target_waktu - sekarang;
-	  if (selisih_milidetik < 0) {
-		console.log("Hari ulang tahun Anda telah berlalu.");
-		return;
-	  }
-	
-	  const selisih_detik = Math.floor(selisih_milidetik / 1000);
-	  const selisih_menit = Math.floor(selisih_detik / 60);
-	  const selisih_jam = Math.floor(selisih_menit / 60);
-	  const selisih_hari = Math.floor(selisih_jam / 24);
-	
-	  const sisa_detik = selisih_detik % 60;
-	  const sisa_menit = selisih_menit % 60;
-	  const sisa_jam = selisih_jam % 24;
-	
-	  const sisa_waktu = `Sisa waktu menuju ${tanggal_ultah}/${bulan_ultah}/${tahun_ultah} 00:00:00: ${selisih_hari} hari ${sisa_jam
-		.toString()
-		.padStart(2, "0")}:${sisa_menit.toString().padStart(2, "0")}:${sisa_detik
-		.toString()
-		.padStart(2, "0")}`;
-		hitung_lebih_waktu(target_waktu)
-	}
-	
-	function hitung_lebih_waktu(target_waktu) {
-		const berlalu_milidetik = new Date() - target_waktu;
-		const berlalu_detik = Math.floor(berlalu_milidetik / 1000);
-		const berlalu_menit = Math.floor(berlalu_detik / 60);
-		const berlalu_jam = Math.floor(berlalu_menit / 60);
-		const berlalu_hari = Math.floor(berlalu_jam / 24);
-	
-		const sisa_detik = berlalu_detik % 60;
-		const sisa_menit = berlalu_menit % 60;
-		const sisa_jam = berlalu_jam % 24;
-	
-		const lebih_waktu = `Sudah lewat ${berlalu_hari} hari ${sisa_jam.toString().padStart(2, "0")}:${sisa_menit.toString().padStart(2, "0")}:${sisa_detik.toString().padStart(2, "0")}`;
-		deteksi_umur(sisa_detik);
-	}
 
-	function deteksi_umur(sisa_detik){
-		if(sisa_detik > 0){
-			let tahunLahir = 2007;
-			let umur = document.getElementById("umur");
-			let tanggal = new Date();
-			umur.innerHTML = tanggal.getFullYear() - tahunLahir;
-			tanggal_ultah = 9
-		} else {
-			let tahunLahir = 2007;
-			let umur = document.getElementById("umur");
-			let tanggal = new Date();
-			umur.innerHTML = (tanggal.getFullYear() - tahunLahir) -1;
-
+	function NamaBulan(bulan){
+		switch (bulan.toLowerCase()){
+			case "januari":
+			case 1:
+			return 0
+			case "februari":
+			case 2:
+			return 1
+			case "maret":
+			case 3:
+			return 2
+			case "april":
+			case 4:
+			return 3
+			case "mei":
+			case 5:
+			return 4
+			case "juni":
+			case 6:
+			return 5
+			case "juli":
+			case 7:
+			return 6
+			case "agustus":
+			case 8:
+			return 7
+			case "september":
+			case 9:
+			return 8
+			case "oktober":
+			case 10:
+			return 9
+			case "november":
+			case 11:
+			return 10
+			case "desember":
+			case 12:
+			return 11
 		}
-
-		if(tanggal_ultah == 9 && sisa_detik > 0){
-			tanggal_ultah = 8
-			tahun_ultah = tahun_ultah+1
-		}
-
 	}
-	setTimeout(()=>{
-		hitung_lebih_waktu()
-		hitung_sisa_waktu()
-	}, 5)
-	setInterval(hitung_lebih_waktu, 1000);
-	setInterval(hitung_sisa_waktu, 1000);
+
+	function deteksiUmur(){
+		tanggal_ultah = tanggal_lahir
+		bulan_ultah = NamaBulan(bulan_lahir)
+		tahun_ultah = tahun_lahir
+		
+		calender = new Date()
+		tanggal_ini = calender.getDate()
+		bulan_ini = calender.getMonth()
+		tahun_ini = calender.getFullYear()
+
+
+		let umur = tahun_ini - tahun_ultah,
+		umur_anda = 0
+		if(tanggal_ini < tanggal_ultah){
+			umur-1
+		} else{
+			if(tahun_ini >= tanggal_ultah){
+				umur++
+			}
+		}
+		umur_anda = umur-1
+		return umur_anda
+	}
+
+	function tampilkanUmur(){
+		let umur = document.getElementById("umur")
+		umur.innerText = deteksiUmur()
+	}
+	
+	tampilkanUmur()
 
 // musik program
 	var musik = new Audio();
