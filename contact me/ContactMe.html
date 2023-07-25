@@ -60,7 +60,7 @@
 	<!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 		<script>
-			const scriptURL = 'https://script.google.com/macros/s/AKfycbw2kgreSjfZBe845Lpj8oMUvTCqnVKWFAV4Z4fL28zAziWPGqHbZm6RFFu6OIoSeUPQ/exec'
+			const scriptURL = 'https://script.google.com/macros/s/AKfycbxBV0OFYkiVAkef7eMgWfIpu0uo3WjuZr6ZY1gLO_AYwTlk2ejB_oljFtQUrEJAVl0-/exec'
 			const form = document.forms['contact-name'];
 			const btnKirim = document.querySelector('.btn-kirim');
 			const btnLoading = document.querySelector('.btn-loading');
@@ -74,7 +74,7 @@
 			  btnLoading.classList.toggle('d-none');
 			  btnKirim.classList.toggle('d-none');
 
-			  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+			  fetch(scriptURL, { method: 'POST', body: new FormData(form), mode: 'no-cors'})
 				.then((response) =>{
 					btnLoading.classList.toggle('d-none');
 			  		btnKirim.classList.toggle('d-none');
