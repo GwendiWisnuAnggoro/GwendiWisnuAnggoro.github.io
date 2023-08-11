@@ -67,6 +67,19 @@
 	border: 5px solid #ffffff;
 	background: #0400ff;
 }
+.Leaderboard {
+	margin-top: 20px;
+	margin-right: 0%;
+	margin-left: 10px;
+}
+
+.Leaderboard a {
+	text-decoration: none;
+	text-transform: uppercase;
+	color: white;
+	border: 5px solid #000000;
+	background: #ff0000;
+}
 
 .Snake #Ular {
 	color: #125f07;
