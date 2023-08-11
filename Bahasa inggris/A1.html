@@ -117,9 +117,11 @@
 	
 	
 </section>
+<script src="../Leaderboard/script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	
+
 	// deteksi umur
 	let tanggal_lahir = 8,
 	bulan_lahir = "Mei",
@@ -198,7 +200,7 @@
 	
 	tampilkanUmur();
 
-// musik program
+	// musik program
 	var musik = new Audio();
 	musik.src="mp3/audio.mp3"
 	musik.loop=true;
@@ -235,22 +237,99 @@
 			}
 		}
 
-	window.addEventListener('load', mulaiAudio)
-	// Deteksi udah pernah login apa belum
+	window.addEventListener('load', mulaiAudio);
 
-	function cekLogin(e){
+	function getUserTimeZoneAndCountry() {
+		const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+		const userLocale = navigator.language || 'en-US';
+	  
+		const userCountry = new Intl.DisplayNames([userLocale], { type: 'region' });
+		const countryName = userCountry.of(userLocale);
+	  
+		return {
+		  timezone: userTimezone,
+		  country: countryName,
+		};
+	  }
+
+	  
+
+	  
+
+	const AmbilRows = new AmbilData('1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc', 'A', GetYourRows)
+
+	function GetYourRows(data) {
+		if(localStorage.getItem("login") && localStorage.getItem("login") !== "null"){
+			let rows_Kosong;
+			let isFirstRowNamaUser = data[0].value === "Nama User:";
+			let rows = data.length + 1;
 		
+			if (!localStorage.getItem("YourRows")) {
+				let result = isFirstRowNamaUser ? rows : rows + 1;
+			  localStorage.setItem("YourRows", result);
+			} else {
+				rows_Kosong = localStorage.getItem("YourRows")
+			}
+		}
+	  }
+	  
+	  
+
+	  
+
+	// alert program
+	function cekLogin(){
 		let nm = document.getElementById("nama");
 		let login = localStorage.getItem("login");
-		if(!login){
+		if(!login || login == "null"){
 			// alert program
 			let nama = prompt("Enter Your Name!!");
-			localStorage.setItem("login", nama);
+
 			
 			alert(`Welcome ${nama} , ThankYou For Visiting !!`);
 
+
+			const cekDouble = new AmbilData('1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc', 'A', (data) => {
+				let array = data;
+				let yourRows = nama.toLowerCase();
+			  
+				let namaSudahDigunakan = false;
+			  
+				for (let i = 0; i < array.length; i++) {
+				  let currentValue = array[i].value.toLowerCase();
+				  
+				  if (currentValue.includes(yourRows) || yourRows === "nama user:") {
+					console.log(currentValue);
+					namaSudahDigunakan = true;
+					break;
+				  }
+				}
+			  
+				if (namaSudahDigunakan) {
+					if(!localStorage.getItem("login") || localStorage.getItem("login") == "null"){
+						alert("Nama Sudah Digunakan!!");
+						localStorage.setItem("login", "null")
+						cekLogin()
+						
+					}
+				} else {
+					localStorage.setItem("login", nama);
+					if (!localStorage.getItem("Best")) {
+						localStorage.setItem("Best", "0");
+					}
+				
+					
+					if (!localStorage.getItem("Best2")) {
+						localStorage.setItem("Best2", "0");
+					}
+					
+					location.reload();
+
+				}
+			  });
+
 		}
-		nm.innerHTML = localStorage.getItem("login").toLocaleUpperCase();
+		nm.innerHTML = localStorage.getItem("login").toUpperCase();
 
 	}
 	cekLogin();
@@ -260,7 +339,6 @@
 		localStorage.removeItem("login", nama);
 		localStorage.setItem("login", nama);
 		e.preventDefault();
-
 	}
 
 	// Ubah dark or light
@@ -277,7 +355,7 @@
 	function gelap(){
 		background.classList.add("gelap");
 		background.classList.remove("default");
-		mode.innerHTML = "DEFAULT MODE";
+		mode.innerHTML = "MODE BAWAAN";
 		localStorage.setItem("bg", "gelap");
 	}
 	if(localStorage.getItem("bg") == "gelap"){
@@ -288,7 +366,7 @@
 	function Default(){
 		background.classList.add("jumbotron");
 		background.classList.remove("gelap");
-		mode.innerHTML = "DARK MODE";
+		mode.innerHTML = "MODE GELAP";
 		localStorage.setItem("bg", "default");
 	}
 
@@ -301,6 +379,25 @@
 		}
 		e.preventDefault();
 	}
+
+
+
+
+	setInterval(()=>{
+		let uler = Number(localStorage.getItem("Best")),
+		tetris = Number(localStorage.getItem("Best2")),
+		login = localStorage.getItem("login"),
+		newRowses = localStorage.getItem("YourRows")
+
+
+		new EditValues("A", `${newRowses}`, `${login}`);
+		new EditValues("B", `${newRowses}`, `${uler}`);
+		new EditValues("C", `${newRowses}`, `${tetris}`);
+
+	}, 500)
+	
+
+	
 
 //	let mySlider = document.getElementById("my-slider");
 //	let sliderValue = document.getElementById("slider-value");
@@ -336,8 +433,8 @@
 //			mySlider.value = 100;
 //			slider();
 //		});
-//
-//
+
+
 //	};
 
 //	window.addEventListener("load", ()=>{

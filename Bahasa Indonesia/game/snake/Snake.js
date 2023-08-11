@@ -204,12 +204,11 @@ function HitungBestScore(){
         
     } else{
         ctx.fillText('Score Tertinggi: ' + localStorage.getItem("Best"), canvas.width-350, 15);
-
     }
-
-
-
-
+    
+    
+    
+    
     if(BestScore !== null){
         if(score > localStorage.getItem("Best")){
             ctx.fillText('Score Tertinggi: ' + localStorage.setItem("Best", score), canvas.width-350, 15);
@@ -217,7 +216,7 @@ function HitungBestScore(){
     }else{
         ctx.fillText('Score Tertinggi: ' + localStorage.setItem("Best", score), canvas.width-350, 15);
     }
-
+    
 }
 
 function clearScreen(){
@@ -359,6 +358,7 @@ function keyDown(event){
 
 drawGame();
 
+
 // musik program
 var musik = new Audio();
 musik.src="Backsound Game Snake.mp3"
@@ -382,3 +382,5 @@ musik.pause();
     }
 
 window.addEventListener('load', mulaiAudio)
+
+
