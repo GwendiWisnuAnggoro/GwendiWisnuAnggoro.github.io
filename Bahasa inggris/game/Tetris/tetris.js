@@ -202,7 +202,7 @@ function draw() {
         context.lineTo(canvas.width, j);
         context.stroke();
     }
-    requestAnimationFrame(draw);
+    
 }
 
 function drawMatrix(matrix, offset, isPreview = false) {
