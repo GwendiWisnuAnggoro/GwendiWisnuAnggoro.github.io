@@ -24,6 +24,8 @@ Notok.src = "notok.mp3";
 let Turun = new Audio();
 Turun.src = "Turun.mp3";
 
+let xrayMode = true;
+
 context.scale(20, 20);
 
 function arenaSweep() {
@@ -161,13 +163,29 @@ function createPiece(type) {
 
 }
 
+function drawLandingPreview() {
+    let previewPos = { ...player.pos };
+    while (!collide(arena, { matrix: player.matrix, pos: previewPos })) {
+        previewPos.y++;
+    }
+    previewPos.y--;
+
+    drawMatrix(player.matrix, previewPos, true);
+}
+
+
+
 function draw() {
     if (isPaused) return;
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
-    
-    drawMatrix(arena, {x: 0,y: 0});
+
+    drawMatrix(arena, { x: 0, y: 0 });
     drawMatrix(player.matrix, player.pos);
+
+    if (!collide(arena, player)) {
+        drawLandingPreview();
+    }
 
     // Tambahkan kode ini untuk menambahkan grid lines:
     context.strokeStyle = 'gray';
@@ -184,26 +202,27 @@ function draw() {
         context.lineTo(canvas.width, j);
         context.stroke();
     }
+    requestAnimationFrame(draw);
 }
 
-function drawMatrix(matrix, offset) {
-    context.strokeStyle = 'black';
+function drawMatrix(matrix, offset, isPreview = false) {
+    context.strokeStyle = isPreview ? 'rgba(255, 255, 255, 0.3)' : 'black';
     context.lineWidth = 0.05;
-    
+
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                context.fillStyle = colors[value];
-                context.fillRect(x + offset.x,
-                                 y + offset.y, 
-                                 1, 1);
-                context.strokeRect(x + offset.x,
-                                   y + offset.y, 
-                                   1, 1);
+                if (!isPreview) {
+                    context.fillStyle = colors[value];
+                    context.fillRect(x + offset.x, y + offset.y, 1, 1);
+                }
+                context.strokeRect(x + offset.x, y + offset.y, 1, 1);
             }
         });
     });
 }
+
+
 
 function merge(arena, player) {
     player.matrix.forEach((row, y) => {
@@ -238,7 +257,10 @@ function playerMove(dir) {
     if (collide(arena, player)) {
         player.pos.x -= dir;
     }
+    
+    drawLandingPreview(); // Update landing preview
 }
+
 
 function GameOver(){
     Kalah.play()
@@ -253,11 +275,27 @@ function GameOver(){
 let pieces = 'TOLJISZ';
 let nextPieces = [];
 
+
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 function playerReset() {
     if (nextPieces.length === 0) {
-        for (let i = 0; i < 7; i++) {
-            nextPieces.push(pieces[pieces.length * Math.random() | 0]);
+        const piecesPool = [];
+        for (const piece in pieceRarity) {
+            const rarityPercentage = pieceRarity[piece];
+            const pieceCount = Math.round(pieces.length * (rarityPercentage / 100));
+            for (let i = 0; i < pieceCount; i++) {
+                piecesPool.push(piece);
+            }
         }
+        shuffleArray(piecesPool);
+        nextPieces = piecesPool;
     }
     
     let currentPiece = nextPieces.shift();
@@ -327,20 +365,22 @@ function DrawPieces(matrix, context, color) {
 
 
 function playerRotate(dir) {
-    let distance = 1;
     const pos = player.pos.x;
     let offset = 1;
     rotate(player.matrix, dir);
+
+    // Check for collision after rotation
     while (collide(arena, player)) {
         player.pos.x += offset;
         offset = -(offset + (offset > 0 ? 1 : -1));
         if (offset > player.matrix[0].length) {
-            player.pos.x = pos > arena[0].length / 2 ? pos - 2 : pos + 1;
-            player.pos.y -= distance;
+            rotate(player.matrix, -dir); // Rotate back to original state
+            player.pos.x = pos;
             return;
         }
     }
 }
+
 
 
 
@@ -365,6 +405,33 @@ function rotate(matrix, dir) {
     }
 }
 
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+}
+
+function playerAutoDrop() {
+    if (isPaused) return;
+    
+    // Drop pieces ke bawah sampai bertabrakan
+    while (!collide(arena, player)) {
+        player.pos.y++;
+    }
+    player.pos.y--;
+
+    merge(arena, player);
+    playerReset();
+    arenaSweep();
+    updateScore();
+    Notok.play();
+    draw();
+
+    
+}
+
+let autoDrp = document.querySelector(".AutoDrop")
+autoDrp.addEventListener("click", ()=>{
+    playerAutoDrop()
+})
 tombolKanan.addEventListener("click", fKanan);
 tombolKiri.addEventListener("click", fKiri);
 Rotasi.addEventListener("click", fAtas);
@@ -396,6 +463,8 @@ document.addEventListener('keydown', (event) => {
     }, 1000);
         event.keyCode === 81 ? playerRotate(-1) : playerRotate(1);
         Muter.play();
+    } else if (event.keyCode === 85) { // Tombol "U" pada perangkat non-sentuhan
+        playerAutoDrop();
     }
     });
 
@@ -409,17 +478,40 @@ let dropInterval = 1000;
 
 let lastTime = 0;
 let isPaused = false;
+let isStart = false;
+let screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-buttonPausetoPlay.addEventListener("click", ()=>{
-    if(isPaused){
-        isPaused = false;
-        buttonPausetoPlay.innerHTML = `<i class="bi bi-pause-circle-fill"></i>`
-    } else{
-        isPaused = true;
-        buttonPausetoPlay.innerHTML = `<i class="bi bi-play-circle-fill"></i>`
-
+buttonPausetoPlay.addEventListener("click", () => {
+    if (!isStart) {
+        isStart = true;
+        if (screenWidth < 768) {
+            document.querySelector(".Pauses").innerHTML = `
+            <h3 style="font-size: 20px; color: red;">Klik Tombol Mulai untuk Memulai</h3>
+        `;
+        } else if (screenWidth < 992) {
+            document.querySelector(".Pauses").innerHTML = `
+            <h3 style="font-size: 20px; color: red;">Pencet Keyboard P Untuk Memulai</h3>
+        `;
+        } else {
+            document.querySelector(".Pauses").innerHTML = `
+            <h3 style="font-size: 20px; color: red;">Pencet Keyboard P Untuk Memulai</h3>
+        `;
+            
+        }
+        update();
     }
-})
+
+    if (isPaused) {
+        document.querySelector(".Pauses").innerHTML = ``;
+        document.querySelector(".Pauses").innerHTML = `<h3 style="font-size: 30px; color: white;">Paused</h3>`;
+        buttonPausetoPlay.innerHTML = `<i class="bi bi-pause-circle-fill"></i>`;
+        isPaused = false;
+    } else {
+        isPaused = true;
+        buttonPausetoPlay.innerHTML = `<i class="bi bi-play-circle-fill"></i>`;
+    }
+});
+
 
 function update(time = 0) {
     if (isPaused) {
@@ -449,6 +541,12 @@ document.addEventListener("keydown", event => {
     if (event.keyCode === 80) {
         isPaused = !isPaused;
 
+    }
+
+    if(isPaused){
+        document.querySelector(".Pauses").innerHTML = ``;
+        document.querySelector(".Pauses").innerHTML = `<h3 style="font-size: 30px; color: white;">Pause</h3>`;
+        buttonPausetoPlay.innerHTML = `<i class="bi bi-pause-circle-fill"></i>`;
     }
 
 });
@@ -490,6 +588,7 @@ const CekScore = (s)=>{
 
     }
 }
+
 function updateScore() {
     CekScore(player.score);
     document.getElementById('score').innerText = player.score;
@@ -573,7 +672,8 @@ setInterval(function(){
 }, 10)
 playerReset();
 updateScore();
-update();
+buttonPausetoPlay.click()
+
 
 
 

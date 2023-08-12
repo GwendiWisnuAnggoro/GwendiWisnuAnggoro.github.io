@@ -1,8 +1,11 @@
 const sheetID = "1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc";
 const btn = document.getElementById("switch");
-let btn_switch = true;
+let btn_switch = false;
 const task_box = document.querySelector(".task-box");
+const task_menu = document.querySelector(".task-menu");
 const Max_Value = 5;
+const TetrisTulisan = "Tetris";
+const SnakeTulisan = "Snake";
 
 function tampilkanTask(nomor, nama, score) {
     task_box.innerHTML += `
@@ -14,7 +17,9 @@ function tampilkanTask(nomor, nama, score) {
     `;
 }
 
+
 function fetchDataAndDisplay(codeName, codeScore, index) {
+
     new AmbilData(sheetID, codeName, (dataName) => {
         new AmbilData(sheetID, codeScore, (dataScore) => {
             let value_name = dataName[index].value;
@@ -22,7 +27,8 @@ function fetchDataAndDisplay(codeName, codeScore, index) {
             tampilkanTask(index + 1, value_name, value_score);
             if (task_box.querySelectorAll(".task").length === Max_Value) {
                 btn.removeAttribute("disabled");
-                btn.textContent = "Tetris"; // Ganti teks tombol
+                btn.textContent = btn_switch ? SnakeTulisan : TetrisTulisan;
+                task_menu.textContent = `${btn_switch ? SnakeTulisan : TetrisTulisan} Value:`;
                 btn.classList.remove("disabled");
             }
         });
@@ -31,32 +37,37 @@ function fetchDataAndDisplay(codeName, codeScore, index) {
 
 function updateDisplay(codeName, codeScore) {
     task_box.innerHTML = "";
-    btn.setAttribute("disabled", "true"); // Menonaktifkan tombol
-    btn.textContent = "Loading..."; // Ganti teks tombol
-    btn.classList.add("disabled"); // Tambahkan kelas "disable"
+    btn.setAttribute("disabled", "true");
+    btn.textContent = "Loading...";
+    task_menu.textContent = "Loading...";
+    btn.classList.add("disabled");
     for (let i = 0; i < Max_Value; i++) {
         fetchDataAndDisplay(codeName, codeScore, i);
     }
 }
 
 function switchToTetrisView() {
-    btn.textContent = "Tetris";
+    btn.textContent = TetrisTulisan;
     updateDisplay("H", "I");
 }
 
 function switchToSnakeView() {
-    btn.textContent = "Snake";
+    btn.textContent = SnakeTulisan;
     updateDisplay("F", "G");
 }
 
 btn.addEventListener("click", () => {
-    if (btn_switch) {
-        switchToTetrisView();
-    } else {
-        switchToSnakeView();
-    }
     btn_switch = !btn_switch;
+    if (btn_switch) {
+        switchToSnakeView();
+    } else {
+        switchToTetrisView();
+    }
 });
 
 // Inisialisasi konten awal
-switchToSnakeView();
+if (btn_switch) {
+    switchToSnakeView();
+} else {
+    switchToTetrisView();
+}

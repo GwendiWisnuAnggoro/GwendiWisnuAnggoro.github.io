@@ -186,6 +186,20 @@ button {
 	.nextpieces p{
 		font-size: 15px;
 	}
+	.AutoDrop{
+		display: none;
+	}
 
 }
 
+.AutoDrop {
+    position: fixed;
+    left: 0;
+	bottom: 0;
+    color: cyan;
+    font-size: 50px;
+	margin-bottom: 200px;
+	margin-left: 20px;
+}
+
+/* <i class="bi bi-arrow-bar-down"></i> */
