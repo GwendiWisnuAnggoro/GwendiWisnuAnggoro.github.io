@@ -22,7 +22,7 @@ function fetchDataAndDisplay(codeName, codeScore, index) {
             tampilkanTask(index + 1, value_name, value_score);
             if (task_box.querySelectorAll(".task").length === Max_Value) {
                 btn.removeAttribute("disabled");
-                btn.textContent = "Tetris"; // Ganti teks tombol
+                btn.textContent = btn_switch ? "Tetris" : "Snake"; // Ganti teks tombol sesuai permainan
                 btn.classList.remove("disabled");
             }
         });
@@ -39,24 +39,19 @@ function updateDisplay(codeName, codeScore) {
     }
 }
 
-function switchToTetrisView() {
-    btn.textContent = "Tetris";
-    updateDisplay("H", "I");
-}
-
-function switchToSnakeView() {
-    btn.textContent = "Snake";
-    updateDisplay("F", "G");
+function switchToGameView(gameName, codeName, codeScore) {
+    btn.textContent = gameName;
+    updateDisplay(codeName, codeScore);
 }
 
 btn.addEventListener("click", () => {
     if (btn_switch) {
-        switchToTetrisView();
+        switchToGameView("Tetris", "H", "I");
     } else {
-        switchToSnakeView();
+        switchToGameView("Snake", "F", "G");
     }
     btn_switch = !btn_switch;
 });
 
 // Inisialisasi konten awal
-switchToSnakeView();
+switchToGameView("Snake", "F", "G");
