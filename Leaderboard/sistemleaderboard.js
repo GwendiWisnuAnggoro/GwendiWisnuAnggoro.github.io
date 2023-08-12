@@ -27,8 +27,12 @@ function fetchDataAndDisplay(codeName, codeScore, index) {
             tampilkanTask(index + 1, value_name, value_score);
             if (task_box.querySelectorAll(".task").length === Max_Value) {
                 btn.removeAttribute("disabled");
+<<<<<<< HEAD
                 btn.textContent = btn_switch ? SnakeTulisan : TetrisTulisan;
                 task_menu.textContent = `${btn_switch ? SnakeTulisan : TetrisTulisan} Value:`;
+=======
+                btn.textContent = btn_switch ? "Tetris" : "Snake"; // Ganti teks tombol sesuai permainan
+>>>>>>> c916cf3d3a13a5b421db20bee8b37f7ba26e1917
                 btn.classList.remove("disabled");
             }
         });
@@ -46,6 +50,7 @@ function updateDisplay(codeName, codeScore) {
     }
 }
 
+<<<<<<< HEAD
 function switchToTetrisView() {
     btn.textContent = TetrisTulisan;
     updateDisplay("H", "I");
@@ -62,12 +67,29 @@ btn.addEventListener("click", () => {
         switchToSnakeView();
     } else {
         switchToTetrisView();
+=======
+function switchToGameView(gameName, codeName, codeScore) {
+    btn.textContent = gameName;
+    updateDisplay(codeName, codeScore);
+    btn_switch = !btn_switch; // Mengganti nilai btn_switch setelah tombol ditekan
+}
+
+btn.addEventListener("click", () => {
+    if (btn_switch) {
+        switchToGameView("Tetris", "H", "I");
+    } else {
+        switchToGameView("Snake", "F", "G");
+>>>>>>> c916cf3d3a13a5b421db20bee8b37f7ba26e1917
     }
 });
 
 // Inisialisasi konten awal
+<<<<<<< HEAD
 if (btn_switch) {
     switchToSnakeView();
 } else {
     switchToTetrisView();
 }
+=======
+switchToGameView("Snake", "F", "G");
+>>>>>>> c916cf3d3a13a5b421db20bee8b37f7ba26e1917
