@@ -1,6 +1,6 @@
 const sheetID = "1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc";
 const btn = document.getElementById("switch");
-let btn_switch = true;
+let btn_switch = false;
 const task_box = document.querySelector(".task-box");
 const Max_Value = 5;
 
