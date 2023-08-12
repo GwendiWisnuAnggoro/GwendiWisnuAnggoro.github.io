@@ -42,6 +42,7 @@ function updateDisplay(codeName, codeScore) {
 function switchToGameView(gameName, codeName, codeScore) {
     btn.textContent = gameName;
     updateDisplay(codeName, codeScore);
+    btn_switch = !btn_switch; // Mengganti nilai btn_switch setelah tombol ditekan
 }
 
 btn.addEventListener("click", () => {
@@ -50,7 +51,6 @@ btn.addEventListener("click", () => {
     } else {
         switchToGameView("Snake", "F", "G");
     }
-    btn_switch = !btn_switch;
 });
 
 // Inisialisasi konten awal
