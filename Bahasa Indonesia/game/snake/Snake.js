@@ -51,7 +51,40 @@ Makan.src="Makan.mp3";
 let previousXVelocity = 0;
 let previousYVelocity = 0;
 // game loop
-function drawGame(){
+let kecepatanNormal = 3;
+let Score_Bertambah = 5;
+let TambahkanKecepatan = 2;
+let currentSpeed = kecepatanNormal;
+let isPaused = false;
+let currentHue = 0;
+const hueChangeRate = 0.1;
+let TulisanPause = "Game Paused !!"
+
+function drawGame() {
+  if (isPaused) {
+    ctx.fillStyle = "white";
+    ctx.font = "50px Oswald";
+    ctx.textAlign = "center";  
+    ctx.textBaseline = "middle"; 
+
+    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop(0, "lime");
+    gradient.addColorStop(0.5, "yellow");
+    gradient.addColorStop(1, "red");
+
+    ctx.fillStyle = gradient;
+    
+    // Tambahkan stroke putih
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 2;
+    ctx.strokeText(TulisanPause, canvas.width / 2, canvas.height / 2);
+    
+    ctx.fillText(TulisanPause, canvas.width / 2, canvas.height / 2); 
+    return;
+}
+
+
+
     xVelocity = inputsXVelocity;
     yVelocity = inputsYVelocity;
 
@@ -72,9 +105,6 @@ function drawGame(){
     previousXVelocity = xVelocity;
     previousYVelocity = yVelocity;
     
-
-
-
     changeSnakePosition();
     let result = isGameOver();
     if (result) {
@@ -94,53 +124,20 @@ function drawGame(){
     HitungBestScore();
     drawScore();
 
-    // for(let i = speed; i < score*10+1; i++){
-    //     if(score == i){
 
-    //     }
-    //     console.log("Speed :" + i)
-    // }
     let kecepatan = document.getElementById("speed");
-
-    if(score > 4) {
-         speed = 5;
-    }
-    if(score > 9) {
-        speed = 7;
-    }
-    
-    if(score > 14) {
-        speed = 9;
-    }
-
-    if(score > 24) {
-        speed = 11;
-    }
-
-    if(score > 29) {
-        speed = 14;
-    }
-
-    if(score > 44) {
-        speed = 16;
-    }
-
-    if(score > 49){
-        speed = 20;
-    }
-    if(score > 99){
-        speed = 25;
-    }
-
-    
-    kecepatan.innerHTML = speed;
-
-    setTimeout(drawGame, 1000/ speed);
+    currentSpeed = kecepatanNormal + Math.floor(score / Score_Bertambah) * TambahkanKecepatan;
+    kecepatan.innerHTML = currentSpeed;
+    currentHue += hueChangeRate;
+    setTimeout(drawGame, 1000 / currentSpeed);
 }
+
+
 
 
 function isGameOver(){
     let gameOver = false;
+    
     if(yVelocity === 0 && xVelocity === 0){
          return false;
     }
@@ -225,12 +222,14 @@ function clearScreen(){
 }
 
 function drawSnake(){
-    ctx.fillStyle = "blue";
-    ctx.fillRect(headX * tileCount, headY* tileCount, tileSize,tileSize);
+    ctx.fillStyle = `blue`;
+    ctx.strokeStyle = "white";// Gunakan currentHue untuk warna ekor ular
+    ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize);
+    ctx.strokeRect(headX * tileCount, headY * tileCount, tileSize, tileSize);
 
-    ctx.fillStyle = 'lime';
-    for(let i =0; i < snakeParts.length; i++){
+    for(let i = 0; i < snakeParts.length; i++) {
         let part = snakeParts[i];
+        ctx.fillStyle = `hsl(${currentHue + (i * 20)}, 100%, 50%)`; // Ubah nilai hue berdasarkan indeks
         ctx.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize);
     }
 
@@ -241,6 +240,7 @@ function drawSnake(){
 }
 
 
+
 function changeSnakePosition() {
     headX = headX + xVelocity;
     headY = headY + yVelocity;
@@ -249,18 +249,53 @@ function changeSnakePosition() {
 function drawApple(){
     ctx.fillStyle = "red";
     ctx.fillRect(appleX * tileCount, appleY * tileCount, tileSize, tileSize);
+
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(appleX * tileCount, appleY * tileCount, tileSize, tileSize);
 }
 
-function checkAppleCollision(){
-    if(appleX === headX && appleY == headY) {
+
+function checkAppleCollision() {
+    let collision = false;
+
+    if (appleX === headX && appleY === headY) {
+        collision = true;
+    }
+
+    for (let i = 0; i < snakeParts.length; i++) {
+        let part = snakeParts[i];
+        if (part.x === appleX && part.y === appleY) {
+            collision = true;
+            break;
+        }
+    }
+
+    if (collision) {
         appleX = Math.floor(Math.random() * tileCount);
         appleY = Math.floor(Math.random() * tileCount);
+
+        // Ensure the new apple position is not on the snake's body
+        while (isAppleOnSnake(appleX, appleY)) {
+            appleX = Math.floor(Math.random() * tileCount);
+            appleY = Math.floor(Math.random() * tileCount);
+        }
+
         tailLength++;
         score++;
         Makan.play();
-
     }
 }
+
+function isAppleOnSnake(x, y) {
+    for (let i = 0; i < snakeParts.length; i++) {
+        let part = snakeParts[i];
+        if (part.x === x && part.y === y) {
+            return true;
+        }
+    }
+    return false;
+}
+
 tombolKanan.addEventListener("click", fKanan);
 tombolKiri.addEventListener("click", fKiri);
 tombolAtas.addEventListener("click", fAtas);
@@ -382,5 +417,4 @@ musik.pause();
     }
 
 window.addEventListener('load', mulaiAudio)
-
 
