@@ -163,6 +163,9 @@ function createPiece(type) {
 
 }
 
+let landingPreviewHue = 0; // Nilai awal hue
+let hueIncrement = 1; // Nilai penambahan hue pada setiap langkah
+
 function drawLandingPreview() {
     let previewPos = { ...player.pos };
     while (!collide(arena, { matrix: player.matrix, pos: previewPos })) {
@@ -170,8 +173,35 @@ function drawLandingPreview() {
     }
     previewPos.y--;
 
-    drawMatrix(player.matrix, previewPos, true);
+    drawMatrixWithHue(player.matrix, previewPos, true);
 }
+
+function drawMatrixWithHue(matrix, offset, isPreview = false) {
+    matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) {
+                let hue = (landingPreviewHue + value * 30) % 360; // Calculate hue based on landingPreviewHue
+                let color = `hsl(${hue}, 100%, 50%)`;
+
+                if (!isPreview) {
+                    context.fillStyle = color;
+                    context.fillRect(x + offset.x, y + offset.y, 1, 1);
+                }
+                context.strokeStyle = color;
+                context.lineWidth = 0.05;
+                context.strokeRect(x + offset.x, y + offset.y, 1, 1);
+            }
+        });
+    });
+}
+
+function updateLandingPreviewHue() {
+    landingPreviewHue = (landingPreviewHue + hueIncrement) % 360;
+}
+
+// Panggil fungsi updateLandingPreviewHue() dalam setiap frame untuk mengubah hue
+setInterval(updateLandingPreviewHue, 50); // Ubah hue setiap 50 milidetik
+
 
 
 
@@ -202,7 +232,6 @@ function draw() {
         context.lineTo(canvas.width, j);
         context.stroke();
     }
-    requestAnimationFrame(draw);
 }
 
 function drawMatrix(matrix, offset, isPreview = false) {
@@ -411,22 +440,31 @@ function isTouchDevice() {
 
 function playerAutoDrop() {
     if (isPaused) return;
-    
+
     // Drop pieces ke bawah sampai bertabrakan
-    while (!collide(arena, player)) {
-        player.pos.y++;
+    function dropPiece() {
+        if (!collide(arena, player)) {
+            player.pos.y++;
+            draw();  // Menggambar setiap kali pemain turun
+            setTimeout(dropPiece, 50);  // Penundaan sebelum turun lagi (misalnya: 100ms)
+        } else {
+            player.pos.y--;
+
+            merge(arena, player);
+            playerReset();
+            arenaSweep();
+            updateScore();
+            Notok.play();
+            draw();
+        }
     }
-    player.pos.y--;
 
-    merge(arena, player);
-    playerReset();
-    arenaSweep();
-    updateScore();
-    Notok.play();
-    draw();
-
-    
+    dropPiece();
 }
+
+
+
+
 
 let autoDrp = document.querySelector(".AutoDrop")
 autoDrp.addEventListener("click", ()=>{
