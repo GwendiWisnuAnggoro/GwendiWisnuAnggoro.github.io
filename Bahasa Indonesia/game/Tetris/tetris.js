@@ -232,6 +232,10 @@ function draw() {
         context.lineTo(canvas.width, j);
         context.stroke();
     }
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 17728ba53fe62340f7ccfbc2d895976b76ec8355
 }
 
 function drawMatrix(matrix, offset, isPreview = false) {
