@@ -9,3 +9,11 @@ const pieceRarity = {
     'S': 50,
     'Z': 50, 
 };
+
+// Config score
+const scoringConfig = {
+    1: 10, 
+    2: 30, 
+    3: 50, 
+    4: 100,
+};

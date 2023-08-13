@@ -39,7 +39,12 @@ function arenaSweep() {
 
             if (x === arena[y].length - 1) {
                 rowsToRemove.push(y);
-                player.score += rowCount * 10;
+                let totalRowsCleared = rowsToRemove.length;
+                let scoreMultiplier = scoringConfig[totalRowsCleared];
+            
+                if (scoreMultiplier) {
+                    player.score += scoreMultiplier;
+                }
                 rowCount *= 2;
             }
         }
@@ -350,7 +355,6 @@ const Nextpieces = bentuk => {
     const context = canvas.getContext('2d');
 
     const piece = createPiece(bentuk);
-    const colors = ['red', 'blue', 'violet', 'lime', '#ffff00', 'orange', 'pink'];
 
     if(bentuk == "T"){
         DrawPieces(piece, context, colors[0]);
@@ -438,31 +442,25 @@ function isTouchDevice() {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 }
 
+let autoDropActive = false;
+
 function playerAutoDrop() {
     if (isPaused) return;
-
+    
     // Drop pieces ke bawah sampai bertabrakan
-    function dropPiece() {
-        if (!collide(arena, player)) {
-            player.pos.y++;
-            draw();  // Menggambar setiap kali pemain turun
-            setTimeout(dropPiece, 50);  // Penundaan sebelum turun lagi (misalnya: 100ms)
-        } else {
-            player.pos.y--;
-
-            merge(arena, player);
-            playerReset();
-            arenaSweep();
-            updateScore();
-            Notok.play();
-            draw();
-        }
+    while (!collide(arena, player)) {
+        player.pos.y++;
     }
+    player.pos.y--;
 
-    dropPiece();
+    merge(arena, player);
+    playerReset();
+    arenaSweep();
+    updateScore();
+    Notok.play();
+    draw();
+    
 }
-
-
 
 
 
