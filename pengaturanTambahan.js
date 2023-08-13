@@ -13,7 +13,7 @@ const pieceRarity = {
 // Config score
 const scoringConfig = {
     1: 10, 
-    2: 30, 
-    3: 50, 
-    4: 100,
+    2: 20, 
+    3: 30, 
+    4: 60,
 };
