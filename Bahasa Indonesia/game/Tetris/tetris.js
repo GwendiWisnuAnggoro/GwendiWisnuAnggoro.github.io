@@ -513,13 +513,26 @@ autoDrp.addEventListener("click", ()=>{
 let touchStartX, touchStartY;
 
 window.addEventListener("touchstart", (e) => {
+    e.preventDefault();
     if(Touch){
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
     }
 });
 
+window.addEventListener("touchmove", (e) => {
+    if (touchStartY !== null) {
+        const touchCurrentY = e.touches[0].clientY;
+        const deltaY = touchCurrentY - touchStartY;
+
+        if (deltaY > 50) {
+            e.preventDefault();
+        }
+    }
+});
+
 window.addEventListener("touchend", (e) => {
+    e.preventDefault();
     if(Touch){
         if (touchStartX !== null && touchStartY !== null) {
             const touchEndX = e.changedTouches[0].clientX;
