@@ -555,7 +555,7 @@ let doubleClickDelay = 300;
 
 window.addEventListener("click", (event) => {
     if(isPaused) return;
-    if(!Touch){
+    if(Touch){
         if (event.target !== Rotasi) {
             const currentTime = new Date().getTime();
     
