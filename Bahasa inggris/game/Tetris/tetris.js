@@ -520,19 +520,7 @@ window.addEventListener("touchstart", (e) => {
     }
 });
 
-window.addEventListener("touchmove", (e) => {
-    if (touchStartY !== null) {
-        const touchCurrentY = e.touches[0].clientY;
-        const deltaY = touchCurrentY - touchStartY;
-
-        if (deltaY > 50) {
-            e.preventDefault();
-        }
-    }
-});
-
 window.addEventListener("touchend", (e) => {
-    e.preventDefault();
     if(Touch){
         if (touchStartX !== null && touchStartY !== null) {
             const touchEndX = e.changedTouches[0].clientX;
@@ -550,7 +538,7 @@ window.addEventListener("touchend", (e) => {
             }
     
             if (Math.abs(deltaY) > 50) {
-                if (deltaY > 0) {
+                if (deltaY < 0) {
                     fBawah();
                 }
             }
@@ -567,18 +555,20 @@ let doubleClickDelay = 300;
 
 window.addEventListener("click", (event) => {
     if(isPaused) return;
-    if (event.target !== Rotasi) {
-        const currentTime = new Date().getTime();
-
-        if (currentTime - lastClickTime < doubleClickDelay) {
-            playerAutoDrop();
+    if(!Touch){
+        if (event.target !== Rotasi) {
+            const currentTime = new Date().getTime();
+    
+            if (currentTime - lastClickTime < doubleClickDelay) {
+                playerAutoDrop();
+            }
+    
+            lastClickTime = currentTime;
+    
+            setTimeout(() => {
+                lastClickTime = 0;
+            }, doubleClickDelay);
         }
-
-        lastClickTime = currentTime;
-
-        setTimeout(() => {
-            lastClickTime = 0;
-        }, doubleClickDelay);
     }
 });
 
