@@ -4,7 +4,7 @@ var Rotasi = document.querySelector(".bi-arrow-counterclockwise");
 var tombolBawah = document.querySelector(".bi-arrow-down-circle-fill");
 var tombolKiri = document.querySelector(".bi-arrow-left-circle-fill");
 var tombolKanan = document.querySelector(".bi-arrow-right-circle-fill");
-
+const checkboxs = document.querySelector(".form-check-input");
 
 let Muter = new Audio();
 Muter.src="Backsound Muter.mp3";
@@ -108,7 +108,7 @@ function creatMatrix(w, h) {
 }
 
 function createPiece(type) {
-    // red
+    
     if (type === 'T') {
         return [
             [0, 0, 0],
@@ -116,14 +116,14 @@ function createPiece(type) {
             [0, 1, 0],
         ];
     }
-    // blue 
+    
     else if (type === 'O') {
         return [
             [2, 2],
             [2, 2],
         ];
     } 
-    // violet
+    
     else if (type === 'L') {
         return [
             [0, 3, 0],
@@ -131,7 +131,7 @@ function createPiece(type) {
             [0, 3, 3],
         ];
     } 
-    // lime
+    
     else if (type === 'J') {
         return [
             [0, 4, 0],
@@ -139,7 +139,7 @@ function createPiece(type) {
             [4, 4, 0],
         ];
     } 
-    //yellow // ffff00
+    
     else if (type === 'I') {
         return [
             [0, 5, 0, 0],
@@ -148,7 +148,7 @@ function createPiece(type) {
             [0, 5, 0, 0],
         ];
     } 
-    // orange
+    
     else if (type === 'S') {
         return [
             [0, 6, 6],
@@ -156,7 +156,7 @@ function createPiece(type) {
             [0, 0, 0],
         ];
     } 
-    // pink
+    
     else if (type === 'Z') {
         return [
             [7, 7, 0],
@@ -168,8 +168,8 @@ function createPiece(type) {
 
 }
 
-let landingPreviewHue = 0; // Nilai awal hue
-let hueIncrement = 1; // Nilai penambahan hue pada setiap langkah
+let landingPreviewHue = 0; 
+let hueIncrement = 1; 
 
 function drawLandingPreview() {
     let previewPos = { ...player.pos };
@@ -185,7 +185,7 @@ function drawMatrixWithHue(matrix, offset, isPreview = false) {
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                let hue = (landingPreviewHue + value * 30) % 360; // Calculate hue based on landingPreviewHue
+                let hue = Math.floor(Math.random() * 360); 
                 let color = `hsl(${hue}, 100%, 50%)`;
 
                 if (!isPreview) {
@@ -200,12 +200,13 @@ function drawMatrixWithHue(matrix, offset, isPreview = false) {
     });
 }
 
+
 function updateLandingPreviewHue() {
     landingPreviewHue = (landingPreviewHue + hueIncrement) % 360;
 }
 
-// Panggil fungsi updateLandingPreviewHue() dalam setiap frame untuk mengubah hue
-setInterval(updateLandingPreviewHue, 50); // Ubah hue setiap 50 milidetik
+
+setInterval(updateLandingPreviewHue, 50); 
 
 
 
@@ -222,7 +223,7 @@ function draw() {
         drawLandingPreview();
     }
 
-    // Tambahkan kode ini untuk menambahkan grid lines:
+    
     context.strokeStyle = 'gray';
     context.lineWidth = 0.03;
     for (let i = 0; i <= canvas.width; i++) {
@@ -292,7 +293,7 @@ function playerMove(dir) {
         player.pos.x -= dir;
     }
     
-    drawLandingPreview(); // Update landing preview
+    drawLandingPreview(); 
 }
 
 
@@ -353,7 +354,15 @@ const Nextpieces = bentuk => {
     canvas.width = 60;
     canvas.height = 60;
     const context = canvas.getContext('2d');
-
+    const colors = [ 
+        'red',
+        'blue',
+        'violet',
+        'lime',
+        '#ffff00',
+        'orange',
+        'pink',
+    ];
     const piece = createPiece(bentuk);
 
     if(bentuk == "T"){
@@ -402,12 +411,12 @@ function playerRotate(dir) {
     let offset = 1;
     rotate(player.matrix, dir);
 
-    // Check for collision after rotation
+    
     while (collide(arena, player)) {
         player.pos.x += offset;
         offset = -(offset + (offset > 0 ? 1 : -1));
         if (offset > player.matrix[0].length) {
-            rotate(player.matrix, -dir); // Rotate back to original state
+            rotate(player.matrix, -dir); 
             player.pos.x = pos;
             return;
         }
@@ -446,28 +455,119 @@ let autoDropActive = false;
 
 function playerAutoDrop() {
     if (isPaused) return;
-    
-    // Drop pieces ke bawah sampai bertabrakan
-    while (!collide(arena, player)) {
-        player.pos.y++;
-    }
-    player.pos.y--;
 
-    merge(arena, player);
-    playerReset();
-    arenaSweep();
-    updateScore();
-    Notok.play();
-    draw();
-    
+    if (autoDropActive) return; 
+
+    autoDropActive = true; 
+    let initialPosY = player.pos.y; 
+    let dropSpeed = 1;
+
+    function autoDropStep() {
+        if (player.pos.y < initialPosY + dropSpeed) {
+            player.pos.y += dropSpeed;
+            draw();
+            setTimeout(autoDropStep, 1000 / 60); 
+        } else if (!collide(arena, { matrix: player.matrix, pos: { x: player.pos.x, y: player.pos.y + dropSpeed } })) {
+            player.pos.y += dropSpeed;
+            draw();
+            setTimeout(autoDropStep, 1000 / 60);
+        } else {
+            player.pos.y = Math.floor(player.pos.y);
+            merge(arena, player);
+            playerReset();
+            arenaSweep();
+            updateScore();
+            Notok.play();
+            draw();
+            autoDropActive = false;
+        }
+    }
+
+    autoDropStep();
 }
 
-
-
+let Touch = false;
 let autoDrp = document.querySelector(".AutoDrop")
+
+checkboxs.addEventListener("change", () => {
+    if (checkboxs.checked) {
+        console.log("Touch Mode: ON");
+        document.querySelector(".lingkaran").style.display = "none"
+        autoDrp.style.display = "none"
+        Touch = true;
+    } else {
+        console.log("Touch Mode: OFF");
+        document.querySelector(".lingkaran").style.display = "block"
+        autoDrp.style.display = "block"
+        Touch = false;
+
+    }
+});
+
+
+
 autoDrp.addEventListener("click", ()=>{
     playerAutoDrop()
 })
+
+let touchStartX, touchStartY;
+
+window.addEventListener("touchstart", (e) => {
+    if(Touch){
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }
+});
+
+window.addEventListener("touchend", (e) => {
+    if(Touch){
+        if (touchStartX !== null && touchStartY !== null) {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+    
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+    
+            if (Math.abs(deltaX) > 50) {
+                if (deltaX < 0) {
+                    fKiri();
+                } else {
+                    fKanan();
+                }
+            }
+    
+            if (Math.abs(deltaY) > 50) {
+                if (deltaY > 0) {
+                    fBawah();
+                }
+            }
+    
+            touchStartX = null;
+            touchStartY = null;
+        }
+
+    }
+});
+
+let lastClickTime = 0;
+let doubleClickDelay = 300;
+
+window.addEventListener("click", () => {
+    if(Touch){
+        const currentTime = new Date().getTime();
+    
+        if (currentTime - lastClickTime < doubleClickDelay) {
+            playerAutoDrop();
+        }
+    
+        lastClickTime = currentTime;
+    
+        setTimeout(() => {
+            lastClickTime = 0;
+        }, doubleClickDelay);
+    }
+});
+
 tombolKanan.addEventListener("click", fKanan);
 tombolKiri.addEventListener("click", fKiri);
 Rotasi.addEventListener("click", fAtas);
@@ -499,7 +599,7 @@ document.addEventListener('keydown', (event) => {
     }, 1000);
         event.keyCode === 81 ? playerRotate(-1) : playerRotate(1);
         Muter.play();
-    } else if (event.keyCode === 85) { // Tombol "U" pada perangkat non-sentuhan
+    } else if (event.keyCode === 85) { 
         playerAutoDrop();
     }
     });
@@ -547,6 +647,7 @@ buttonPausetoPlay.addEventListener("click", () => {
         buttonPausetoPlay.innerHTML = `<i class="bi bi-play-circle-fill"></i>`;
     }
 });
+
 
 
 function update(time = 0) {
@@ -693,13 +794,81 @@ function fAtas(){
 function fBawah(){
     if (isPaused) return;
     if(event) {
-        playerDrop(); KiriKananBawah.play();
+        playerDrop(); 
+        KiriKananBawah.play();
         
         
     }
 }
 
 
+
+let touchRight = false;
+let touchLeft = false;
+let touchDown = false;
+
+
+let touchRightInterval;
+let touchLeftInterval;
+let touchDownInterval;
+
+
+function startMoveRight() {
+    touchRight = true;
+    touchRightInterval = setInterval(() => {
+        playerMove(1); 
+        KiriKananBawah.play();
+    }, 100);  
+}
+
+
+function stopMoveRight() {
+    touchRight = false;
+    clearInterval(touchRightInterval);
+}
+
+
+function startMoveLeft() {
+    touchLeft = true;
+    touchLeftInterval = setInterval(() => {
+        playerMove(-1); 
+        KiriKananBawah.play();
+    }, 100);  
+}
+
+
+function stopMoveLeft() {
+    touchLeft = false;
+    clearInterval(touchLeftInterval);
+}
+
+
+function startMoveDown() {
+    touchDown = true;
+    touchDownInterval = setInterval(() => {
+        playerDrop(); 
+        KiriKananBawah.play();
+    }, 100);
+}
+
+
+function stopMoveDown() {
+    touchDown = false;
+    clearInterval(touchDownInterval);
+}
+
+
+tombolKanan.addEventListener("touchstart", startMoveRight);
+tombolKanan.addEventListener("touchend", stopMoveRight);
+tombolKanan.addEventListener("touchcancel", stopMoveRight);
+
+tombolKiri.addEventListener("touchstart", startMoveLeft);
+tombolKiri.addEventListener("touchend", stopMoveLeft);
+tombolKiri.addEventListener("touchcancel", stopMoveLeft);
+
+tombolBawah.addEventListener("touchstart", startMoveDown);
+tombolBawah.addEventListener("touchend", stopMoveDown);
+tombolBawah.addEventListener("touchcancel", stopMoveDown);
 
 
 setInterval(function(){
@@ -715,7 +884,7 @@ buttonPausetoPlay.click()
 
 
 
-// musik program
+
 var musik = new Audio();
 musik.src="Tetris Backsound.mp3"
 musik.loop=true;

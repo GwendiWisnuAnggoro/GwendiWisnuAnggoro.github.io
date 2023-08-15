@@ -171,6 +171,9 @@ button {
 
 /* destop */
 @media screen and (min-width: 800px){
+	.form-check{
+		display: none;
+	}
 	.bungkus{
 		display: none;
 	}
