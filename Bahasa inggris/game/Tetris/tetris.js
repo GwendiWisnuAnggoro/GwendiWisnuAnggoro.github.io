@@ -552,16 +552,17 @@ window.addEventListener("touchend", (e) => {
 let lastClickTime = 0;
 let doubleClickDelay = 300;
 
-window.addEventListener("click", () => {
-    if(Touch){
+window.addEventListener("click", (event) => {
+    if(isPaused) return;
+    if (event.target !== Rotasi) {
         const currentTime = new Date().getTime();
-    
+
         if (currentTime - lastClickTime < doubleClickDelay) {
             playerAutoDrop();
         }
-    
+
         lastClickTime = currentTime;
-    
+
         setTimeout(() => {
             lastClickTime = 0;
         }, doubleClickDelay);
