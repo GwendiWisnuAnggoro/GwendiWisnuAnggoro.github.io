@@ -1,10 +1,10 @@
 
-// variable tombol hp
+
 var tombolAtas = document.getElementById("tmblAtas");
 var tombolBawah = document.getElementById("tmblBawah");
 var tombolKiri = document.getElementById("tmblKiri");
 var tombolKanan = document.getElementById("tmblKanan");
-// 
+
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const custom = canvas.getContext('2d');
@@ -44,13 +44,13 @@ Kalah.src="Kalah.mp3";
 
 let Makan = new Audio();
 Makan.src="Makan.mp3";
-
+let isAIEnabled = false;
 
 
 
 let previousXVelocity = 0;
 let previousYVelocity = 0;
-// game loop
+
 let kecepatanNormal = 3;
 let Score_Bertambah = 5;
 let TambahkanKecepatan = 2;
@@ -58,7 +58,9 @@ let currentSpeed = kecepatanNormal;
 let isPaused = false;
 let currentHue = 0;
 const hueChangeRate = 0.1;
-let TulisanPause = "Game Paused !!"
+let TulisanPause = "Game Paused !!";
+let speedIncreased = false;
+
 
 function drawGame() {
   if (isPaused) {
@@ -74,7 +76,7 @@ function drawGame() {
 
     ctx.fillStyle = gradient;
     
-    // Tambahkan stroke putih
+    
     ctx.strokeStyle = "white";
     ctx.lineWidth = 2;
     ctx.strokeText(TulisanPause, canvas.width / 2, canvas.height / 2);
@@ -82,7 +84,18 @@ function drawGame() {
     ctx.fillText(TulisanPause, canvas.width / 2, canvas.height / 2); 
     return;
 }
+    
+    if (score > 0 && score % Score_Bertambah === 0 && !speedIncreased) {
+        currentSpeed += TambahkanKecepatan;
+        speedIncreased = true;
+    } else if (score % Score_Bertambah !== 0) {
+        speedIncreased = false;
+    }
 
+
+    if (isAIEnabled) {
+        aStarAI();
+    }
 
 
     xVelocity = inputsXVelocity;
@@ -125,10 +138,7 @@ function drawGame() {
     drawScore();
 
 
-    let kecepatan = document.getElementById("speed");
-    currentSpeed = kecepatanNormal + Math.floor(score / Score_Bertambah) * TambahkanKecepatan;
-    kecepatan.innerHTML = currentSpeed;
-    currentHue += hueChangeRate;
+
     setTimeout(drawGame, 1000 / currentSpeed);
 }
 
@@ -142,7 +152,7 @@ function isGameOver(){
          return false;
     }
 
-    // wals
+    
     if(headX < 0 ){
         gameOver = true;
     }
@@ -191,7 +201,7 @@ function drawScore() {
 }
 
 
-// Cek Score akhir
+
 function HitungBestScore(){
     let BestScore = 0;
     ctx.fillStyle ='#a9a9a9';
@@ -223,13 +233,13 @@ function clearScreen(){
 
 function drawSnake(){
     ctx.fillStyle = `blue`;
-    ctx.strokeStyle = "white";// Gunakan currentHue untuk warna ekor ular
+    ctx.strokeStyle = "white";
     ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize);
     ctx.strokeRect(headX * tileCount, headY * tileCount, tileSize, tileSize);
 
     for(let i = 0; i < snakeParts.length; i++) {
         let part = snakeParts[i];
-        ctx.fillStyle = `hsl(${currentHue + (i * 20)}, 100%, 50%)`; // Ubah nilai hue berdasarkan indeks
+        ctx.fillStyle = `hsl(${currentHue + (i * 20)}, 100%, 50%)`; 
         ctx.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize);
     }
 
@@ -274,7 +284,7 @@ function checkAppleCollision() {
         appleX = Math.floor(Math.random() * tileCount);
         appleY = Math.floor(Math.random() * tileCount);
 
-        // Ensure the new apple position is not on the snake's body
+        
         while (isAppleOnSnake(appleX, appleY)) {
             appleX = Math.floor(Math.random() * tileCount);
             appleY = Math.floor(Math.random() * tileCount);
@@ -282,9 +292,11 @@ function checkAppleCollision() {
 
         tailLength++;
         score++;
+        Makan.currentTime = 0; 
         Makan.play();
     }
 }
+
 
 function isAppleOnSnake(x, y) {
     for (let i = 0; i < snakeParts.length; i++) {
@@ -302,85 +314,82 @@ tombolAtas.addEventListener("click", fAtas);
 tombolBawah.addEventListener("click", fBawah);
 document.body.addEventListener('keydown', keyDown);
 
-// TombolHp
-function fKanan(){
+
+function fKanan() {
     console.log(inputsXVelocity, inputsYVelocity);
-    if(event) {
+    if (event) {
         inputsYVelocity = 0;
         inputsXVelocity = 1;
+        Click.currentTime = 0; 
         Click.play();
-     
-
     }
 }
 
-function fKiri(){
+function fKiri() {
     console.log(inputsXVelocity, inputsYVelocity);
-    if(event) {
+    if (event) {
         inputsYVelocity = 0;
         inputsXVelocity = -1;
-
-       Click.play();
-    }
-}
-
-function fAtas(){
-    console.log(inputsXVelocity, inputsYVelocity);
-    if(event) {
-        inputsYVelocity = -1;
-        inputsXVelocity = 0;
-
+        Click.currentTime = 0; 
         Click.play();
     }
-
 }
 
-function fBawah(){
+function fAtas() {
     console.log(inputsXVelocity, inputsYVelocity);
-    if(event) {
+    if (event) {
+        inputsYVelocity = -1;
+        inputsXVelocity = 0;
+        Click.currentTime = 0; 
+        Click.play();
+    }
+}
+
+function fBawah() {
+    console.log(inputsXVelocity, inputsYVelocity);
+    if (event) {
         inputsYVelocity = 1;
         inputsXVelocity = 0;
-
-
-         Click.play();
-       
-
+        Click.currentTime = 0; 
+        Click.play();
     }
 }
 
 
 function keyDown(event){
     console.log(inputsXVelocity, inputsYVelocity);
-    // up atau W
+    
     if(event.keyCode == 38 || event.keyCode == 87) {
         inputsYVelocity = -1;
         inputsXVelocity = 0;
-
+        Click.currentTime = 0;
         Click.play();
     }
 
-    // down Atau S
+    
     if(event.keyCode == 40 || event.keyCode == 83) {
         inputsYVelocity = 1;
         inputsXVelocity = 0;
 
-
-         Click.play();
+        Click.currentTime = 0;
+        Click.play();
        
 
     }
-    // left atau A
+    
     if(event.keyCode === 37 || event.keyCode == 65) {
         inputsYVelocity = 0;
         inputsXVelocity = -1;
 
+        Click.currentTime = 0;
        Click.play();
     }
-    // right Atau D
+    
     if(event.keyCode === 39 || event.keyCode == 68) {
         inputsYVelocity = 0;
         inputsXVelocity = 1;
 
+        Click.currentTime = 0;
         Click.play();
      
 
@@ -391,10 +400,81 @@ function keyDown(event){
 
 
 
+
+class Node {
+    constructor(x, y, parent, cost, heuristic) {
+        this.x = x;
+        this.y = y;
+        this.parent = parent;
+        this.cost = cost;
+        this.heuristic = heuristic;
+    }
+}
+
+
+function calculateHeuristic(x1, y1, x2, y2) {
+    return Math.abs(x2 - x1) + Math.abs(y2 - y1);
+}
+
+function aStarAI() {
+    const visited = new Set();
+    const queue = [];
+    const tailSet = new Set(snakeParts.map(part => `${part.x},${part.y}`));
+
+    queue.push({ x: headX, y: headY, path: [] });
+    visited.add(`${headX},${headY}`);
+
+    while (queue.length > 0) {
+        const current = queue.shift();
+
+        const neighbors = [
+            { x: current.x + 1, y: current.y },
+            { x: current.x - 1, y: current.y },
+            { x: current.x, y: current.y + 1 },
+            { x: current.x, y: current.y - 1 }
+        ];
+
+        for (const neighbor of neighbors) {
+            const neighborKey = `${neighbor.x},${neighbor.y}`;
+            if (
+                neighbor.x >= 0 && neighbor.x < tileCount &&
+                neighbor.y >= 0 && neighbor.y < tileCount &&
+                !visited.has(neighborKey) &&
+                !tailSet.has(neighborKey)
+            ) {
+                const newPath = [...current.path, neighbor];
+                visited.add(neighborKey);
+                queue.push({ ...neighbor, path: newPath });
+
+                if (neighbor.x === appleX && neighbor.y === appleY) {
+                    // Choose the first step of the path
+                    if (newPath.length > 0) {
+                        const nextStep = newPath[0];
+                        inputsXVelocity = nextStep.x - headX;
+                        inputsYVelocity = nextStep.y - headY;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+    if (isAIEnabled) {
+        aStarAI();
+    }
+
+
+
+
 drawGame();
 
 
-// musik program
+
 var musik = new Audio();
 musik.src="Backsound Game Snake.mp3"
 musik.loop=true;

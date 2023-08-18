@@ -296,44 +296,7 @@
 			alert(`Welcome ${nama} , ThankYou For Visiting !!`);
 
 
-			const cekDouble = new AmbilData('1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc', 'A', (data) => {
-				let array = data;
-				let yourRows = nama.toLowerCase();
-			  
-				let namaSudahDigunakan = false;
-			  
-				for (let i = 0; i < array.length; i++) {
-				  let currentValue = array[i].value.toLowerCase();
-				  
-				  if (currentValue.includes(yourRows) || yourRows === "nama user:") {
-					console.log(currentValue);
-					namaSudahDigunakan = true;
-					break;
-				  }
-				}
-			  
-				if (namaSudahDigunakan) {
-					if(!localStorage.getItem("login") || localStorage.getItem("login") == "null"){
-						alert("Nama Sudah Digunakan!!");
-						localStorage.setItem("login", "null")
-						cekLogin()
-						
-					}
-				} else {
-					localStorage.setItem("login", nama);
-					if (!localStorage.getItem("Best")) {
-						localStorage.setItem("Best", "0");
-					}
-				
-					
-					if (!localStorage.getItem("Best2")) {
-						localStorage.setItem("Best2", "0");
-					}
-					
-					location.reload();
-
-				}
-			  });
+			cekDoble(nama)
 
 		}
 		nm.innerHTML = localStorage.getItem("login").toUpperCase();
@@ -345,9 +308,51 @@
 		let nama = prompt("Enter Your Name!!");
 		localStorage.removeItem("login", nama);
 		localStorage.setItem("login", nama);
+		cekDoble(nama)
 		e.preventDefault();
 	}
 
+
+	function cekDoble(nama){
+		const cekDouble = new AmbilData('1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc', 'A', (data) => {
+			let array = data;
+			let yourRows = nama.toLowerCase();
+		  
+			let namaSudahDigunakan = false;
+		  
+			for (let i = 0; i < array.length; i++) {
+			  let currentValue = array[i].value.toLowerCase();
+			  
+			  if (currentValue.includes(yourRows) || yourRows === "nama user:") {
+				console.log(currentValue);
+				namaSudahDigunakan = true;
+				break;
+			  }
+			}
+		  
+			if (namaSudahDigunakan) {
+				if(!localStorage.getItem("login") || localStorage.getItem("login") == "null"){
+					alert("Nama Sudah Digunakan!!");
+					localStorage.setItem("login", "null")
+					cekLogin()
+					
+				}
+			} else {
+				localStorage.setItem("login", nama);
+				if (!localStorage.getItem("Best")) {
+					localStorage.setItem("Best", "0");
+				}
+			
+				
+				if (!localStorage.getItem("Best2")) {
+					localStorage.setItem("Best2", "0");
+				}
+				
+				location.reload();
+
+			}
+		  });
+	}
 	// Ubah dark or light
 	
 	let mode = document.getElementById("DarkModeatauLightMode");
@@ -402,10 +407,6 @@
 		new EditValues("C", `${newRowses}`, `${tetris}`);
 
 	}, 500)
-	
-
-	
-
 //	let mySlider = document.getElementById("my-slider");
 //	let sliderValue = document.getElementById("slider-value");
 //	window.onload = function() {
