@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Asah Otak</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nerko+One&family=Secular+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            background-color: aqua;
+        }
+        .gamebot{
+            border: 1px solid black;
+            border-radius: 5px;
+            background: white;
+            width: 400px;
+        }
+
+        h1{
+            text-align: center;
+            font-family: Nerko One;
+            font-weight: normal;
+        }
+
+        .boxs{
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .inBox{
+            width: auto;
+            height: auto;
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 5px;
+            background: gray;
+            margin-top: 10px;
+        }
+        .contains{
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 10px;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            background: black;
+          }
+
+          .button{
+            font-family: arial;
+            width: 50%;
+            height: 50px;
+            margin-bottom: 40px;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-top: 10px;
+          }
+          .button:disabled{
+            color: blue;
+          }
+
+          .button:hover{
+            cursor: pointer;
+          }
+          .gameover{
+            top: 45%;
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            display: none;
+            position: absolute;
+            color: red;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            stroke: black;
+            background-color: black;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    
+
+        .gameover.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="gamebot">
+            <h1>Game Asah Otak</h1>
+            <div class="boxs">
+                <div class="inBox">
+                    <div class="contains">
+                        <div class="gameover">
+                            <h1>GameOver!!</h1>
+                        </div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </div>
+            <h1 id="score">Score: 0</h1>
+            <button class="button" type="button">Mulai</button>
+        </div>
+    </div>
+
+    <script>
+        const boxes = document.querySelectorAll('.box');
+        const startButton = document.querySelector('.button');
+        let sequence = [];
+        let userIndex = 0;
+        let isGameStarted = false;
+        let score = 0;
+        let jumlahAwalRandom = 3;
+        let mulaiAwal = false;
+        let Audios = ["Audio/1.mp3", "Audio/2.mp3", "Audio/3.mp3", "Audio/4.mp3", "Audio/5.mp3", "Audio/6.mp3", "Audio/7.mp3", "Audio/8.mp3", "Audio/9.mp3"]
+        
+        
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      function loadAudio(url) {
+        return fetch(url)
+          .then(response => response.arrayBuffer())
+          .then(data => audioContext.decodeAudioData(data));
+      }
+      
+      async function playAudio(index) {
+        const audioBuffer = await loadAudio(Audios[index]);
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioContext.destination);
+        source.start();
+      }
+      
+      
+      
+        const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', "cyan", "magenta", "#00ff00"];
+      
+      let isGeneratingSequence = false;
+      
+      
+      function handleBoxClick(event) {
+        if (!isGameStarted || isGeneratingSequence) return;
+      
+        const clickedIndex = Array.from(boxes).indexOf(event.target);
+      
+        if (clickedIndex === sequence[userIndex]) {
+          userIndex++;
+
+          startButton.textContent = `${userIndex}/${sequence.length}`
+          const boxColor = colors[clickedIndex];
+      
+          event.target.style.backgroundColor = boxColor;
+          event.target.style.boxShadow = `0 0 20px ${boxColor}`;
+          playAudio(clickedIndex);
+          setTimeout(() => {
+            event.target.style.backgroundColor = '';
+            event.target.style.boxShadow = "";
+            
+          }, 500);
+
+          if (userIndex === sequence.length) {
+            userIndex = 0;
+            isGeneratingSequence = true;
+            score++; 
+            document.getElementById('score').textContent = `Score: ${score}`;
+            setTimeout(() => {
+              playSequence();
+            }, 1000);
+          }
+        } else {
+          document.querySelector(".gameover").classList.add("active")
+          sequence = [];
+          userIndex = 0;
+          isGameStarted = false;
+          startButton.disabled = false;
+          startButton.textContent = `Mulai`
+        }
+      }
+      
+      function playSequence() {
+        if (!mulaiAwal) {
+          for (let i = 0; i < jumlahAwalRandom; i++) {
+            sequence.push(Math.floor(Math.random() * boxes.length));
+          }
+          mulaiAwal = true;
+        } else {
+          sequence.push(Math.floor(Math.random() * boxes.length));
+          mulaiAwal = true;
+        }
+      
+        let index = 0;
+      
+        const interval = setInterval(() => {
+          if (index >= sequence.length) {
+            clearInterval(interval);
+            userIndex = 0;
+            isGeneratingSequence = false;
+            isGameStarted = true;
+            startButton.textContent = `0/${sequence.length}`; // Menampilkan "0/sequence.length"
+            return;
+          }
+      
+          if (index === 0) {
+            startButton.textContent = `Loading...`;
+          }
+      
+          const boxIndex = sequence[index];
+          const boxColor = colors[boxIndex];
+      
+          boxes[boxIndex].style.backgroundColor = boxColor;
+          boxes[boxIndex].style.boxShadow = `0 0 20px ${boxColor}`;
+      
+          playAudio(boxIndex);
+          setTimeout(() => {
+            boxes[boxIndex].style.backgroundColor = '';
+            boxes[boxIndex].style.boxShadow = '';
+          }, 500);
+      
+          index++;
+        }, 1000);
+      }
+    function startGame() {
+        document.querySelector(".gameover").classList.remove("active")
+        sequence = [];
+        userIndex = 0;
+        score = 0;
+        document.getElementById('score').textContent = `Score: ${score}`; 
+        isGeneratingSequence = true;
+        startButton.disabled = true;
+        startButton.textContent = `Loading...`
+        mulaiAwal = false;
+        playSequence();
+      }
+      
+      startButton.addEventListener('click', startGame);
+      
+        boxes.forEach(box => {
+            box.addEventListener('click', handleBoxClick);
+        });
+    </script>
+</body>
+

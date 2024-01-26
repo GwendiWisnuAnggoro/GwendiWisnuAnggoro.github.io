@@ -5,6 +5,7 @@
 
 
 }
+
 .Tetris {
 	margin-top: 30px;
 	margin-right: 0%;
@@ -40,7 +41,6 @@
 	border: 5px solid #125f07;
 	background: #15ff00;
 }
-
 .PJ {
 	margin-top: 20px;
 	margin-right: 0%;
@@ -53,6 +53,7 @@
 	border: 5px solid #072c5f;
 	background: #00ffcc;
 }
+
 .QR_Code {
 	margin-top: 20px;
 	margin-right: 0%;
@@ -66,7 +67,6 @@
 	border: 5px solid #ffffff;
 	background: #0400ff;
 }
-
 .Leaderboard {
 	margin-top: 20px;
 	margin-right: 0%;
@@ -81,6 +81,20 @@
 	background: #ff0000;
 }
 
+.asahOtak {
+	margin-top: 20px;
+	margin-right: 0%;
+	margin-left: 10px;
+}
+
+.asahOtak a {
+	text-decoration: none;
+	text-transform: uppercase;
+	color: white;
+	border: 5px solid #454545;
+	background: #0044ff;
+}
+
 .Snake #Ular {
 	color: #125f07;
 }
@@ -93,7 +107,7 @@
 }
 
 .WakeAMole{
-	margin-top: 20px;
+	margin-top: 30px;
 	margin-right: 0%;
 	margin-left: 10px;
 }
@@ -150,13 +164,13 @@ button {
 	.Tetris {
 		margin-top: -52px;
 		margin-right: 0%;
-		margin-left: 200px;
+		margin-left: 270px;
 		/* margin-bottom: -100px; */
 	}	
 	.WakeAMole{
-		margin-top: -52px;
+		margin-top: 30px;
 		margin-right: 0%;
-		margin-left: 200px;
+		margin-left: 10px;
 	}
 	
 }
@@ -166,13 +180,13 @@ button {
 	.Tetris {
 		margin-top: -52px;
 		margin-right: 0%;
-		margin-left: 230px;
+		margin-left: 300px;
 		/* margin-bottom: -100px; */
 	}	
 	.WakeAMole{
 		margin-top: -52px;
 		margin-right: 0%;
-		margin-left: 450px;
+		margin-left: 610px;
 	}
 	
 }

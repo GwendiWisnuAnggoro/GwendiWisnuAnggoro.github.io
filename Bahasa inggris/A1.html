@@ -120,85 +120,77 @@
 <script src="../Leaderboard/script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script type="text/javascript">
-	
-
-	// deteksi umur
 	let tanggal_lahir = 8,
-	bulan_lahir = "Mei",
-	tahun_lahir = 2007
+    bulan_lahir = "Mei",
+    tahun_lahir = 2007;
 
+function NamaBulan(bulan){
+    switch (bulan.toLowerCase()){
+        case "januari":
+        case 1:
+        return 0;
+        case "februari":
+        case 2:
+        return 1;
+        case "maret":
+        case 3:
+        return 2;
+        case "april":
+        case 4:
+        return 3;
+        case "mei":
+        case 5:
+        return 4;
+        case "juni":
+        case 6:
+        return 5;
+        case "juli":
+        case 7:
+        return 6;
+        case "agustus":
+        case 8:
+        return 7;
+        case "september":
+        case 9:
+        return 8;
+        case "oktober":
+        case 10:
+        return 9;
+        case "november":
+        case 11:
+        return 10;
+        case "desember":
+        case 12:
+        return 11;
+    }
+}
 
-	function NamaBulan(bulan){
-		switch (bulan.toLowerCase()){
-			case "januari":
-			case 1:
-			return 0
-			case "februari":
-			case 2:
-			return 1
-			case "maret":
-			case 3:
-			return 2
-			case "april":
-			case 4:
-			return 3
-			case "mei":
-			case 5:
-			return 4
-			case "juni":
-			case 6:
-			return 5
-			case "juli":
-			case 7:
-			return 6
-			case "agustus":
-			case 8:
-			return 7
-			case "september":
-			case 9:
-			return 8
-			case "oktober":
-			case 10:
-			return 9
-			case "november":
-			case 11:
-			return 10
-			case "desember":
-			case 12:
-			return 11
-		}
-	}
+function deteksiUmur(){
+    let tanggal_ultah = tanggal_lahir,
+        bulan_ultah = NamaBulan(bulan_lahir),
+        tahun_ultah = tahun_lahir;
 
-	function deteksiUmur(){
-		tanggal_ultah = tanggal_lahir
-		bulan_ultah = NamaBulan(bulan_lahir)
-		tahun_ultah = tahun_lahir
-		
-		calender = new Date()
-		tanggal_ini = calender.getDate()
-		bulan_ini = calender.getMonth()
-		tahun_ini = calender.getFullYear()
+    let calender = new Date(),
+        tanggal_ini = calender.getDate(),
+        bulan_ini = calender.getMonth(),
+        tahun_ini = calender.getFullYear();
 
+    let umur = tahun_ini - tahun_ultah;
 
-		let umur = tahun_ini - tahun_ultah,
-		umur_anda = 0
-		if(tanggal_ini < tanggal_ultah){
-			umur-1
-		} else{
-			if(tahun_ini >= tanggal_ultah){
-				umur++
-			}
-		}
-		umur_anda = umur-1
-		return umur_anda
-	}
+    if(bulan_ini < bulan_ultah || (bulan_ini === bulan_ultah && tanggal_ini < tanggal_ultah)){
+        umur--;
+    }
 
-	function tampilkanUmur(){
-		let umur = document.getElementById("umur")
-		umur.innerText = deteksiUmur()
-	}
-	
-	tampilkanUmur();
+    return umur;
+}
+
+function tampilkanUmur(){
+    let umur = document.getElementById("umur");
+    umur.innerText = deteksiUmur();
+}
+
+tampilkanUmur();
+
 
 	// musik program
 	var musik = new Audio();
@@ -251,101 +243,87 @@
 		  country: countryName,
 		};
 	  }
+	  const AmbilRows = new AmbilData('1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc', 'A', GetYourRows);
 
+	  function GetYourRows(data) {
+		let isFirstRowNamaUser = data[0].value === "Nama User:";
+		let rows = data.length + 1;
 	  
-
+		if (!localStorage.getItem("YourRows")) {
+		  let result = isFirstRowNamaUser ? rows : rows + 1;
+		  localStorage.setItem("YourRows", result);
+		}
+	  }
 	  
-
-	const AmbilRows = new AmbilData('1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc', 'A', GetYourRows)
-
-	function GetYourRows(data) {
-		if(localStorage.getItem("login") && localStorage.getItem("login") !== "null"){
-			let rows_Kosong;
-			let isFirstRowNamaUser = data[0].value === "Nama User:";
-			let rows = data.length + 1;
-		
-			if (!localStorage.getItem("YourRows")) {
-				let result = isFirstRowNamaUser ? rows : rows + 1;
-			  localStorage.setItem("YourRows", result);
-			} else {
-				rows_Kosong = localStorage.getItem("YourRows")
-			}
+	  function cekLogin() {
+		let nm = document.getElementById("nama");
+		let login = localStorage.getItem("login");
+	  
+		if (!login || login === "null") {
+		  let nama = prompt("Masukkan Nama Anda!!");
+	  
+		  if (nama !== null && nama.trim() !== "") {
+			cekDouble(nama);
+		  } else {
+			alert("Nama tidak boleh kosong!");
+			cekLogin();
+		  }
+		} else {
+		  nm.innerHTML = login.toUpperCase();
+		}
+	  }
+	  
+	  function ubah() {
+		let namaBaru = prompt("Masukkan Nama Anda!!");
+		if (namaBaru !== null && namaBaru.trim() !== "") {
+		  cekDouble(namaBaru);
+		} else {
+		  alert("Nama tidak boleh kosong!");
 		}
 	  }
 	  
 	  
-
 	  
-
-	// alert program
-	function cekLogin(){
-		let nm = document.getElementById("nama");
-		let login = localStorage.getItem("login");
-		if(!login || login == "null"){
-			// alert program
-			let nama = prompt("Enter Your Name!!");
-
-			
-			alert(`Welcome ${nama} , ThankYou For Visiting !!`);
-
-
-			cekDoble(nama)
-
-		}
-		nm.innerHTML = localStorage.getItem("login").toUpperCase();
-
-	}
-	cekLogin();
-	let ubahNama = document.getElementById("ubahNm");
-	function ubah(e){
-		let nama = prompt("Enter Your Name!!");
-		localStorage.removeItem("login", nama);
-		localStorage.setItem("login", nama);
-		cekDoble(nama)
-		e.preventDefault();
-	}
-
-
-	function cekDoble(nama){
+	  function cekDouble(nama) {
+		console.log(nama);
 		const cekDouble = new AmbilData('1r2jRdE6NGe34rony-5twk7kHDUfUN5OtdieNVEp9anc', 'A', (data) => {
-			let array = data;
-			let yourRows = nama.toLowerCase();
-		  
-			let namaSudahDigunakan = false;
-		  
+		  let array = data || [];
+		  let yourRows = nama.toLowerCase();
+	  
+		  let namaSudahDigunakan = false;
+	  
+		  // Periksa apakah item YourRows sudah ada di localStorage
+		  if (localStorage.getItem("YourRows")) {
 			for (let i = 0; i < array.length; i++) {
-			  let currentValue = array[i].value.toLowerCase();
-			  
-			  if (currentValue.includes(yourRows) || yourRows === "nama user:") {
-				console.log(currentValue);
-				namaSudahDigunakan = true;
-				break;
+			  if (array[i] && array[i].value) {
+				let currentValue = array[i].value.toLowerCase();
+	  
+				if (currentValue.includes(yourRows) || yourRows === "nama user:") {
+				  console.log(currentValue);
+				  namaSudahDigunakan = true;
+				  break;
+				}
 			  }
 			}
-		  
-			if (namaSudahDigunakan) {
-				if(!localStorage.getItem("login") || localStorage.getItem("login") == "null"){
-					alert("Nama Sudah Digunakan!!");
-					localStorage.setItem("login", "null")
-					cekLogin()
-					
-				}
+		  }
+	  
+		  if (namaSudahDigunakan) {
+			let namaBaru = prompt("Nama Sudah Digunakan! Masukkan Nama Lain:");
+			if (namaBaru !== null && namaBaru.trim() !== "") {
+			  cekDouble(namaBaru);
 			} else {
-				localStorage.setItem("login", nama);
-				if (!localStorage.getItem("Best")) {
-					localStorage.setItem("Best", "0");
-				}
-			
-				
-				if (!localStorage.getItem("Best2")) {
-					localStorage.setItem("Best2", "0");
-				}
-				
-				location.reload();
-
+			  alert("Nama tidak boleh kosong!");
+			  cekDouble(nama); // Meneruskan pengulangan jika nama kosong atau dibatalkan
 			}
-		  });
-	}
+		  } else {
+			localStorage.setItem("login", nama);
+			location.reload();
+		  }
+		});
+	  }
+	  
+	  cekLogin();
+	  
 	// Ubah dark or light
 	
 	let mode = document.getElementById("DarkModeatauLightMode");

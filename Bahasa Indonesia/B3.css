@@ -81,6 +81,20 @@
 	background: #ff0000;
 }
 
+.asahOtak {
+	margin-top: 20px;
+	margin-right: 0%;
+	margin-left: 10px;
+}
+
+.asahOtak a {
+	text-decoration: none;
+	text-transform: uppercase;
+	color: white;
+	border: 5px solid #454545;
+	background: #0044ff;
+}
+
 .Snake #Ular {
 	color: #125f07;
 }
